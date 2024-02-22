@@ -125,12 +125,12 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str):
             imp_files = ml_szz.get_impacted_files(fix_commit_hash=fix_commit,
                                                   file_ext_to_parse=conf.get('file_ext_to_parse'),
                                                   only_deleted_lines=conf.get('only_deleted_lines', True))
-            (bug_introducing_commits, bic_dict) = ml_szz.find_bic(fix_commit_hash=fix_commit,
-                                                                  impacted_files=imp_files,
-                                                                  ignore_revs_file_path=conf.get(
-                                                                      'ignore_revs_file_path'),
-                                                                  issue_date_filter=conf.get('issue_date_filter'),
-                                                                  issue_date=commit_issue_date)
+            (bug_introducing_commits, bic_dict) = ml_szz.find_bic_v2(fix_commit_hash=fix_commit,
+                                                                     impacted_files=imp_files,
+                                                                     ignore_revs_file_path=conf.get(
+                                                                         'ignore_revs_file_path'),
+                                                                     issue_date_filter=conf.get('issue_date_filter'),
+                                                                     issue_date=commit_issue_date)
         else:
             log.info(f'SZZ implementation not found: {szz_name}')
             exit(-3)
