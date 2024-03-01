@@ -26,6 +26,7 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str):
     tot = len(bugfix_commits)
     for i, commit in enumerate(bugfix_commits):
         if not os.path.exists(f'''{repos_dir}/{commit['repo_name']}'''):
+            log.info(f'''The path is not existing {repos_dir}/{commit['repo_name']}''')
             log.info(f'Skipping {commit["repo_name"]}')
             continue
         bug_introducing_commits = set()
