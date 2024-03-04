@@ -142,8 +142,7 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str):
             bugfix_commits[i]["inducing_commit_hash"] = [bic.hexsha for bic in bug_introducing_commits if bic]
             bugfix_commits[i]["candidate_features"] = bic_dict
             log.info(f'''Write {i}, {bugfix_commits[i]['id']}: {bugfix_commits[i]} ''')
-            file.write(bugfix_commits[i] + '\n')  # 可选：添加换行符，以便每个JSON对象单独占据一行
-
+            file.write(json.dumps(bugfix_commits[i]) + '\n')  # 可选：添加换行符，以便每个JSON对象单独占据一行
     # with open(out_json, 'w') as out:
     #     json.dump(bugfix_commits, out)
 
