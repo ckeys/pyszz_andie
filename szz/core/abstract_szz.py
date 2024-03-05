@@ -37,6 +37,7 @@ class AbstractSZZ(ABC):
 
         os.makedirs(Options.TEMP_WORKING_DIR, exist_ok=True)
         self.__temp_dir = mkdtemp(dir=os.path.join(os.getcwd(), Options.TEMP_WORKING_DIR))
+        log.info(f"Create a temp directory : {self.__temp_dir}")
         self._repository_path = os.path.join(self.__temp_dir, repo_full_name.replace('/', '_'))
         if not os.path.isdir(self._repository_path):
             if repos_dir:
@@ -261,6 +262,7 @@ class AbstractSZZ(ABC):
 
     def __cleanup_repo(self):
         """ Cleanup of local repository used by SZZ """
+        log.info(f"Clean up {self.__temp_dir}")
         if os.path.isdir(self.__temp_dir):
             rmtree(self.__temp_dir)
 
@@ -298,8 +300,10 @@ class LineChangeType(Enum):
     MODIFY = 2
     DELETE = 3
 
+
 class ImpactedFile:
     """ Data class to represent impacted files """
+
     def __init__(self, file_path: str, modified_lines: List[int], line_change_type: 'LineChangeType'):
         """
         :param str file_path: previous path of the current impacted file
@@ -317,6 +321,7 @@ class ImpactedFile:
 
 class BlameData:
     """ Data class to represent blame data """
+
     def __init__(self, commit: Commit, line_num: int, line_str: str, file_path: str):
         """
         :param Commit commit: commit detected by git blame
