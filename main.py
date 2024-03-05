@@ -143,8 +143,10 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str):
             bugfix_commits[i]["candidate_features"] = bic_dict
             log.info(f'''Write {i}, {bugfix_commits[i]['id']}: {bugfix_commits[i]} ''')
             file.write(json.dumps(bugfix_commits[i]) + '\n')  # 可选：添加换行符，以便每个JSON对象单独占据一行
-    # with open(out_json, 'w') as out:
-    #     json.dump(bugfix_commits, out)
+
+    out2_json = os.path.join('out', f'bic_{szz_name}_{int(ts())}.json')
+    with open(out2_json, 'w') as out:
+        json.dump(bugfix_commits, out)
 
     log.info("+++ DONE +++")
 
