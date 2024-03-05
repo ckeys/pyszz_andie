@@ -30,14 +30,13 @@ class MLSZZ(AGSZZ):
             age = (commit_date_aware - change['date']).days / 365
 
             # Weighted change is the number of changes divided by the age
-            weighted_change = change['num_changes'] / age
+            weighted_change = change['num_changes'] / (age+1)
 
             # Sum weighted changes and total weight
             total_weighted_changes += weighted_change
-            total_weight += 1 / age  # Inverse of age
 
         # Calculate REXP
-        REXP = total_weighted_changes / total_weight if total_weight > 0 else 0
+        REXP = total_weighted_changes
         return REXP
 
     def calculate_SEXP(self, developer_changes, subsystem_changes):
@@ -340,7 +339,7 @@ class MLSZZ(AGSZZ):
                 if parent_blob:
                     latest_modification_date = datetime.fromtimestamp(parent_commit.committed_date)
                     return latest_modification_date
-            except IndexError:
+            except IndexError or KeyError:
                 continue
 
         # If no modification before the commit is found, return None
