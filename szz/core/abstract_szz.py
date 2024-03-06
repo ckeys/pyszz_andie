@@ -133,6 +133,7 @@ class AbstractSZZ(ABC):
             log.info(impacted_files)
         except ValueError as e:
             log.error(f"{e}")
+            return None
 
         return impacted_files
 
