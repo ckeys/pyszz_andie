@@ -128,6 +128,8 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
                 imp_files = ml_szz.get_impacted_files(fix_commit_hash=fix_commit,
                                                       file_ext_to_parse=conf.get('file_ext_to_parse'),
                                                       only_deleted_lines=conf.get('only_deleted_lines', True))
+                if imp_files is None:
+                    continue
                 (bug_introducing_commits, bic_dict) = ml_szz.find_bic_v2(fix_commit_hash=fix_commit,
                                                                          impacted_files=imp_files,
                                                                          ignore_revs_file_path=conf.get(
