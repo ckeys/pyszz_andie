@@ -159,7 +159,7 @@ if __name__ == "__main__":
     input_json = sys.argv[1]
     conf_file = sys.argv[2]
     repos_dir = sys.argv[3] if len(sys.argv) > 3 else None
-    start_index = sys.argv[4] if len(sys.argv) > 4 else 0
+    start_index = int(sys.argv[4]) if len(sys.argv) > 4 else 0
 
     if not os.path.isfile(input_json):
         log.error('invalid input json')
