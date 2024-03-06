@@ -103,34 +103,36 @@ class AbstractSZZ(ABC):
         :returns List[ImpactedFile] impacted_files
         """
         impacted_files = list()
-
-        fix_commit = PyDrillerGitRepo(self.repository_path).get_commit(fix_commit_hash)
-        for mod in fix_commit.modifications:
-            # skip newly added files
-            if not mod.old_path:
-                continue
-
-            # filter files by extension
-            if file_ext_to_parse:
-                ext = mod.filename.split('.')
-                if len(ext) < 2 or (len(ext) > 1 and ext[1].lower() not in file_ext_to_parse):
-                    log.info(f"skip file: {mod.filename}")
+        try:
+            fix_commit = PyDrillerGitRepo(self.repository_path).get_commit(fix_commit_hash)
+            for mod in fix_commit.modifications:
+                # skip newly added files
+                if not mod.old_path:
                     continue
 
-            file_path = mod.new_path
-            if mod.change_type == ModificationType.DELETE or mod.change_type == ModificationType.RENAME:
-                file_path = mod.old_path
+                # filter files by extension
+                if file_ext_to_parse:
+                    ext = mod.filename.split('.')
+                    if len(ext) < 2 or (len(ext) > 1 and ext[1].lower() not in file_ext_to_parse):
+                        log.info(f"skip file: {mod.filename}")
+                        continue
 
-            lines_deleted = [deleted[0] for deleted in mod.diff_parsed['deleted']]
-            if len(lines_deleted) > 0:
-                impacted_files.append(ImpactedFile(file_path, lines_deleted, LineChangeType.DELETE))
+                file_path = mod.new_path
+                if mod.change_type == ModificationType.DELETE or mod.change_type == ModificationType.RENAME:
+                    file_path = mod.old_path
 
-            if not only_deleted_lines:
-                lines_added = [added[0] for added in mod.diff_parsed['added']]
-                if len(lines_added) > 0:
-                    impacted_files.append(ImpactedFile(file_path, lines_added, LineChangeType.ADD))
+                lines_deleted = [deleted[0] for deleted in mod.diff_parsed['deleted']]
+                if len(lines_deleted) > 0:
+                    impacted_files.append(ImpactedFile(file_path, lines_deleted, LineChangeType.DELETE))
 
-        log.info(impacted_files)
+                if not only_deleted_lines:
+                    lines_added = [added[0] for added in mod.diff_parsed['added']]
+                    if len(lines_added) > 0:
+                        impacted_files.append(ImpactedFile(file_path, lines_added, LineChangeType.ADD))
+
+            log.info(impacted_files)
+        except ValueError as e:
+            log.error(f"{e}")
 
         return impacted_files
 
