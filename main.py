@@ -19,7 +19,7 @@ log.basicConfig(level=log.INFO, format='%(asctime)s :: %(levelname)s :: %(messag
 log.getLogger('pydriller').setLevel(log.WARNING)
 
 
-def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_index: int = 0):
+def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_index: int):
     with open(input_json, 'r') as in_file:
         bugfix_commits = json.loads(in_file.read())
 
