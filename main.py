@@ -19,13 +19,13 @@ log.basicConfig(level=log.INFO, format='%(asctime)s :: %(levelname)s :: %(messag
 log.getLogger('pydriller').setLevel(log.WARNING)
 
 
-def main(input_json: str, out_json: str, conf: dict(), repos_dir: str):
+def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_index: int = 0):
     with open(input_json, 'r') as in_file:
         bugfix_commits = json.loads(in_file.read())
 
     tot = len(bugfix_commits)
     with open(out_json, 'w') as file:
-        for i, commit in enumerate(bugfix_commits):
+        for i, commit in enumerate(bugfix_commits[start_index:], start=start_index):
             if not os.path.exists(f'''{repos_dir}/{commit['repo_name']}'''):
                 log.info(f'''The path is not existing {repos_dir}/{commit['repo_name']}''')
                 log.info(f'Skipping {commit["repo_name"]}')
@@ -159,6 +159,7 @@ if __name__ == "__main__":
     input_json = sys.argv[1]
     conf_file = sys.argv[2]
     repos_dir = sys.argv[3] if len(sys.argv) > 3 else None
+    start_index = sys.argv[4] if len(sys.argv) > 4 else 0
 
     if not os.path.isfile(input_json):
         log.error('invalid input json')
@@ -184,4 +185,4 @@ if __name__ == "__main__":
 
     log.info(f'Launching {szz_name}-szz')
 
-    main(input_json, out_json, conf, repos_dir)
+    main(input_json, out_json, conf, repos_dir, start_index)
