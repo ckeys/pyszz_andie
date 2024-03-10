@@ -30,7 +30,7 @@ class MLSZZ(AGSZZ):
             age = (commit_date_aware - change['date']).days / 365
 
             # Weighted change is the number of changes divided by the age
-            weighted_change = change['num_changes'] / (age+1)
+            weighted_change = change['num_changes'] / (age + 1)
 
             # Sum weighted changes and total weight
             total_weighted_changes += weighted_change
@@ -367,97 +367,102 @@ class MLSZZ(AGSZZ):
                 :key ignore_revs_file_path (str): specify ignore revs file for git blame to ignore specific commits.
                 :returns Set[Commit] a set of bug introducing commits candidates, represented by Commit object
                 """
-        blame_detailes = dict()
-        can_feas = list()
-        log.info(f"find_bic() kwargs: {kwargs}")
+        try:
+            blame_detailes = dict()
+            can_feas = list()
+            log.info(f"find_bic() kwargs: {kwargs}")
 
-        ignore_revs_file_path = kwargs.get('ignore_revs_file_path', None)
-        self._set_working_tree_to_commit(fix_commit_hash)
+            ignore_revs_file_path = kwargs.get('ignore_revs_file_path', None)
 
-        params = dict()
-        max_change_size = kwargs.get('max_change_size', MASZZ.DEFAULT_MAX_CHANGE_SIZE)
-        filter_revert = kwargs.get('filter_revert_commits', False)
-        params['ignore_revs_file_path'] = kwargs.get('ignore_revs_file_path', None)
-        params['detect_move_within_file'] = kwargs.get('detect_move_within_file', True)
-        params['detect_move_from_other_files'] = kwargs.get('detect_move_from_other_files', DetectLineMoved.SAME_COMMIT)
-        params['ignore_revs_list'] = list()
-        if kwargs.get('blame_rev_pointer', None):
-            params['rev_pointer'] = kwargs['blame_rev_pointer']
+            self._set_working_tree_to_commit(fix_commit_hash)
 
-        bug_introd_commits = set()
-        commits_to_ignore = set()
-        res_dic = dict()
-        start = ts()
-        for imp_file in impacted_files:
-            commits_to_ignore_current_file = commits_to_ignore.copy()
-            try:
-                blame_data = self._blame(
-                    rev='HEAD^',
-                    file_path=imp_file.file_path,
-                    modified_lines=imp_file.modified_lines,
-                    ignore_revs_file_path=ignore_revs_file_path,
-                    ignore_whitespaces=False,
-                    skip_comments=False
-                )
-                to_blame = True
-                while to_blame:
-                    log.info(f"excluding commits: {params['ignore_revs_list']}")
-                    blame_data = self._ag_annotate([imp_file], **params)
+            params = dict()
+            max_change_size = kwargs.get('max_change_size', MASZZ.DEFAULT_MAX_CHANGE_SIZE)
+            filter_revert = kwargs.get('filter_revert_commits', False)
+            params['ignore_revs_file_path'] = kwargs.get('ignore_revs_file_path', None)
+            params['detect_move_within_file'] = kwargs.get('detect_move_within_file', True)
+            params['detect_move_from_other_files'] = kwargs.get('detect_move_from_other_files',
+                                                                DetectLineMoved.SAME_COMMIT)
+            params['ignore_revs_list'] = list()
+            if kwargs.get('blame_rev_pointer', None):
+                params['rev_pointer'] = kwargs['blame_rev_pointer']
 
-                    new_commits_to_ignore = set()
-                    new_commits_to_ignore_current_file = set()
-                    for bd in blame_data:
-                        if bd.commit.hexsha not in new_commits_to_ignore and bd.commit.hexsha not in new_commits_to_ignore_current_file:
-                            if bd.commit.hexsha not in commits_to_ignore_current_file:
-                                new_commits_to_ignore.update(self._exclude_commits_by_change_size(bd.commit.hexsha,
-                                                                                                  max_change_size=max_change_size))
-                                new_commits_to_ignore.update(self.get_merge_commits(bd.commit.hexsha))
-                                new_commits_to_ignore_current_file.update(
-                                    self.select_meta_changes(bd.commit.hexsha, bd.file_path, filter_revert))
+            bug_introd_commits = set()
+            commits_to_ignore = set()
+            res_dic = dict()
+            start = ts()
+            for imp_file in impacted_files:
+                commits_to_ignore_current_file = commits_to_ignore.copy()
+                try:
+                    blame_data = self._blame(
+                        rev='HEAD^',
+                        file_path=imp_file.file_path,
+                        modified_lines=imp_file.modified_lines,
+                        ignore_revs_file_path=ignore_revs_file_path,
+                        ignore_whitespaces=False,
+                        skip_comments=False
+                    )
+                    to_blame = True
+                    while to_blame:
+                        log.info(f"excluding commits: {params['ignore_revs_list']}")
+                        blame_data = self._ag_annotate([imp_file], **params)
 
-                    if len(new_commits_to_ignore) == 0 and len(new_commits_to_ignore_current_file) == 0:
-                        to_blame = False
-                    elif ts() - start > (60 * 60 * 0.1):  # 1 hour max time
-                        log.error(f"blame timeout for {self.repository_path}")
-                        to_blame = False
+                        new_commits_to_ignore = set()
+                        new_commits_to_ignore_current_file = set()
+                        for bd in blame_data:
+                            if bd.commit.hexsha not in new_commits_to_ignore and bd.commit.hexsha not in new_commits_to_ignore_current_file:
+                                if bd.commit.hexsha not in commits_to_ignore_current_file:
+                                    new_commits_to_ignore.update(self._exclude_commits_by_change_size(bd.commit.hexsha,
+                                                                                                      max_change_size=max_change_size))
+                                    new_commits_to_ignore.update(self.get_merge_commits(bd.commit.hexsha))
+                                    new_commits_to_ignore_current_file.update(
+                                        self.select_meta_changes(bd.commit.hexsha, bd.file_path, filter_revert))
 
-                bug_introd_commits.update([entry.commit for entry in blame_data])
-                for commit in bug_introd_commits:
-                    num_subsystems, num_modified_directories, entropy = self.calculate_metrics(commit)
-                    res_dic['num_subsystems'] = num_subsystems
-                    res_dic['num_modified_directories'] = num_modified_directories
-                    res_dic['entropy'] = entropy
-                    fix_commit = self.repository.commit(fix_commit_hash)
-                    age = self.calculate_age(commit)
-                    res_dic['age'] = age
-                    ndev = self.calculate_ndevelopers(commit)
-                    res_dic['ndev'] = ndev
-                    add = commit.stats.total['insertions']
-                    print(add)
-                    deleted = commit.stats.total['deletions']
-                    print(deleted)
-                    num_files = commit.stats.total['files']
-                    print(num_files)
-                    lines = commit.stats.total['lines']
-                    print(lines)
-                    res_dic = self.calculate_author_metrics_optimized(commit)
-                    commit_modified_files = list(commit.stats.files.keys())
-                    res_dic['lines_of_added'] = add
-                    res_dic['lines_of_deleted'] = deleted
-                    res_dic['lines_of_modified'] = lines
-                    res_dic['num_files'] = num_files
-                    res_dic['modified_files'] = commit_modified_files
-                    res_dic['is_Friday'] = 1 if commit.committed_datetime.weekday() == 4 else 0
-                    print(res_dic)
-                    can_feas.append(res_dic)
-            #  {'commit': <git.Commit "2574243a39d90a2673cf56647c524e268d7f169e">, 'num_files_changed': 4956, 'lines_of_code_changed': 548857, 'num_of_commits': 1566}
-            except:
-                print(traceback.format_exc())
+                        if len(new_commits_to_ignore) == 0 and len(new_commits_to_ignore_current_file) == 0:
+                            to_blame = False
+                        elif ts() - start > (60 * 60 * 0.1):  # 1 hour max time
+                            log.error(f"blame timeout for {self.repository_path}")
+                            to_blame = False
 
-        if 'issue_date_filter' in kwargs and kwargs['issue_date_filter']:
-            before = len(bug_introd_commits)
-            bug_introd_commits = [c for c in bug_introd_commits if c.authored_date <= kwargs['issue_date']]
-            log.info(f'Filtering by issue date returned {len(bug_introd_commits)} out of {before}')
-        else:
-            log.info("Not filtering by issue date.")
+                    bug_introd_commits.update([entry.commit for entry in blame_data])
+                    for commit in bug_introd_commits:
+                        num_subsystems, num_modified_directories, entropy = self.calculate_metrics(commit)
+                        res_dic['num_subsystems'] = num_subsystems
+                        res_dic['num_modified_directories'] = num_modified_directories
+                        res_dic['entropy'] = entropy
+                        fix_commit = self.repository.commit(fix_commit_hash)
+                        age = self.calculate_age(commit)
+                        res_dic['age'] = age
+                        ndev = self.calculate_ndevelopers(commit)
+                        res_dic['ndev'] = ndev
+                        add = commit.stats.total['insertions']
+                        print(add)
+                        deleted = commit.stats.total['deletions']
+                        print(deleted)
+                        num_files = commit.stats.total['files']
+                        print(num_files)
+                        lines = commit.stats.total['lines']
+                        print(lines)
+                        res_dic = self.calculate_author_metrics_optimized(commit)
+                        commit_modified_files = list(commit.stats.files.keys())
+                        res_dic['lines_of_added'] = add
+                        res_dic['lines_of_deleted'] = deleted
+                        res_dic['lines_of_modified'] = lines
+                        res_dic['num_files'] = num_files
+                        res_dic['modified_files'] = commit_modified_files
+                        res_dic['is_Friday'] = 1 if commit.committed_datetime.weekday() == 4 else 0
+                        print(res_dic)
+                        can_feas.append(res_dic)
+                #  {'commit': <git.Commit "2574243a39d90a2673cf56647c524e268d7f169e">, 'num_files_changed': 4956, 'lines_of_code_changed': 548857, 'num_of_commits': 1566}
+                except:
+                    print(traceback.format_exc())
+
+            if 'issue_date_filter' in kwargs and kwargs['issue_date_filter']:
+                before = len(bug_introd_commits)
+                bug_introd_commits = [c for c in bug_introd_commits if c.authored_date <= kwargs['issue_date']]
+                log.info(f'Filtering by issue date returned {len(bug_introd_commits)} out of {before}')
+            else:
+                log.info("Not filtering by issue date.")
+        except Exception as e:
+            log.error("Error:", e)
         return (bug_introd_commits, can_feas)
