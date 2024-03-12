@@ -328,7 +328,7 @@ class MLSZZ(AGSZZ):
             if blob.path == file_path:
                 break
         else:
-            print(f"File '{file_path}' not found in commit '{commit.hash}'")
+            print(f"File '{file_path}' not found in commit '{commit.hexsha}'")
             return None
 
         # Traverse the history of the file until the latest modification before the commit
@@ -367,6 +367,8 @@ class MLSZZ(AGSZZ):
                 :key ignore_revs_file_path (str): specify ignore revs file for git blame to ignore specific commits.
                 :returns Set[Commit] a set of bug introducing commits candidates, represented by Commit object
                 """
+        bug_introd_commits = set()
+        commits_to_ignore = set()
         try:
             blame_detailes = dict()
             can_feas = list()
@@ -386,9 +388,6 @@ class MLSZZ(AGSZZ):
             params['ignore_revs_list'] = list()
             if kwargs.get('blame_rev_pointer', None):
                 params['rev_pointer'] = kwargs['blame_rev_pointer']
-
-            bug_introd_commits = set()
-            commits_to_ignore = set()
             res_dic = dict()
             start = ts()
             for imp_file in impacted_files:
