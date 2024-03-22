@@ -1,19 +1,21 @@
 import logging as log
 import ntpath
 import os
+import math
 from abc import ABC, abstractmethod
 from enum import Enum
 from shutil import copytree
 from shutil import rmtree
 from tempfile import mkdtemp
 from typing import List, Set
-
+import time
+from datetime import timezone
 from git import Commit, Repo
 from pydriller import ModificationType, GitRepository as PyDrillerGitRepo
 
 from options import Options
 from szz.core.comment_parser import parse_comments
-
+from datetime import datetime, timedelta
 
 class AbstractSZZ(ABC):
     """
@@ -249,6 +251,197 @@ class AbstractSZZ(ABC):
             if comment_range.start <= line_num <= comment_range.end:
                 return True
         return False
+    def _calculate_metrics(self, commit):
+        modified_directories = set()
+        subsystems = set()
+
+        for file_path in self._get_touched_files(commit):
+            # Extract root directory name
+            root_directory = file_path.split('/')[0]
+            modified_directories.add(file_path.split('/')[0])
+
+            # Extract subsystem (root directory name)
+            subsystems.add(root_directory)
+
+        num_subsystems = len(subsystems)
+        num_modified_directories = len(modified_directories)
+
+        entropy = self._calculate_entropy(commit)
+        return num_subsystems, num_modified_directories, entropy
+
+    def _get_touched_files(self, commit):
+        return [diff.a_path for diff in commit.diff(commit.parents[0])]
+
+    def _get_latest_modified_date_before_commit(self, commit, file_path):
+        tree = commit.tree
+
+        # Find the file in the commit tree
+        for blob in tree.traverse():
+            if blob.path == file_path:
+                break
+        else:
+            print(f"File '{file_path}' not found in commit '{commit.hexsha}'")
+            return None
+
+        # Traverse the history of the file until the latest modification before the commit
+        for parent_commit in commit.iter_parents():
+            try:
+                parent_blob = parent_commit.tree / blob.path
+                # If the blob is found, return the modification date of the parent commit
+                if parent_blob:
+                    latest_modification_date = datetime.fromtimestamp(parent_commit.committed_date)
+                    return latest_modification_date
+            except IndexError or KeyError:
+                continue
+
+        # If no modification before the commit is found, return None
+        return None
+
+    def _calculate_age(self, commit):
+        """
+        Calculate the age of modifications in the commit.
+        """
+        touched_files = self._get_touched_files(commit)
+        commit_date = datetime.fromtimestamp(commit.committed_date)
+        total_interval = timedelta(0)
+        file_count = 0
+
+        for file_path in touched_files:
+            last_modified_date = self._get_latest_modified_date_before_commit(commit, file_path)
+            if last_modified_date:
+                time_interval = commit_date - last_modified_date
+                total_interval += time_interval
+                file_count += 1
+
+        if file_count == 0:
+            return 0
+
+        average_age = total_interval.seconds / file_count
+        return average_age
+
+    def _calculate_ndevelopers(files, commit):
+        touched_files = [diff.a_path for diff in commit.diff(commit.parents[0])]
+        developers = set()
+        for touched_file in touched_files:
+            for parent_commit in commit.parents:
+                try:
+                    parent_blob = parent_commit.tree / touched_file
+                    if parent_blob:
+                        # Add the author of the parent commit to the set of developers
+                        developers.add(parent_commit.author.email)
+                except KeyError:
+                    continue
+        return len(developers)
+    def _calculate_REXP(self, developer_changes, commit):
+        total_weighted_changes = 0
+        total_weight = 0
+        commit_date_aware = commit.committed_datetime.replace(tzinfo=timezone.utc)
+        # Iterate over developer's changes
+        for change in developer_changes:
+            # Calculate age of the change (in years)
+            age = (commit_date_aware - change['date']).days / 365
+
+            # Weighted change is the number of changes divided by the age
+            weighted_change = change['num_changes'] / (age + 1)
+
+            # Sum weighted changes and total weight
+            total_weighted_changes += weighted_change
+
+        # Calculate REXP
+        REXP = total_weighted_changes
+        return REXP
+
+    def _calculate_SEXP(self, developer_changes, subsystem_changes):
+        total_changes_to_subsystems = 0
+
+        # Iterate over developer's changes
+        for change in developer_changes:
+            # Check if the change modified any subsystems
+            for subsystem in subsystem_changes:
+                if subsystem in change['files']:
+                    total_changes_to_subsystems += 1
+
+        # Calculate SEXP
+        SEXP = total_changes_to_subsystems
+        return SEXP
+    def _calculate_entropy(self, commit):
+        modified_lines = []
+
+        # Calculate modified lines in each file and collect them
+        for file_path, stats in commit.stats.files.items():
+            modified_lines.append(stats['insertions'] + stats['deletions'])
+
+        total_modified_lines = sum(modified_lines)
+
+        # Calculate entropy
+        entropy = 0
+        for lines in modified_lines:
+            if lines > 0:
+                entropy -= lines / total_modified_lines * math.log2(lines / total_modified_lines)
+
+        return entropy
+    def _calculate_author_metrics_optimized(self, commit):
+        author_name = commit.author.name
+        author_email = commit.author.email
+        commit_date = commit.authored_datetime
+        commit_num = commit.hexsha
+        subsystem_changes = {}  # Store subsystem changes for SEXP calculation
+        print(commit_num)
+        rev_list_command = [
+            'git',
+            'rev-list',
+            f"""--author={author_name} <{author_email}>""",
+            f"""--before={commit_date}""",
+            '--all'
+        ]
+        print(rev_list_command)
+        commit_hashes = self.repository.git.execute(rev_list_command).strip().split('\n')
+        hist_modified_files = set()
+        developer_changes = []  # Store developer changes for REXP calculation
+        exp_added_lines = 0
+        exp_removed_lines = 0
+
+        log.info(f'''---> Have to analyze {len(commit_hashes)} commits in total''')
+        start_time = time.time()
+        for i in range(0, len(commit_hashes)):
+            try:
+                commit_hash = commit_hashes[i]
+                diff_stat = self.repository.git.diff("--shortstat", f"{commit_hash}^..{commit_hash}")
+                diff_filenames = self.repository.git.diff("--name-only", f"{commit_hash}^..{commit_hash}").splitlines()
+                hist_modified_files.update(diff_filenames)
+                changes = diff_stat.split(',')
+                exp_added_lines += sum(
+                    [int(change.strip().split()[0]) if 'insertion' in change else 0 for change in changes])
+                exp_removed_lines += sum(
+                    [int(change.strip().split()[0]) if 'deletion' in change else 0 for change in changes])
+                # Store developer changes for REXP calculation
+                developer_changes.append(
+                    {'date': self.repository.commit(commit_hash).committed_datetime, 'num_changes': len(changes),
+                     'files': diff_filenames})
+                import os
+                # Store subsystem changes for SEXP calculation
+                for filename in diff_filenames:
+                    subsystem = os.path.dirname(filename).split(os.path.sep)[0]  # Get root directory name
+                    if subsystem in subsystem_changes:
+                        subsystem_changes[subsystem] += 1
+                    else:
+                        subsystem_changes[subsystem] = 1
+
+            except Exception as e:
+                log.error(commit_hashes[i])
+                log.error(e)
+                continue
+        exp_changed_lines = (exp_added_lines + exp_removed_lines)
+        end_time = time.time()
+        # Calculate REXP
+        REXP = self._calculate_REXP(developer_changes, commit)
+        # Calculate SEXP
+        SEXP = self._calculate_SEXP(developer_changes, subsystem_changes)
+
+        log.info(f"It takes {(end_time - start_time) / 60} minutes to run the historical commits analyse!")
+        return {"commit": commit_num, "exp_of_files": len(hist_modified_files),
+                "exp_of_codes": exp_changed_lines, "exp_of_commits": len(commit_hashes),
+                "REXP": REXP, "SEXP": SEXP}
 
     def _set_working_tree_to_commit(self, commit: str):
         # self.repository.head.reference = self.repository.commit(fix_commit_hash)
