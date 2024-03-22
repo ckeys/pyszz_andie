@@ -19,13 +19,15 @@ log.basicConfig(level=log.INFO, format='%(asctime)s :: %(levelname)s :: %(messag
 log.getLogger('pydriller').setLevel(log.WARNING)
 
 
-def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_index: int):
+def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_index: int, end_index: int = None):
     with open(input_json, 'r') as in_file:
         bugfix_commits = json.loads(in_file.read())
 
     tot = len(bugfix_commits)
+    if end_index is None:
+        end_index = len(bugfix_commits)
     with open(out_json, 'w') as file:
-        for i, commit in enumerate(bugfix_commits[start_index:], start=start_index):
+        for i, commit in enumerate(bugfix_commits[start_index:end_index], start=start_index):
             log.info(f'''Repo Directory is {repos_dir} and Repo Name is {commit['repo_name']}''')
             if not os.path.exists(f'''{repos_dir}/{commit['repo_name']}'''):
                 log.info(f'''The path is not existing {repos_dir}/{commit['repo_name']}''')
