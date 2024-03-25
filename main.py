@@ -27,7 +27,7 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
     if end_index is None:
         end_index = len(bugfix_commits)
     with open(out_json, 'w') as file:
-        log.info(f'''Start at : {start_index} and end at : {end_index}''')
+        log.info(f'''Start at : {start_index} and end at : {end_index}, total length : {len(bugfix_commits[start_index:end_index])}''')
         for i, commit in enumerate(bugfix_commits[start_index:end_index], start=start_index):
             log.info(f'''Repo Directory is {repos_dir} and Repo Name is {commit['repo_name']}''')
             if not os.path.exists(f'''{repos_dir}/{commit['repo_name']}'''):
