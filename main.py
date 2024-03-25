@@ -20,9 +20,9 @@ log.getLogger('pydriller').setLevel(log.WARNING)
 
 
 def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_index: int, end_index: int = None):
+    szz_name = conf['szz_name']
     with open(input_json, 'r') as in_file:
         bugfix_commits = json.loads(in_file.read())
-
     tot = len(bugfix_commits)
     if end_index is None:
         end_index = len(bugfix_commits)
@@ -45,8 +45,6 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
                 commit_issue_date = (
                         commit.get('earliest_issue_date', None) or commit.get('best_scenario_issue_date', None))
                 commit_issue_date = dateparser.parse(commit_issue_date).timestamp()
-
-            szz_name = conf['szz_name']
             if szz_name == 'b':
                 b_szz = BaseSZZ(repo_full_name=repo_name, repo_url=repo_url, repos_dir=repos_dir)
                 imp_files = b_szz.get_impacted_files(fix_commit_hash=fix_commit,
