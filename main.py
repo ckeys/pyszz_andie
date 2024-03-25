@@ -165,6 +165,7 @@ if __name__ == "__main__":
     conf_file = sys.argv[2]
     repos_dir = sys.argv[3] if len(sys.argv) > 3 else None
     start_index = int(sys.argv[4]) if len(sys.argv) > 4 else 0
+    end_index = int(sys.argv[5]) if len(sys.argv) > 5 else 0
 
     if not os.path.isfile(input_json):
         log.error('invalid input json')
@@ -190,4 +191,4 @@ if __name__ == "__main__":
 
     log.info(f'Launching {szz_name}-szz')
 
-    main(input_json, out_json, conf, repos_dir, start_index)
+    main(input_json, out_json, conf, repos_dir, start_index, end_index)
