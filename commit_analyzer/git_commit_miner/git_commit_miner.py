@@ -94,8 +94,7 @@ if __name__ == "__main__":
                         help='Output file path (directory and filename prefix)')
     args = parser.parse_args()
 
-    with open('/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer/data/unique_repo_names.csv', 'r',
-              newline='') as csvfile:
+    with open('../data/unique_repo_names.csv', 'r',newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             repo_name = row['repo_name']
