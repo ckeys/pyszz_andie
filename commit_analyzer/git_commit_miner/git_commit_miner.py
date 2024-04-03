@@ -5,19 +5,19 @@ import argparse
 import logging as log
 from shutil import copytree
 from tempfile import mkdtemp
-from options import Options
 from git import Commit, Repo
 from shutil import rmtree
 
 
 class GitCommitMiner:
+
     def __init__(self, repo_full_name: str, repos_dir: str = None):
         self.project_name = repo_full_name.replace("/", "_")
-
+        TEMP_WORKING_DIR = '_szztemp'
         repo_url = f'https://test:test@github.com/{repo_full_name}.git'  # using test:test as git login to skip private repos during clone
         self._repository = None
-        os.makedirs(Options.TEMP_WORKING_DIR, exist_ok=True)
-        self.__temp_dir = mkdtemp(dir=os.path.join(os.getcwd(), Options.TEMP_WORKING_DIR))
+        os.makedirs(TEMP_WORKING_DIR, exist_ok=True)
+        self.__temp_dir = mkdtemp(dir=os.path.join(os.getcwd(), TEMP_WORKING_DIR))
         log.info(f"Create a temp directory : {self.__temp_dir}")
         self._repository_path = os.path.join(self.__temp_dir, repo_full_name.replace('/', '_'))
         if not os.path.isdir(self._repository_path):
