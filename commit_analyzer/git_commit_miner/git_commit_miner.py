@@ -94,7 +94,10 @@ if __name__ == "__main__":
                         help='Output file path (directory and filename prefix)')
     args = parser.parse_args()
 
-    with open('../data/unique_repo_names.csv', 'r',newline='') as csvfile:
+    current_directory = os.path.dirname(os.path.abspath(__file__))
+    parent_directory = os.path.dirname(current_directory)
+
+    with open(f'{parent_directory}/data/unique_repo_names.csv', 'r',newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             repo_name = row['repo_name']
