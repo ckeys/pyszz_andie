@@ -5,8 +5,9 @@ import argparse
 import logging as log
 from shutil import copytree
 from tempfile import mkdtemp
-from git import Commit, Repo
 from options import Options
+from git import Commit, Repo
+from shutil import rmtree
 
 
 class GitCommitMiner:
@@ -37,6 +38,18 @@ class GitCommitMiner:
         log.info("cleanup objects...")
         self.__cleanup_repo()
         self.__clear_gitpython()
+
+    def __cleanup_repo(self):
+        """ Cleanup of local repository used by SZZ """
+        log.info(f"Clean up {self.__temp_dir}")
+        if os.path.isdir(self.__temp_dir):
+            rmtree(self.__temp_dir)
+
+    def __clear_gitpython(self):
+        """ Cleanup of GitPython due to memory problems """
+        if self._repository:
+            self._repository.close()
+            self._repository.__del__()
 
     def mine_commit_history(self, output_dir='./commit_history'):
 
@@ -72,11 +85,11 @@ class GitCommitMiner:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Mine commit history of a git repository.')
-    parser.add_argument('repo_full_name', type=str, help='Path to the git repository')
-    parser.add_argument('repos_dir', type=str, help='Name of the git repository to be')
-    parser.add_argument('output_dir', type=str, default='./output/commit_history',
+    parser.add_argument('-repo_full_name', dest='repo_full_name', type=str, help='Path to the git repository')
+    parser.add_argument('-repo_dir', dest='repo_dir', type=str, help='Name of the git repository to be')
+    parser.add_argument('-output_dir', dest='output_dir', type=str, default='./output/commit_history',
                         help='Output file path (directory and filename prefix)')
     args = parser.parse_args()
 
-    git_miner = GitCommitMiner(args.repo_full_name, args.repos_dir)
+    git_miner = GitCommitMiner(args.repo_full_name, args.repo_dir)
     git_miner.mine_commit_history(args.output_dir)
