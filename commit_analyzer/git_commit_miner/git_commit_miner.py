@@ -94,5 +94,11 @@ if __name__ == "__main__":
                         help='Output file path (directory and filename prefix)')
     args = parser.parse_args()
 
-    git_miner = GitCommitMiner(args.repo_full_name, args.repo_dir)
-    git_miner.mine_commit_history(args.output_dir)
+    with open('/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer/data/unique_repo_names.csv', 'r',
+              newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            repo_name = row['repo_name']
+            log.info(f"Currently Processing {repo_name}")
+            git_miner = GitCommitMiner(repo_name, args.repo_dir)
+            git_miner.mine_commit_history(args.output_dir)
