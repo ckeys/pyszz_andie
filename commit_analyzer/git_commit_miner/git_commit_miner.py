@@ -64,10 +64,11 @@ class GitCommitMiner:
                 'commit_hash': commit.hexsha,
                 'commit_message': commit.message.strip()
             }
+            log.info(f"Commit Data: {commit_data}")
             commit_info.append(commit_data)
 
         # Define the output file path
-
+        log.info("Start to write to csv file!")
         csv_output_file = f'''{output_dir}/{self.project_name}_commit_history_data.csv'''
         with open(csv_output_file, 'w', newline='') as csvfile:
             fieldnames = ['author_name', 'date_time', 'commit_hash', 'commit_message']
@@ -75,7 +76,9 @@ class GitCommitMiner:
             writer.writeheader()
             for commit_data in commit_info:
                 writer.writerow(commit_data)
+        log.info("CSV file writting is done!")
 
+        log.info("Start to write to json file!")
         json_output_file = f'''{output_dir}/{self.project_name}_commit_history_data.json'''
         with open(json_output_file, 'w') as jsonfile:
             json.dump(commit_info, jsonfile, indent=4)
