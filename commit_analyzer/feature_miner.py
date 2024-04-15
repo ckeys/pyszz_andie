@@ -2,6 +2,8 @@ import os
 import logging as log
 import time
 import math
+import argparse
+import pandas as pd
 from tempfile import mkdtemp
 from options import Options
 from shutil import copytree
@@ -13,7 +15,7 @@ from pydriller import RepositoryMining, ModificationType
 
 
 class CodeRepoFeatureMiner(object):
-    def __init__(self, repo_full_name: str, repo_url: str, repos_dir: str = None):
+    def __init__(self, repo_full_name: str, repos_dir: str = None):
         """
                 Init an abstract SZZ to use as base class for SZZ implementations.
                 AbstractSZZ uses a temp folder to clone and interact with the given git repo, where
@@ -25,6 +27,7 @@ class CodeRepoFeatureMiner(object):
                 :param str repos_dir: temp folder where to clone the given repo
                 """
         self._repository = None
+        repo_url = f'https://test:test@github.com/{repo_full_name}.git'
 
         os.makedirs(Options.TEMP_WORKING_DIR, exist_ok=True)
         self.__temp_dir = mkdtemp(dir=os.path.join(os.getcwd(), Options.TEMP_WORKING_DIR))
@@ -43,6 +46,11 @@ class CodeRepoFeatureMiner(object):
                 Repo.clone_from(url=repo_url, to_path=self._repository_path)
 
         self._repository = Repo(self._repository_path)
+
+    def get_commit_object(self, commit_hash):
+        # 使用提交哈希获取Commit对象
+        commit = self._repository.commit(commit_hash)
+        return commit
 
     def calculate_REXP(self, developer_changes, commit):
         total_weighted_changes = 0
@@ -91,29 +99,40 @@ class CodeRepoFeatureMiner(object):
             f"""--before={commit_date}""",
             '--all'
         ]
+        # here need to exclude the commit itself
         print(rev_list_command)
-        commit_hashes = self.repository.git.execute(rev_list_command).strip().split('\n')
+        commit_hashes = self._repository.git.execute(rev_list_command).strip().split('\n')
+        if commit.hexsha in commit_hashes:
+            commit_hashes.remove(commit.hexsha)
         hist_modified_files = set()
         developer_changes = []  # Store developer changes for REXP calculation
         exp_added_lines = 0
         exp_removed_lines = 0
 
         log.info(f'''---> Have to analyze {len(commit_hashes)} commits in total''')
+        print(f'''---> Have to analyze {len(commit_hashes)} commits in total''')
         start_time = time.time()
         for i in range(0, len(commit_hashes)):
             try:
                 commit_hash = commit_hashes[i]
-                diff_stat = self.repository.git.diff("--shortstat", f"{commit_hash}^..{commit_hash}")
-                diff_filenames = self.repository.git.diff("--name-only", f"{commit_hash}^..{commit_hash}").splitlines()
+                commit = self._repository.commit(commit_hash)
+                diff_stat = commit.stats
+                lines_added = diff_stat.total['insertions']
+                lines_deleted = diff_stat.total['deletions']
+                num_changes = lines_added + lines_deleted
+                num_files_changed = diff_stat.total['files']
+                diff_filenames = set(diff_stat.files.keys())
+                # diff_stat = self._repository.git.diff("-- ", f"{commit_hash}^..{commit_hash}")
+                # diff_filenames = self._repository.git.diff("--name-only", f"{commit_hash}^..{commit_hash}").splitlines()
                 hist_modified_files.update(diff_filenames)
-                changes = diff_stat.split(',')
-                exp_added_lines += sum(
-                    [int(change.strip().split()[0]) if 'insertion' in change else 0 for change in changes])
-                exp_removed_lines += sum(
-                    [int(change.strip().split()[0]) if 'deletion' in change else 0 for change in changes])
+                # changes = diff_stat.split(',')
+                # exp_added_lines += sum(
+                #     [int(change.strip().split()[0]) if 'insertion' in change else 0 for change in changes])
+                # exp_removed_lines += sum(
+                #     [int(change.strip().split()[0]) if 'deletion' in change else 0 for change in changes])
                 # Store developer changes for REXP calculation
                 developer_changes.append(
-                    {'date': self.repository.commit(commit_hash).committed_datetime, 'num_changes': len(changes),
+                    {'date': self._repository.commit(commit_hash).committed_datetime, 'num_changes': num_changes,
                      'files': diff_filenames})
                 import os
                 # Store subsystem changes for SEXP calculation
@@ -134,11 +153,11 @@ class CodeRepoFeatureMiner(object):
         REXP = self.calculate_REXP(developer_changes, commit)
         # Calculate SEXP
         SEXP = self.calculate_SEXP(developer_changes, subsystem_changes)
-
+        contain_defect_fix = self.contains_defect_fix(commit)
         log.info(f"It takes {(end_time - start_time) / 60} minutes to run the historical commits analyse!")
         return {"commit": commit_num, "exp_of_files": len(hist_modified_files),
                 "exp_of_codes": exp_changed_lines, "exp_of_commits": len(commit_hashes),
-                "REXP": REXP, "SEXP": SEXP}
+                "REXP": REXP, "SEXP": SEXP, 'contain_defect_fix': contain_defect_fix}
 
     def get_merge_commits(self, commit_hash: str) -> Set[str]:
         merge = set()
@@ -184,10 +203,8 @@ class CodeRepoFeatureMiner(object):
 
         return 0
 
-
     def get_touched_files(self, commit):
         return [diff.a_path for diff in commit.diff(commit.parents[0])]
-
 
     def calculate_age(self, commit):
         """
@@ -253,7 +270,6 @@ class CodeRepoFeatureMiner(object):
                     continue
         return len(developers)
 
-
     def get_touched_date(self, commit, file_path):
         # Get the commit time for the file
         commit_time = commit.committed_date
@@ -276,4 +292,44 @@ class CodeRepoFeatureMiner(object):
 
 
 if __name__ == "__main__":
-    pass
+
+    current_file_path = os.path.abspath(__file__)
+
+    parser = argparse.ArgumentParser(description='Process an input file and output its contents to a specified file.')
+    parser.add_argument('-c', '--commits_file_path', type=str, required=False,
+                        help='The path to the historical commits file.')
+    parser.add_argument('-r', '--repo_path', type=str, required=False, help='The path to the repository.')
+    parser.add_argument('-o', '--output_path', type=str, required=False, help='The path to the output file.')
+    parser.add_argument('-rn', '--repo_name', type=str, required=False, help='The path to the output file.')
+    args = parser.parse_args()
+    commits_file_path = args.commits_file_path if args.commits_file_path else "/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer/data/test_data/ad510_decoherence_commit_history_data.csv"
+    repo_path = args.repo_path if args.repo_path else "/Users/andie/Andie/test_repo"
+    output_path = args.output_path if args.output_path else f"/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer/data/test_data/commit_features.csv"
+    repo_name = args.repo_name if args.repo_name else 'ad510/decoherence'
+    output_path = f'''{output_path}/{repo_name.replace('/', '_')}_commit_features.csv'''
+    historical_commit_data = pd.read_csv(commits_file_path)
+
+    miner = CodeRepoFeatureMiner(repo_full_name=repo_name, repos_dir=repo_path)
+
+    features_list = list()
+    for index, row in historical_commit_data.iterrows():
+        commit_hash = row['commit_hash']
+        commit = miner.get_commit_object(commit_hash)
+        res_dic = miner.calculate_author_metrics_optimized(commit=commit)
+        add = commit.stats.total['insertions']
+        print(add)
+        deleted = commit.stats.total['deletions']
+        print(deleted)
+        num_files = commit.stats.total['files']
+        print(num_files)
+        lines = commit.stats.total['lines']
+        print(lines)
+        res_dic['lines_of_added'] = add
+        res_dic['lines_of_deleted'] = deleted
+        res_dic['lines_of_modified'] = lines
+        res_dic['num_files'] = num_files
+        res_dic['is_Friday'] = 1 if commit.committed_datetime.weekday() == 4 else 0
+        features_list.append(res_dic)
+
+    features_df = pd.DataFrame(features_list)
+    features_df.to_csv(output_path, index=False)
