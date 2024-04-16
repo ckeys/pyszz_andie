@@ -5,7 +5,6 @@ import math
 import argparse
 import pandas as pd
 from tempfile import mkdtemp
-from options import Options
 from shutil import copytree
 from datetime import datetime, timedelta
 from typing import List, Set, Tuple, Dict
@@ -13,6 +12,11 @@ from git import Commit, Repo
 from datetime import timezone
 from pydriller import RepositoryMining, ModificationType
 
+class Options:
+    # Sets the global home of the project (useful for running external tools)
+    PYSZZ_HOME = os.path.dirname(os.path.realpath(__file__))
+
+    TEMP_WORKING_DIR = '_szztemp'
 
 class CodeRepoFeatureMiner(object):
     def __init__(self, repo_full_name: str, repos_dir: str = None):
