@@ -335,5 +335,8 @@ if __name__ == "__main__":
         res_dic['is_Friday'] = 1 if commit.committed_datetime.weekday() == 4 else 0
         features_list.append(res_dic)
 
+    print(f'''>>>>> Writting results to {output_path} ''')
     features_df = pd.DataFrame(features_list)
     features_df.to_csv(output_path, index=False)
+    print(f'''>>>>> Writting is DONE !!!!!!!!!!!!!!!!!!!!! ''')
+    print(f'''Finished!!!!! ''')
