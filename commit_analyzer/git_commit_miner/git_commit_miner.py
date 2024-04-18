@@ -70,6 +70,9 @@ class GitCommitMiner:
         # Define the output file path
         log.info("Start to write to csv file!")
         csv_output_file = f'''{output_dir}/{self.project_name}_commit_history_data.csv'''
+        if os.path.exists(csv_output_file):
+            return
+
         with open(csv_output_file, 'w', newline='') as csvfile:
             fieldnames = ['author_name', 'date_time', 'commit_hash', 'commit_message']
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
