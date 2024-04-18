@@ -328,6 +328,9 @@ if __name__ == "__main__":
             print(f'''The commit data {historical_commit_data} for the project {repo_name} is not done yet!''')
             continue
         output_path = f'''{output_path}/{repo_name.replace('/', '_')}_commit_features.csv'''
+        if os.path.exists(output_path):
+            print(f'''The project {repo_name} already processed, go continue with the next project!!!''')
+            continue
         miner = CodeRepoFeatureMiner(repo_full_name=repo_name, repos_dir=repo_path)
         features_list = list()
         for index, row in historical_commit_data.iterrows():
