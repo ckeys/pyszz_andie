@@ -305,10 +305,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Process an input file and output its contents to a specified file.')
     parser.add_argument('-c', '--commits_file_path', type=str, required=False,
                         help='The path to the historical commits file.')
-    parser.add_argument('-cdir', '--commit_file_dir', type=str, required=False,
+    parser.add_argument('-cdir', '--commit_file_dir', type=str, required=True,
                         help='The dir to the historical commits file.')
-    parser.add_argument('-r', '--repo_path', type=str, required=False, help='The path to the repository.')
-    parser.add_argument('-o', '--output_path', type=str, required=False, help='The path to the output file.')
+    parser.add_argument('-r', '--repo_path', type=str, required=True, help='The path to the repository.')
+    parser.add_argument('-o', '--output_path', type=str, required=True, help='The path to the output file.')
     parser.add_argument('-rn', '--repo_name', type=str, required=False, help='The path to the output file.')
     args = parser.parse_args()
     commits_file_path = args.commits_file_path if args.commits_file_path else "/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer/data/test_data/ad510_decoherence_commit_history_data.csv"
