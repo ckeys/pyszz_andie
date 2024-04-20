@@ -312,15 +312,14 @@ if __name__ == "__main__":
     parser.add_argument('-rn', '--repo_name', type=str, required=False, help='The path to the output file.')
     args = parser.parse_args()
     commits_file_path = args.commits_file_path if args.commits_file_path else "/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer/data/test_data/ad510_decoherence_commit_history_data.csv"
-    commit_file_dir = args.commit_file_dir if args.commit_file_dir else "/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer"
+    commit_file_base_dir = args.commit_file_dir if args.commit_file_dir else "/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer"
     repo_path = args.repo_path if args.repo_path else "/Users/andie/Andie/test_repo"
     output_path = args.output_path if args.output_path else f"/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer/data/test_data/commit_features.csv"
-
     for idx, row in df.iterrows():
         repo_name = row['repo_name']
         print(f'''Currently Processing Project {repo_name}!''')
         repo_name = repo_name.strip()
-        commit_file_dir = [commit_file_dir] + [f'''{repo_name.replace('/', '_')}_commit_history_data.csv''']
+        commit_file_dir = [commit_file_base_dir] + [f'''{repo_name.replace('/', '_')}_commit_history_data.csv''']
         print(f'''commit file dir : {commit_file_dir}''')
         commit_file_path = '/'.join(commit_file_dir)
         historical_commit_data = pd.read_csv(commit_file_path)
