@@ -321,6 +321,7 @@ if __name__ == "__main__":
         print(f'''Currently Processing Project {repo_name}!''')
         repo_name = repo_name.strip()
         commit_file_dir = [commit_file_dir] + [f'''{repo_name.replace('/', '_')}_commit_history_data.csv''']
+        print(f'''commit file dir : {commit_file_dir}''')
         commit_file_path = '/'.join(commit_file_dir)
         historical_commit_data = pd.read_csv(commit_file_path)
         if not os.path.exists(commit_file_path):
