@@ -320,7 +320,6 @@ if __name__ == "__main__":
         repo_name = row['repo_name']
         print(f'''Currently Processing Project {repo_name}!''')
         repo_name = repo_name.strip()
-        output_path = f'''{output_path}/{repo_name.replace('/', '_')}_commit_features.csv'''
         commit_file_dir = [commit_file_dir] + [f'''{repo_name.replace('/', '_')}_commit_history_data.csv''']
         commit_file_path = '/'.join(commit_file_dir)
         historical_commit_data = pd.read_csv(commit_file_path)
@@ -334,6 +333,7 @@ if __name__ == "__main__":
         miner = CodeRepoFeatureMiner(repo_full_name=repo_name, repos_dir=repo_path)
         features_list = list()
         for index, row in historical_commit_data.iterrows():
+            print(f'''The output path is :{output_path}''')
             commit_hash = row['commit_hash']
             commit = miner.get_commit_object(commit_hash)
             res_dic = miner.calculate_author_metrics_optimized(commit=commit)
@@ -355,8 +355,6 @@ if __name__ == "__main__":
         features_df = pd.DataFrame(features_list)
         features_df.to_csv(output_path, index=False)
         print(f'''>>>>> Writting is DONE !!!!!!!!!!!!!!!!!!!!! ''')
-
-
 
     # commits_file_path = args.commits_file_path if args.commits_file_path else "/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer/data/test_data/ad510_decoherence_commit_history_data.csv"
     # repo_path = args.repo_path if args.repo_path else "/Users/andie/Andie/test_repo"
