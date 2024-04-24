@@ -326,8 +326,8 @@ if __name__ == "__main__":
         if not os.path.exists(commit_file_path):
             print(f'''The commit data {historical_commit_data} for the project {repo_name} is not done yet!''')
             continue
-        output_path = f'''{output_path}/{repo_name.replace('/', '_')}_commit_features.csv'''
-        if os.path.exists(output_path):
+        tmp_output_path = f'''{output_path}/{repo_name.replace('/', '_')}_commit_features.csv'''
+        if os.path.exists(tmp_output_path):
             print(f'''The project {repo_name} already processed, go continue with the next project!!!''')
             continue
         miner = CodeRepoFeatureMiner(repo_full_name=repo_name, repos_dir=repo_path)
@@ -351,9 +351,9 @@ if __name__ == "__main__":
             res_dic['num_files'] = num_files
             res_dic['is_Friday'] = 1 if commit.committed_datetime.weekday() == 4 else 0
             features_list.append(res_dic)
-        print(f'''>>>>> Writting results to {output_path} ''')
+        print(f'''>>>>> Writting results to {tmp_output_path} ''')
         features_df = pd.DataFrame(features_list)
-        features_df.to_csv(output_path, index=False)
+        features_df.to_csv(tmp_output_path, index=False)
         print(f'''>>>>> Writting is DONE !!!!!!!!!!!!!!!!!!!!! ''')
 
     # commits_file_path = args.commits_file_path if args.commits_file_path else "/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer/data/test_data/ad510_decoherence_commit_history_data.csv"
