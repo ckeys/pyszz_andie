@@ -114,7 +114,13 @@ if __name__ == "__main__":
         reader = csv.DictReader(csvfile)
         for row in reader:
             repo_name = row['repo_name']
-            log.info(f"Currently Processing {repo_name}")
-            print(f"Currently Processing {repo_name}")
+
             git_miner = GitCommitMiner(repo_name, args.repo_dir)
-            git_miner.mine_commit_history(args.output_dir)
+            json_output_file = f'''{args.output_dir}/{git_miner.project_name}_commit_history_data.json'''
+            csv_output_file = f'''{args.output_dir}/{git_miner.project_name}_commit_history_data.csv'''
+            if not os.path.exists(json_output_file):
+                print(f"Currently Processing {repo_name}")
+                log.info(f"Currently Processing {repo_name}")
+                git_miner.mine_commit_history(args.output_dir)
+            else:
+                print(f"Currently Processing {repo_name} but it has already exist!")
