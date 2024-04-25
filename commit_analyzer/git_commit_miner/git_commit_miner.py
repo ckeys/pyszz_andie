@@ -46,8 +46,11 @@ class GitCommitMiner:
         """ Cleanup of local repository used by SZZ """
         log.info(f"Clean up {self.__temp_dir}")
         print(f"Clean up {self.__temp_dir}")
-        if os.path.isdir(self.__temp_dir):
-            rmtree(self.__temp_dir)
+        try:
+            if os.path.isdir(self.__temp_dir):
+                rmtree(self.__temp_dir)
+        except Exception as e:
+            print("Error cleaning up repo:", e)
 
     def __clear_gitpython(self):
         """ Cleanup of GitPython due to memory problems """
