@@ -19,6 +19,7 @@ class GitCommitMiner:
         os.makedirs(TEMP_WORKING_DIR, exist_ok=True)
         self.__temp_dir = mkdtemp(dir=os.path.join(os.getcwd(), TEMP_WORKING_DIR))
         log.info(f"Create a temp directory : {self.__temp_dir}")
+        print(f"Create a temp directory : {self.__temp_dir}")
         self._repository_path = os.path.join(self.__temp_dir, repo_full_name.replace('/', '_'))
         if not os.path.isdir(self._repository_path):
             if repos_dir:
@@ -30,18 +31,21 @@ class GitCommitMiner:
                     exit(-4)
             else:
                 log.info(f"Cloning repository {repo_full_name}...")
+                print(f"Cloning repository {repo_full_name}...")
                 Repo.clone_from(url=repo_url, to_path=self._repository_path)
 
         self._repository = Repo(self._repository_path)
 
     def __del__(self):
         log.info("cleanup objects...")
+        print(f"Clean up {self._repository_path}")
         self.__cleanup_repo()
         self.__clear_gitpython()
 
     def __cleanup_repo(self):
         """ Cleanup of local repository used by SZZ """
         log.info(f"Clean up {self.__temp_dir}")
+        print(f"Clean up {self.__temp_dir}")
         if os.path.isdir(self.__temp_dir):
             rmtree(self.__temp_dir)
 
@@ -65,10 +69,12 @@ class GitCommitMiner:
                 'commit_message': commit.message.strip()
             }
             log.info(f"Commit Data: {commit_data}")
+            print(f"Commit Data: {commit_data}")
             commit_info.append(commit_data)
 
         # Define the output file path
         log.info("Start to write to csv file!")
+        print("Start to write to csv file!")
         csv_output_file = f'''{output_dir}/{self.project_name}_commit_history_data.csv'''
         if os.path.exists(csv_output_file):
             return
@@ -80,8 +86,9 @@ class GitCommitMiner:
             for commit_data in commit_info:
                 writer.writerow(commit_data)
         log.info("CSV file writting is done!")
-
+        print("CSV file writing is done!")
         log.info("Start to write to json file!")
+        print("Start to write to json file!")
         json_output_file = f'''{output_dir}/{self.project_name}_commit_history_data.json'''
         with open(json_output_file, 'w') as jsonfile:
             json.dump(commit_info, jsonfile, indent=4)
@@ -105,5 +112,6 @@ if __name__ == "__main__":
         for row in reader:
             repo_name = row['repo_name']
             log.info(f"Currently Processing {repo_name}")
+            print(f"Currently Processing {repo_name}")
             git_miner = GitCommitMiner(repo_name, args.repo_dir)
             git_miner.mine_commit_history(args.output_dir)
