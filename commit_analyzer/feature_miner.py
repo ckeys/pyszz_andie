@@ -68,7 +68,11 @@ class CodeRepoFeatureMiner(object):
             age = (commit_date_aware - change['date']).days / 365
 
             # Weighted change is the number of changes divided by the age
-            weighted_change = change['num_changes'] / (age + 1)
+            if (age + 1) == 0:
+                print(f'''Age {age} is an invalid value''')
+                weighted_change = change['num_changes']
+            else:
+                weighted_change = change['num_changes'] / (age + 1)
 
             # Sum weighted changes and total weight
             total_weighted_changes += weighted_change
