@@ -308,7 +308,13 @@ def execute_func(args):
     repo_path = repo_path if repo_path else "/Users/andie/Andie/test_repo"
     output_path = output_path if output_path else f"/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer/data/test_data/commit_features.csv"
     with lock:
-        for idx, row in df.iterrows():
+
+        num = 1
+        while num<900:
+            # Randomly select a row
+            row = df.sample(n=1)
+        #     pass
+        # for idx, row in df.iterrows():
             repo_name = row['repo_name']
             print(f'''Currently Processing Project {repo_name}!''')
             repo_name = repo_name.strip()
@@ -323,6 +329,7 @@ def execute_func(args):
             if os.path.exists(tmp_output_path):
                 print(f'''The project {repo_name} already processed, go continue with the next project!!!''')
                 continue
+            num+=1
             miner = CodeRepoFeatureMiner(repo_full_name=repo_name, repos_dir=repo_path)
             features_list = list()
             for index, row in historical_commit_data.iterrows():
