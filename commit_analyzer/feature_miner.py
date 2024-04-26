@@ -301,10 +301,10 @@ class CodeRepoFeatureMiner(object):
         log.info(f"Total number of commits found: {len(commits)}")
         return commits
 
-def execute_func(args):
-    commit_file_base_dir = args.commit_file_dir if args.commit_file_dir else "/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer"
-    repo_path = args.repo_path if args.repo_path else "/Users/andie/Andie/test_repo"
-    output_path = args.output_path if args.output_path else f"/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer/data/test_data/commit_features.csv"
+def execute_func(commits_file_path, commit_file_dir, repo_path, output_path, repo_name):
+    commit_file_base_dir = commit_file_dir if commit_file_dir else "/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer"
+    repo_path = repo_path if repo_path else "/Users/andie/Andie/test_repo"
+    output_path = output_path if output_path else f"/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer/data/test_data/commit_features.csv"
     for idx, row in df.iterrows():
         repo_name = row['repo_name']
         print(f'''Currently Processing Project {repo_name}!''')
