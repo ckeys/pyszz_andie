@@ -114,7 +114,9 @@ if __name__ == "__main__":
         reader = csv.DictReader(csvfile)
         for row in reader:
             repo_name = row['repo_name']
-
+            if not os.path.exists(f'{args.repo_dir}/{repo_name}'):
+                print(f'{args.repo_dir}/{repo_name} is not exist!')
+                continue
             git_miner = GitCommitMiner(repo_name, args.repo_dir)
             json_output_file = f'''{args.output_dir}/{git_miner.project_name}_commit_history_data.json'''
             csv_output_file = f'''{args.output_dir}/{git_miner.project_name}_commit_history_data.csv'''
