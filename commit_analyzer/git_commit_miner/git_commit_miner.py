@@ -7,7 +7,9 @@ from shutil import copytree
 from tempfile import mkdtemp
 from git import Commit, Repo
 from shutil import rmtree
+import multiprocessing
 
+lock = multiprocessing.Lock()
 
 class GitCommitMiner:
 
@@ -98,6 +100,26 @@ class GitCommitMiner:
 
         print("Commit history successfully exported to", json_output_file)
 
+def execute_function(args):
+
+    repo_dir, output_dir = args
+    with lock:
+        with open(f'{parent_directory}/data/unique_repo_names.csv', 'r',newline='') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                repo_name = row['repo_name']
+                if not os.path.exists(f'{repo_dir}/{repo_name}'):
+                    print(f'{repo_dir}/{repo_name} is not exist!')
+                    continue
+                git_miner = GitCommitMiner(repo_name, repo_dir)
+                json_output_file = f'''{output_dir}/{git_miner.project_name}_commit_history_data.json'''
+                csv_output_file = f'''{output_dir}/{git_miner.project_name}_commit_history_data.csv'''
+                if not os.path.exists(json_output_file):
+                    print(f"Currently Processing {repo_name}")
+                    log.info(f"Currently Processing {repo_name}")
+                    git_miner.mine_commit_history(output_dir)
+                else:
+                    print(f"Currently Processing {repo_name} but it has already exist!")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Mine commit history of a git repository.')
@@ -109,20 +131,24 @@ if __name__ == "__main__":
 
     current_directory = os.path.dirname(os.path.abspath(__file__))
     parent_directory = os.path.dirname(current_directory)
+    arg_list = [(args.repo_dir, args.output_dir)]
+    num_cpus = multiprocessing.cpu_count()
+    with multiprocessing.Pool(processes=num_cpus) as pool:
+        results = pool.map(execute_function, arg_list)
 
-    with open(f'{parent_directory}/data/unique_repo_names.csv', 'r',newline='') as csvfile:
-        reader = csv.DictReader(csvfile)
-        for row in reader:
-            repo_name = row['repo_name']
-            if not os.path.exists(f'{args.repo_dir}/{repo_name}'):
-                print(f'{args.repo_dir}/{repo_name} is not exist!')
-                continue
-            git_miner = GitCommitMiner(repo_name, args.repo_dir)
-            json_output_file = f'''{args.output_dir}/{git_miner.project_name}_commit_history_data.json'''
-            csv_output_file = f'''{args.output_dir}/{git_miner.project_name}_commit_history_data.csv'''
-            if not os.path.exists(json_output_file):
-                print(f"Currently Processing {repo_name}")
-                log.info(f"Currently Processing {repo_name}")
-                git_miner.mine_commit_history(args.output_dir)
-            else:
-                print(f"Currently Processing {repo_name} but it has already exist!")
+    # with open(f'{parent_directory}/data/unique_repo_names.csv', 'r',newline='') as csvfile:
+    #     reader = csv.DictReader(csvfile)
+    #     for row in reader:
+    #         repo_name = row['repo_name']
+    #         if not os.path.exists(f'{args.repo_dir}/{repo_name}'):
+    #             print(f'{args.repo_dir}/{repo_name} is not exist!')
+    #             continue
+    #         git_miner = GitCommitMiner(repo_name, args.repo_dir)
+    #         json_output_file = f'''{args.output_dir}/{git_miner.project_name}_commit_history_data.json'''
+    #         csv_output_file = f'''{args.output_dir}/{git_miner.project_name}_commit_history_data.csv'''
+    #         if not os.path.exists(json_output_file):
+    #             print(f"Currently Processing {repo_name}")
+    #             log.info(f"Currently Processing {repo_name}")
+    #             git_miner.mine_commit_history(args.output_dir)
+    #         else:
+    #             print(f"Currently Processing {repo_name} but it has already exist!")
