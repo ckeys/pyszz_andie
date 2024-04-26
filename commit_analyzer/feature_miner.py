@@ -369,12 +369,11 @@ if __name__ == "__main__":
     parser.add_argument('-o', '--output_path', type=str, required=True, help='The path to the output file.')
     parser.add_argument('-rn', '--repo_name', type=str, required=False, help='The path to the output file.')
     args = parser.parse_args()
-    num_cpus = multiprocessing.cpu_count()
-    pool = multiprocessing.Pool(processes=num_cpus)
-    results = pool.map(execute_func, args)
-    pool.close()
-    pool.join()
+    arg_list = [(args.commits_file_path, args.commit_file_dir, args.repo_path, args.output_path, args.repo_name)]
 
+    num_cpus = multiprocessing.cpu_count()
+    with multiprocessing.Pool(processes=num_cpus) as pool:
+        results = pool.map(execute_func, arg_list)
     # commits_file_path = args.commits_file_path if args.commits_file_path else "/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer/data/test_data/ad510_decoherence_commit_history_data.csv"
     # commit_file_base_dir = args.commit_file_dir if args.commit_file_dir else "/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer"
     # repo_path = args.repo_path if args.repo_path else "/Users/andie/Andie/test_repo"
