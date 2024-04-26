@@ -307,54 +307,54 @@ def execute_func(args):
     commit_file_base_dir = commit_file_dir if commit_file_dir else "/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer"
     repo_path = repo_path if repo_path else "/Users/andie/Andie/test_repo"
     output_path = output_path if output_path else f"/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer/data/test_data/commit_features.csv"
-    with lock:
+    # with lock:
 
-        num = 1
-        while num<900:
-            # Randomly select a row
-            row = df.sample(n=1)
-        #     pass
-        # for idx, row in df.iterrows():
-            repo_name = row['repo_name'].values[0]
-            print(f'''Currently Processing Project {repo_name}!''')
-            repo_name = repo_name.strip()
-            commit_file_dir = [commit_file_base_dir] + [f'''{repo_name.replace('/', '_')}_commit_history_data.csv''']
-            print(f'''commit file dir : {commit_file_dir}''')
-            commit_file_path = '/'.join(commit_file_dir)
-            if not os.path.exists(commit_file_path):
-                print(f'''The commit data {commit_file_path} for the project {repo_name} is not done yet!''')
-                continue
-            historical_commit_data = pd.read_csv(commit_file_path)
-            tmp_output_path = f'''{output_path}/{repo_name.replace('/', '_')}_commit_features.csv'''
-            if os.path.exists(tmp_output_path):
-                print(f'''The project {repo_name} already processed, go continue with the next project!!!''')
-                continue
-            num+=1
-            miner = CodeRepoFeatureMiner(repo_full_name=repo_name, repos_dir=repo_path)
-            features_list = list()
-            for index, row in historical_commit_data.iterrows():
-                print(f'''The output path is :{output_path}''')
-                commit_hash = row['commit_hash']
-                commit = miner.get_commit_object(commit_hash)
-                res_dic = miner.calculate_author_metrics_optimized(commit=commit)
-                add = commit.stats.total['insertions']
-                print(add)
-                deleted = commit.stats.total['deletions']
-                print(deleted)
-                num_files = commit.stats.total['files']
-                print(num_files)
-                lines = commit.stats.total['lines']
-                print(lines)
-                res_dic['lines_of_added'] = add
-                res_dic['lines_of_deleted'] = deleted
-                res_dic['lines_of_modified'] = lines
-                res_dic['num_files'] = num_files
-                res_dic['is_Friday'] = 1 if commit.committed_datetime.weekday() == 4 else 0
-                features_list.append(res_dic)
-            print(f'''>>>>> Writting results to {tmp_output_path} ''')
-            features_df = pd.DataFrame(features_list)
-            features_df.to_csv(tmp_output_path, index=False)
-            print(f'''>>>>> Writting is DONE !!!!!!!!!!!!!!!!!!!!! ''')
+    num = 1
+    while num<900:
+        # Randomly select a row
+        row = df.sample(n=1)
+    #     pass
+    # for idx, row in df.iterrows():
+        repo_name = row['repo_name'].values[0]
+        print(f'''Currently Processing Project {repo_name}!''')
+        repo_name = repo_name.strip()
+        commit_file_dir = [commit_file_base_dir] + [f'''{repo_name.replace('/', '_')}_commit_history_data.csv''']
+        print(f'''commit file dir : {commit_file_dir}''')
+        commit_file_path = '/'.join(commit_file_dir)
+        if not os.path.exists(commit_file_path):
+            print(f'''The commit data {commit_file_path} for the project {repo_name} is not done yet!''')
+            continue
+        historical_commit_data = pd.read_csv(commit_file_path)
+        tmp_output_path = f'''{output_path}/{repo_name.replace('/', '_')}_commit_features.csv'''
+        if os.path.exists(tmp_output_path):
+            print(f'''The project {repo_name} already processed, go continue with the next project!!!''')
+            continue
+        num+=1
+        miner = CodeRepoFeatureMiner(repo_full_name=repo_name, repos_dir=repo_path)
+        features_list = list()
+        for index, row in historical_commit_data.iterrows():
+            print(f'''The output path is :{output_path}''')
+            commit_hash = row['commit_hash']
+            commit = miner.get_commit_object(commit_hash)
+            res_dic = miner.calculate_author_metrics_optimized(commit=commit)
+            add = commit.stats.total['insertions']
+            print(add)
+            deleted = commit.stats.total['deletions']
+            print(deleted)
+            num_files = commit.stats.total['files']
+            print(num_files)
+            lines = commit.stats.total['lines']
+            print(lines)
+            res_dic['lines_of_added'] = add
+            res_dic['lines_of_deleted'] = deleted
+            res_dic['lines_of_modified'] = lines
+            res_dic['num_files'] = num_files
+            res_dic['is_Friday'] = 1 if commit.committed_datetime.weekday() == 4 else 0
+            features_list.append(res_dic)
+        print(f'''>>>>> Writting results to {tmp_output_path} ''')
+        features_df = pd.DataFrame(features_list)
+        features_df.to_csv(tmp_output_path, index=False)
+        print(f'''>>>>> Writting is DONE !!!!!!!!!!!!!!!!!!!!! ''')
 
         # commits_file_path = args.commits_file_path if args.commits_file_path else "/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer/data/test_data/ad510_decoherence_commit_history_data.csv"
         # repo_path = args.repo_path if args.repo_path else "/Users/andie/Andie/test_repo"
@@ -382,8 +382,13 @@ if __name__ == "__main__":
     arg_list = [(args.commits_file_path, args.commit_file_dir, args.repo_path, args.output_path, args.repo_name, df)]
 
     num_cpus = multiprocessing.cpu_count()
-    with multiprocessing.Pool(processes=num_cpus) as pool:
-        results = pool.map(execute_func, arg_list)
+    pool = multiprocessing.Pool(processes=num_cpus)
+    for i in range(num_cpus):
+        pool.apply_async(execute_func, arg_list)
+    pool.close()
+    pool.join()
+    # with multiprocessing.Pool(processes=num_cpus) as pool:
+    #     results = pool.apply_async(execute_func, arg_list)
     # commits_file_path = args.commits_file_path if args.commits_file_path else "/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer/data/test_data/ad510_decoherence_commit_history_data.csv"
     # commit_file_base_dir = args.commit_file_dir if args.commit_file_dir else "/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer"
     # repo_path = args.repo_path if args.repo_path else "/Users/andie/Andie/test_repo"
