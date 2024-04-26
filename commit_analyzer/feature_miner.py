@@ -11,6 +11,7 @@ from typing import List, Set, Tuple, Dict
 from git import Commit, Repo
 from datetime import timezone
 from pydriller import RepositoryMining, ModificationType
+import multiprocessing
 
 
 class Options:
@@ -300,22 +301,7 @@ class CodeRepoFeatureMiner(object):
         log.info(f"Total number of commits found: {len(commits)}")
         return commits
 
-
-if __name__ == "__main__":
-
-    current_file_path = os.path.abspath(__file__)
-    repo_list_path = "/".join(current_file_path.split("/")[:-1] + ['data', 'unique_repo_names.csv'])
-    df = pd.read_csv(repo_list_path)
-    parser = argparse.ArgumentParser(description='Process an input file and output its contents to a specified file.')
-    parser.add_argument('-c', '--commits_file_path', type=str, required=False,
-                        help='The path to the historical commits file.')
-    parser.add_argument('-cdir', '--commit_file_dir', type=str, required=True,
-                        help='The dir to the historical commits file.')
-    parser.add_argument('-r', '--repo_path', type=str, required=True, help='The path to the repository.')
-    parser.add_argument('-o', '--output_path', type=str, required=True, help='The path to the output file.')
-    parser.add_argument('-rn', '--repo_name', type=str, required=False, help='The path to the output file.')
-    args = parser.parse_args()
-    commits_file_path = args.commits_file_path if args.commits_file_path else "/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer/data/test_data/ad510_decoherence_commit_history_data.csv"
+def execute_func(args):
     commit_file_base_dir = args.commit_file_dir if args.commit_file_dir else "/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer"
     repo_path = args.repo_path if args.repo_path else "/Users/andie/Andie/test_repo"
     output_path = args.output_path if args.output_path else f"/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer/data/test_data/commit_features.csv"
@@ -326,10 +312,10 @@ if __name__ == "__main__":
         commit_file_dir = [commit_file_base_dir] + [f'''{repo_name.replace('/', '_')}_commit_history_data.csv''']
         print(f'''commit file dir : {commit_file_dir}''')
         commit_file_path = '/'.join(commit_file_dir)
-        historical_commit_data = pd.read_csv(commit_file_path)
         if not os.path.exists(commit_file_path):
-            print(f'''The commit data {historical_commit_data} for the project {repo_name} is not done yet!''')
+            print(f'''The commit data {commit_file_path} for the project {repo_name} is not done yet!''')
             continue
+        historical_commit_data = pd.read_csv(commit_file_path)
         tmp_output_path = f'''{output_path}/{repo_name.replace('/', '_')}_commit_features.csv'''
         if os.path.exists(tmp_output_path):
             print(f'''The project {repo_name} already processed, go continue with the next project!!!''')
@@ -359,6 +345,80 @@ if __name__ == "__main__":
         features_df = pd.DataFrame(features_list)
         features_df.to_csv(tmp_output_path, index=False)
         print(f'''>>>>> Writting is DONE !!!!!!!!!!!!!!!!!!!!! ''')
+
+    # commits_file_path = args.commits_file_path if args.commits_file_path else "/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer/data/test_data/ad510_decoherence_commit_history_data.csv"
+    # repo_path = args.repo_path if args.repo_path else "/Users/andie/Andie/test_repo"
+    # output_path = args.output_path if args.output_path else f"/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer/data/test_data/commit_features.csv"
+    # repo_name = args.repo_name if args.repo_name else 'ad510/decoherence'
+    # output_path = f'''{output_path}/{repo_name.replace('/', '_')}_commit_features.csv'''
+    # historical_commit_data = pd.read_csv(commits_file_path)
+    # miner = CodeRepoFeatureMiner(repo_full_name=repo_name, repos_dir=repo_path)
+    print(f'''Commit Minner Work is Finished!!!!! ''')
+
+if __name__ == "__main__":
+
+    current_file_path = os.path.abspath(__file__)
+    repo_list_path = "/".join(current_file_path.split("/")[:-1] + ['data', 'unique_repo_names.csv'])
+    df = pd.read_csv(repo_list_path)
+    parser = argparse.ArgumentParser(description='Process an input file and output its contents to a specified file.')
+    parser.add_argument('-c', '--commits_file_path', type=str, required=False,
+                        help='The path to the historical commits file.')
+    parser.add_argument('-cdir', '--commit_file_dir', type=str, required=True,
+                        help='The dir to the historical commits file.')
+    parser.add_argument('-r', '--repo_path', type=str, required=True, help='The path to the repository.')
+    parser.add_argument('-o', '--output_path', type=str, required=True, help='The path to the output file.')
+    parser.add_argument('-rn', '--repo_name', type=str, required=False, help='The path to the output file.')
+    args = parser.parse_args()
+    num_cpus = multiprocessing.cpu_count()
+    pool = multiprocessing.Pool(processes=num_cpus)
+    results = pool.map(execute_func, args)
+    pool.close()
+    pool.join()
+
+    # commits_file_path = args.commits_file_path if args.commits_file_path else "/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer/data/test_data/ad510_decoherence_commit_history_data.csv"
+    # commit_file_base_dir = args.commit_file_dir if args.commit_file_dir else "/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer"
+    # repo_path = args.repo_path if args.repo_path else "/Users/andie/Andie/test_repo"
+    # output_path = args.output_path if args.output_path else f"/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer/data/test_data/commit_features.csv"
+    # for idx, row in df.iterrows():
+    #     repo_name = row['repo_name']
+    #     print(f'''Currently Processing Project {repo_name}!''')
+    #     repo_name = repo_name.strip()
+    #     commit_file_dir = [commit_file_base_dir] + [f'''{repo_name.replace('/', '_')}_commit_history_data.csv''']
+    #     print(f'''commit file dir : {commit_file_dir}''')
+    #     commit_file_path = '/'.join(commit_file_dir)
+    #     if not os.path.exists(commit_file_path):
+    #         print(f'''The commit data {commit_file_path} for the project {repo_name} is not done yet!''')
+    #         continue
+    #     historical_commit_data = pd.read_csv(commit_file_path)
+    #     tmp_output_path = f'''{output_path}/{repo_name.replace('/', '_')}_commit_features.csv'''
+    #     if os.path.exists(tmp_output_path):
+    #         print(f'''The project {repo_name} already processed, go continue with the next project!!!''')
+    #         continue
+    #     miner = CodeRepoFeatureMiner(repo_full_name=repo_name, repos_dir=repo_path)
+    #     features_list = list()
+    #     for index, row in historical_commit_data.iterrows():
+    #         print(f'''The output path is :{output_path}''')
+    #         commit_hash = row['commit_hash']
+    #         commit = miner.get_commit_object(commit_hash)
+    #         res_dic = miner.calculate_author_metrics_optimized(commit=commit)
+    #         add = commit.stats.total['insertions']
+    #         print(add)
+    #         deleted = commit.stats.total['deletions']
+    #         print(deleted)
+    #         num_files = commit.stats.total['files']
+    #         print(num_files)
+    #         lines = commit.stats.total['lines']
+    #         print(lines)
+    #         res_dic['lines_of_added'] = add
+    #         res_dic['lines_of_deleted'] = deleted
+    #         res_dic['lines_of_modified'] = lines
+    #         res_dic['num_files'] = num_files
+    #         res_dic['is_Friday'] = 1 if commit.committed_datetime.weekday() == 4 else 0
+    #         features_list.append(res_dic)
+    #     print(f'''>>>>> Writting results to {tmp_output_path} ''')
+    #     features_df = pd.DataFrame(features_list)
+    #     features_df.to_csv(tmp_output_path, index=False)
+    #     print(f'''>>>>> Writting is DONE !!!!!!!!!!!!!!!!!!!!! ''')
 
     # commits_file_path = args.commits_file_path if args.commits_file_path else "/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer/data/test_data/ad510_decoherence_commit_history_data.csv"
     # repo_path = args.repo_path if args.repo_path else "/Users/andie/Andie/test_repo"
