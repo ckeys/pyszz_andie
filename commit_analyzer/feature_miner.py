@@ -301,7 +301,8 @@ class CodeRepoFeatureMiner(object):
         log.info(f"Total number of commits found: {len(commits)}")
         return commits
 
-def execute_func(commits_file_path, commit_file_dir, repo_path, output_path, repo_name):
+def execute_func(args):
+    commits_file_path, commit_file_dir, repo_path, output_path, repo_name = args
     commit_file_base_dir = commit_file_dir if commit_file_dir else "/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer"
     repo_path = repo_path if repo_path else "/Users/andie/Andie/test_repo"
     output_path = output_path if output_path else f"/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer/data/test_data/commit_features.csv"
