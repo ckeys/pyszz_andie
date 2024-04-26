@@ -303,7 +303,7 @@ class CodeRepoFeatureMiner(object):
         return commits
 
 def execute_func(args):
-    commits_file_path, commit_file_dir, repo_path, output_path, repo_name = args
+    commits_file_path, commit_file_dir, repo_path, output_path, repo_name, df = args
     commit_file_base_dir = commit_file_dir if commit_file_dir else "/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer"
     repo_path = repo_path if repo_path else "/Users/andie/Andie/test_repo"
     output_path = output_path if output_path else f"/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer/data/test_data/commit_features.csv"
@@ -315,7 +315,7 @@ def execute_func(args):
             row = df.sample(n=1)
         #     pass
         # for idx, row in df.iterrows():
-            repo_name = row['repo_name']
+            repo_name = row['repo_name'].values[0]
             print(f'''Currently Processing Project {repo_name}!''')
             repo_name = repo_name.strip()
             commit_file_dir = [commit_file_base_dir] + [f'''{repo_name.replace('/', '_')}_commit_history_data.csv''']
@@ -379,7 +379,7 @@ if __name__ == "__main__":
     parser.add_argument('-o', '--output_path', type=str, required=True, help='The path to the output file.')
     parser.add_argument('-rn', '--repo_name', type=str, required=False, help='The path to the output file.')
     args = parser.parse_args()
-    arg_list = [(args.commits_file_path, args.commit_file_dir, args.repo_path, args.output_path, args.repo_name)]
+    arg_list = [(args.commits_file_path, args.commit_file_dir, args.repo_path, args.output_path, args.repo_name, df)]
 
     num_cpus = multiprocessing.cpu_count()
     with multiprocessing.Pool(processes=num_cpus) as pool:
