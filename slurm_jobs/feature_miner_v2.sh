@@ -1,7 +1,7 @@
 #!/bin/bash
-#SBATCH --job-name=feature_miner
-#SBATCH --output=feature_miner.log
-#SBATCH --error=feature_miner.err
+#SBATCH --job-name=feature_miner_v2
+#SBATCH --output=feature_miner_v2.log
+#SBATCH --error=feature_miner_v2.err
 #SBATCH --ntasks=16
 #SBATCH --cpus-per-task=16
 #SBATCH --time=24:00:00   # Adjust the time limit as needed
