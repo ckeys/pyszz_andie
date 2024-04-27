@@ -308,7 +308,8 @@ def execute_func(args):
     repo_path = repo_path if repo_path else "/Users/andie/Andie/test_repo"
     output_path = output_path if output_path else f"/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer/data/test_data/commit_features.csv"
     # with lock:
-
+    cpu_index = multiprocessing.current_process()._identity[0] - 1
+    print(f'''Currently Executing on CPU: {cpu_index}''')
     num = 1
     while num<900:
         # Randomly select a row
