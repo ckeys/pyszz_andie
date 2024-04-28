@@ -3,7 +3,7 @@
 #SBATCH --output=feature_miner_v3.log
 #SBATCH --error=feature_miner_v3.err
 #SBATCH --nodes=10              # Request 2 nodes
-#SBATCH --time=24:00:00   # Adjust the time limit as needed
+#SBATCH --time=INFINITE  # Adjust the time limit as needed
 
 
 # Command to run
