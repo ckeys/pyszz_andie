@@ -167,6 +167,9 @@ class CodeRepoFeatureMiner(object):
         SEXP = self.calculate_SEXP(developer_changes, subsystem_changes)
         contain_defect_fix = self.contains_defect_fix(commit)
         log.info(f"It takes {(end_time - start_time) / 60} minutes to run the historical commits analyse!")
+        print({"commit": commit_num, "exp_of_files": len(hist_modified_files),
+                "exp_of_codes": exp_changed_lines, "exp_of_commits": len(commit_hashes),
+                "REXP": REXP, "SEXP": SEXP, 'contain_defect_fix': contain_defect_fix})
         return {"commit": commit_num, "exp_of_files": len(hist_modified_files),
                 "exp_of_codes": exp_changed_lines, "exp_of_commits": len(commit_hashes),
                 "REXP": REXP, "SEXP": SEXP, 'contain_defect_fix': contain_defect_fix}
@@ -334,18 +337,18 @@ def execute_func(args):
         miner = CodeRepoFeatureMiner(repo_full_name=repo_name, repos_dir=repo_path)
         features_list = list()
         for index, row in historical_commit_data.iterrows():
-            print(f'''The output path is :{output_path}''')
+            # print(f'''The output path is :{output_path}''')
             commit_hash = row['commit_hash']
             commit = miner.get_commit_object(commit_hash)
             res_dic = miner.calculate_author_metrics_optimized(commit=commit)
             add = commit.stats.total['insertions']
-            print(add)
+            # print(add)
             deleted = commit.stats.total['deletions']
-            print(deleted)
+            # print(deleted)
             num_files = commit.stats.total['files']
-            print(num_files)
+            # print(num_files)
             lines = commit.stats.total['lines']
-            print(lines)
+            # print(lines)
             res_dic['lines_of_added'] = add
             res_dic['lines_of_deleted'] = deleted
             res_dic['lines_of_modified'] = lines
