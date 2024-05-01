@@ -15,6 +15,7 @@ import multiprocessing
 
 lock = multiprocessing.Lock()
 
+
 class Options:
     # Sets the global home of the project (useful for running external tools)
     PYSZZ_HOME = os.path.dirname(os.path.realpath(__file__))
@@ -36,7 +37,7 @@ class CodeRepoFeatureMiner(object):
                 """
         self._repository = None
         repo_url = f'https://test:test@github.com/{repo_full_name}.git'
-
+        self._repo_full_name = repo_full_name
         os.makedirs(Options.TEMP_WORKING_DIR, exist_ok=True)
         self.__temp_dir = mkdtemp(dir=os.path.join(os.getcwd(), Options.TEMP_WORKING_DIR))
         log.info(f"Create a temp directory : {self.__temp_dir}")
@@ -47,10 +48,10 @@ class CodeRepoFeatureMiner(object):
                 if os.path.isdir(repo_dir):
                     copytree(repo_dir, self._repository_path, symlinks=True)
                 else:
-                    log.error(f'unable to find local repository path: {repo_dir}')
+                    log.error(f'[{self._repo_full_name}]:unable to find local repository path: {repo_dir}')
                     exit(-4)
             else:
-                log.info(f"Cloning repository {repo_full_name}...")
+                log.info(f"[{self._repo_full_name}]:Cloning repository {repo_full_name}...")
                 Repo.clone_from(url=repo_url, to_path=self._repository_path)
 
         self._repository = Repo(self._repository_path)
@@ -120,9 +121,11 @@ class CodeRepoFeatureMiner(object):
         developer_changes = []  # Store developer changes for REXP calculation
         exp_added_lines = 0
         exp_removed_lines = 0
-
-        log.info(f'''---> Have to analyze {len(commit_hashes)} commits in total''')
-        print(f'''---> Have to analyze {len(commit_hashes)} commits in total''')
+        # cpu_index = multiprocessing.current_process()._identity[0] - 1
+        cpu_index = 0
+        log.info(
+            f'''--->[{self._repo_full_name} at CPU {cpu_index}]:Have to analyze {len(commit_hashes)} commits in total''')
+        print(f'''--->[{self._repo_full_name} at CPU {cpu_index}]:Have to analyze {len(commit_hashes)} commits in total''')
         start_time = time.time()
         for i in range(0, len(commit_hashes)):
             try:
@@ -134,15 +137,7 @@ class CodeRepoFeatureMiner(object):
                 num_changes = lines_added + lines_deleted
                 num_files_changed = diff_stat.total['files']
                 diff_filenames = set(diff_stat.files.keys())
-                # diff_stat = self._repository.git.diff("-- ", f"{commit_hash}^..{commit_hash}")
-                # diff_filenames = self._repository.git.diff("--name-only", f"{commit_hash}^..{commit_hash}").splitlines()
                 hist_modified_files.update(diff_filenames)
-                # changes = diff_stat.split(',')
-                # exp_added_lines += sum(
-                #     [int(change.strip().split()[0]) if 'insertion' in change else 0 for change in changes])
-                # exp_removed_lines += sum(
-                #     [int(change.strip().split()[0]) if 'deletion' in change else 0 for change in changes])
-                # Store developer changes for REXP calculation
                 developer_changes.append(
                     {'date': self._repository.commit(commit_hash).committed_datetime, 'num_changes': num_changes,
                      'files': diff_filenames})
@@ -167,9 +162,10 @@ class CodeRepoFeatureMiner(object):
         SEXP = self.calculate_SEXP(developer_changes, subsystem_changes)
         contain_defect_fix = self.contains_defect_fix(commit)
         log.info(f"It takes {(end_time - start_time) / 60} minutes to run the historical commits analyse!")
+        print(f'''{self._repo_full_name} at CPU {cpu_index}''')
         print({"commit": commit_num, "exp_of_files": len(hist_modified_files),
-                "exp_of_codes": exp_changed_lines, "exp_of_commits": len(commit_hashes),
-                "REXP": REXP, "SEXP": SEXP, 'contain_defect_fix': contain_defect_fix})
+               "exp_of_codes": exp_changed_lines, "exp_of_commits": len(commit_hashes),
+               "REXP": REXP, "SEXP": SEXP, 'contain_defect_fix': contain_defect_fix})
         return {"commit": commit_num, "exp_of_files": len(hist_modified_files),
                 "exp_of_codes": exp_changed_lines, "exp_of_commits": len(commit_hashes),
                 "REXP": REXP, "SEXP": SEXP, 'contain_defect_fix': contain_defect_fix}
@@ -182,10 +178,10 @@ class CodeRepoFeatureMiner(object):
                 if commit.merge:
                     merge.add(commit.hash)
             except Exception as e:
-                log.error(f'unable to analyze commit: {self.repository_path} {commit.hash}')
+                log.error(f'[{self._repo_full_name}]:unable to analyze commit: {self.repository_path} {commit.hash}')
 
         if len(merge) > 0:
-            log.info(f'merge commits count: {len(merge)}')
+            log.info(f'[{self._repo_full_name}]:merge commits count: {len(merge)}')
 
         return merge
 
@@ -251,7 +247,7 @@ class CodeRepoFeatureMiner(object):
             if blob.path == file_path:
                 break
         else:
-            print(f"File '{file_path}' not found in commit '{commit.hexsha}'")
+            print(f"[{self._repo_full_name}]:File '{file_path}' not found in commit '{commit.hexsha}'")
             return None
 
         # Traverse the history of the file until the latest modification before the commit
@@ -296,14 +292,15 @@ class CodeRepoFeatureMiner(object):
         """
         Fetch all commits from the history of the repository.
         """
-        log.info("Mining all commits from the repository.")
+        log.info(f"[{self._repo_full_name}]:Mining all commits from the repository.")
         if not self._repository:
-            log.error("Repository not initialized.")
+            log.error(f"[{self._repo_full_name}]:Repository not initialized.")
             return []
 
         commits = list(self._repository.iter_commits())
-        log.info(f"Total number of commits found: {len(commits)}")
+        log.info(f"[{self._repo_full_name}]:Total number of commits found: {len(commits)}")
         return commits
+
 
 def execute_func(args):
     commits_file_path, commit_file_dir, repo_path, output_path, repo_name, df = args
@@ -311,30 +308,30 @@ def execute_func(args):
     repo_path = repo_path if repo_path else "/Users/andie/Andie/test_repo"
     output_path = output_path if output_path else f"/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer/data/test_data/commit_features.csv"
     # with lock:
-    cpu_index = multiprocessing.current_process()._identity[0] - 1
-    print(f'''Currently Executing on CPU: {cpu_index}''')
+    # cpu_index = multiprocessing.current_process()._identity[0] - 1
+    # print(f'''Currently Executing on CPU: {cpu_index}''')
     num = 1
-    while num<900:
+    while num < 900:
         # Randomly select a row
         row = df.sample(n=1)
-    #     pass
-    # for idx, row in df.iterrows():
+        #     pass
+        # for idx, row in df.iterrows():
         repo_name = row['repo_name'].values[0]
         print(f'''Currently Processing Project {repo_name}!''')
         repo_name = repo_name.strip()
         commit_file_dir = [commit_file_base_dir] + [f'''{repo_name.replace('/', '_')}_commit_history_data.csv''']
-        print(f'''commit file dir : {commit_file_dir}''')
+        print(f'''[{repo_name}]:commit file dir : {commit_file_dir}''')
         commit_file_path = '/'.join(commit_file_dir)
         if not os.path.exists(commit_file_path):
-            print(f'''The commit data {commit_file_path} for the project {repo_name} is not done yet!''')
+            print(f'''[{repo_name}]:The commit data {commit_file_path} for the project {repo_name} is not done yet!''')
             continue
         historical_commit_data = pd.read_csv(commit_file_path)
         tmp_output_path = f'''{output_path}/{repo_name.replace('/', '_')}_commit_features.csv'''
         if os.path.exists(tmp_output_path):
-            print(f'''The project {repo_name} already processed, go continue with the next project!!!''')
+            print(f'''[{repo_name}]:The project {repo_name} already processed, go continue with the next project!!!''')
             continue
-        num+=1
-        miner = CodeRepoFeatureMiner(repo_full_name=repo_name, repos_dir=repo_path)
+        num += 1
+        miner = CodeRepoFeatureMiner(repo_full_name=repo_name, repos_dir=None)
         features_list = list()
         for index, row in historical_commit_data.iterrows():
             # print(f'''The output path is :{output_path}''')
@@ -355,10 +352,10 @@ def execute_func(args):
             res_dic['num_files'] = num_files
             res_dic['is_Friday'] = 1 if commit.committed_datetime.weekday() == 4 else 0
             features_list.append(res_dic)
-        print(f'''>>>>> Writting results to {tmp_output_path} ''')
+        print(f'''[{repo_name}]:>>>>> Writting results to {tmp_output_path} ''')
         features_df = pd.DataFrame(features_list)
         features_df.to_csv(tmp_output_path, index=False)
-        print(f'''>>>>> Writting is DONE !!!!!!!!!!!!!!!!!!!!! ''')
+        print(f'''[{repo_name}]:>>>>> Writting is DONE !!!!!!!!!!!!!!!!!!!!! ''')
 
         # commits_file_path = args.commits_file_path if args.commits_file_path else "/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer/data/test_data/ad510_decoherence_commit_history_data.csv"
         # repo_path = args.repo_path if args.repo_path else "/Users/andie/Andie/test_repo"
@@ -368,6 +365,7 @@ def execute_func(args):
         # historical_commit_data = pd.read_csv(commits_file_path)
         # miner = CodeRepoFeatureMiner(repo_full_name=repo_name, repos_dir=repo_path)
         print(f'''Commit Minner Work is Finished!!!!! ''')
+
 
 if __name__ == "__main__":
 
@@ -384,13 +382,13 @@ if __name__ == "__main__":
     parser.add_argument('-rn', '--repo_name', type=str, required=False, help='The path to the output file.')
     args = parser.parse_args()
     arg_list = [(args.commits_file_path, args.commit_file_dir, args.repo_path, args.output_path, args.repo_name, df)]
-
-    num_cpus = multiprocessing.cpu_count()
-    pool = multiprocessing.Pool(processes=num_cpus)
-    for i in range(num_cpus):
-        pool.apply_async(execute_func, arg_list)
-    pool.close()
-    pool.join()
+    execute_func(arg_list[0])
+    # num_cpus = multiprocessing.cpu_count()
+    # pool = multiprocessing.Pool(processes=num_cpus)
+    # for i in range(num_cpus):
+    #     pool.apply_async(execute_func, arg_list)
+    # pool.close()
+    # pool.join()
     # with multiprocessing.Pool(processes=num_cpus) as pool:
     #     results = pool.apply_async(execute_func, arg_list)
     # commits_file_path = args.commits_file_path if args.commits_file_path else "/Users/andie/PycharmProjects/pyszz_andie/commit_analyzer/data/test_data/ad510_decoherence_commit_history_data.csv"
