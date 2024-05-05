@@ -13,6 +13,7 @@ error_file="feature_miner_$timestamp.err"
 #SBATCH --error=$error_file               # Output file for stderr
 #SBATCH --nodes=1                        # Request 10 nodes
 #SBATCH --time=INFINITE                   # Adjust the time limit as needed
+#SBATCH --nodelist=aoraki05,aoraki04,aoraki11,aoraki15   # Specify the nodes you want to use
 
 # Command to run
 /usr/bin/python /home/huayo708/projects/pyszz_andie/commit_analyzer/feature_miner.py -cdir /home/huayo708/projects/data/historical_commit_data -r '' -o /home/huayo708/projects/data/commit_minner_data
