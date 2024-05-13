@@ -30,10 +30,12 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
         log.info(f'''Start at : {start_index} and end at : {end_index}, total length : {len(bugfix_commits[start_index:end_index])}''')
         for i, commit in enumerate(bugfix_commits[start_index:end_index], start=start_index):
             log.info(f'''Repo Directory is {repos_dir} and Repo Name is {commit['repo_name']}''')
-            if not os.path.exists(f'''{repos_dir}/{commit['repo_name']}'''):
-                log.info(f'''The path is not existing {repos_dir}/{commit['repo_name']}''')
-                log.info(f'Skipping {commit["repo_name"]}')
-                continue
+
+            # if not os.path.exists(f'''{repos_dir}/{commit['repo_name']}'''):
+            #     log.info(f'''The path is not existing {repos_dir}/{commit['repo_name']}''')
+            #     log.info(f'Skipping {commit["repo_name"]}')
+            #     continue
+
             bug_introducing_commits = set()
             repo_name = commit['repo_name']
             repo_url = f'https://test:test@github.com/{repo_name}.git'  # using test:test as git login to skip private repos during clone
@@ -164,7 +166,7 @@ if __name__ == "__main__":
     conf_file = sys.argv[2]
     repos_dir = sys.argv[3] if len(sys.argv) > 3 else None
     start_index = int(sys.argv[4]) if len(sys.argv) > 4 else 0
-    end_index = int(sys.argv[5]) if len(sys.argv) > 5 else 0
+    end_index = int(sys.argv[5]) if len(sys.argv) > 5 else None
 
     if not os.path.isfile(input_json):
         log.error('invalid input json')

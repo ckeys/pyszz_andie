@@ -16,6 +16,6 @@ only_deleted_lines: false
 
 ### filter commits using issue_date field
 issue_date_filter: false
-
+max_change_size: 1000
 ### ignore during blame all the commits specified in revs file
 # ignore_revs_file_path: /path/to/revs/file
