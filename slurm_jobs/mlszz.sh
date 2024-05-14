@@ -27,6 +27,10 @@ JOB_NAME="mlszz_p${NEXT_INDEX}"
 LOG_FILE="$LOG_DIR/mlszz_p${NEXT_INDEX}.log"
 ERR_FILE="$LOG_DIR/mlszz_p${NEXT_INDEX}.err"
 
+echo $JOB_NAME
+echo $LOG_FILE
+echo $ERR_FILE
+
 #SBATCH --job-name=$JOB_NAME
 #SBATCH --output=$LOG_FILE
 #SBATCH --error=$ERR_FILE
