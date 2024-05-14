@@ -38,10 +38,10 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
 
             bug_introducing_commits = set()
             repo_name = commit['repo_name']
-            # repo_url = f'https://test:test@github.com/{repo_name}.git'  # using test:test as git login to skip private repos during clone
-            username = 'ckeys'
-            st = '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'
-            repo_url = f'''https://{username}:{st}@github.com/{repo_name}.git'''
+            repo_url = f'https://test:test@github.com/{repo_name}.git'  # using test:test as git login to skip private repos during clone
+            # username = 'ckeys'
+            # st = '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'
+            # repo_url = f'''https://{username}:{st}@github.com/{repo_name}.git'''
             fix_commit = commit['fix_commit_hash']
 
             log.info(f'{i + 1} of {tot}: {repo_name} {fix_commit}')
@@ -167,8 +167,8 @@ if __name__ == "__main__":
         exit(-1)
     input_json = sys.argv[1]
     conf_file = sys.argv[2]
-    # repos_dir = sys.argv[3] if len(sys.argv) > 3 else None
-    repos_dir = None
+    repos_dir = sys.argv[3] if len(sys.argv) > 3 else None
+    # repos_dir = None
     start_index = int(sys.argv[4]) if len(sys.argv) > 4 else 0
     end_index = int(sys.argv[5]) if len(sys.argv) > 5 else None
 
