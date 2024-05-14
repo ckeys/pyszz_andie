@@ -40,7 +40,7 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
             repo_name = commit['repo_name']
             # repo_url = f'https://test:test@github.com/{repo_name}.git'  # using test:test as git login to skip private repos during clone
             username = 'ckeys'
-            st = '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'
+            st = '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'
             repo_url = f'''https://{username}:{st}@github.com/{repo_name}.git'''
             fix_commit = commit['fix_commit_hash']
 
