@@ -38,7 +38,10 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
 
             bug_introducing_commits = set()
             repo_name = commit['repo_name']
-            repo_url = f'https://test:test@github.com/{repo_name}.git'  # using test:test as git login to skip private repos during clone
+            # repo_url = f'https://test:test@github.com/{repo_name}.git'  # using test:test as git login to skip private repos during clone
+            username = 'ckeys'
+            token = 'b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'
+            repo_url = f'''https://{username}:{token}@github.com/{repo_name}.git'''
             fix_commit = commit['fix_commit_hash']
 
             log.info(f'{i + 1} of {tot}: {repo_name} {fix_commit}')
