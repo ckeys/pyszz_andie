@@ -34,5 +34,17 @@
       "language":[
          "c"
       ]
+   },
+   {
+      "id":478,
+      "repo_name":"Kasukoi/eisverkauf",
+      "fix_commit_hash":"9e07b47233034a027c1e7d177dd4b9874c8c15e4",
+      "bug_commit_hash":[
+         "37abe6467f96363d02cde153c4a50b57d9a700a5"
+      ],
+      "best_scenario_issue_date":"2018-06-25T18:49:29",
+      "language":[
+         "java"
+      ]
    }
 ]
