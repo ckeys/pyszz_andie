@@ -1,7 +1,7 @@
 #!/bin/bash
-#SBATCH --job-name=mlszz_p3
-#SBATCH --output=mlszz_p3.log
-#SBATCH --error=mlszz_p3.err
+#SBATCH --job-name=mlszz_p4
+#SBATCH --output=mlszz_p4.log
+#SBATCH --error=mlszz_p4.err
 
 
 # Command to run
