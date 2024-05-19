@@ -953,18 +953,6 @@
       ]
    },
    {
-      "id":233,
-      "repo_name":"gxt/QEMU",
-      "fix_commit_hash":"d6ef40bf1881ddc82c8d64e72d412090efe1190e",
-      "bug_commit_hash":[
-         "39879bbbea4661a4004ca26673e3d1e6ae1e0bc3"
-      ],
-      "best_scenario_issue_date":"2012-04-06T15:50:58",
-      "language":[
-         "c"
-      ]
-   },
-   {
       "id":234,
       "repo_name":"ArduPilot/ardupilot",
       "fix_commit_hash":"b191269cc82050085b6900fca7a20fc013cff02d",
