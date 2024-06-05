@@ -1,0 +1,606 @@
+author_name,date_time,commit_hash,commit_message
+Andrew Downing,2013-01-15 23:34:43,589a010053db60e45925ce7e361e10e7a32255f6,Initial commit
+Andrew Downing,2013-01-15 23:47:17,9704fc7bf441ff967f78e94a6807ef5022f40254,add license and planning notes
+Andrew Downing,2013-01-16 22:52:33,46db92b3493cda3351aec4822b45ad7c53baeff3,consider other factions' units in decoherence algorithm
+Andrew Downing,2013-01-18 20:01:39,4fc5f0abe3c05376db754d7bd83047c798bdf66d,"add C# project with modDX.cs ported from Afdarts, compiles but doesn't run correctly"
+Andrew Downing,2013-01-19 00:19:12,64274c1057fe0683ed745f7d9268c507b5aa6c3a,use SlimDX instead of Managed DX
+Andrew Downing,2013-01-19 00:38:09,685974c70b9aff6302d2178e5adeabb756560686,format modDX a little nicer
+Andrew Downing,2013-01-19 00:39:25,e547e0e7e275eca6dbd7353d78708d33f520cfd7,add license headers
+Andrew Downing,2013-01-19 02:38:26,cd1480dccb35ae2c3f75ecec7d164082a66cb819,correctly check for changed keys
+Andrew Downing,2013-01-19 20:00:15,045be2d4768a8f685f9be45930fa350c97caeaeb,update planning notes
+Andrew Downing,2013-01-19 20:08:07,25c44fd0e0349a80257ab7cba646b0bb1bffbf09,"draw selection box, add game structures"
+Andrew Downing,2013-01-20 00:41:19,1ae399d8ff0393d3af00da78228dbde51be84a28,"reorganize folders, other small changes"
+Andrew Downing,2013-01-20 15:09:07,cc87f5eec9790a29b76407dc8dfae143961805cb,fix bugs in fixed point operations
+Andrew Downing,2013-01-21 02:07:52,d63c54670bb2505fdd8a967ea4072af696031346,draw test image
+Andrew Downing,2013-01-25 17:22:01,28c7c7beabab4ee5f4fc9d7995170346be5c5695,add some random notes
+Andrew Downing,2013-01-25 18:26:39,62ad7e8d66e4211c80463e48362376669b35cf69,try to load json (doesn't work)
+Andrew Downing,2013-01-25 21:05:33,11a28b3f86b42133b5afce409a993f0ea1e02d4a,"draw hardcoded map, allow moving camera"
+Andrew Downing,2013-01-25 22:06:00,1d37252013fada2bab9cd8746d9aa808e183cd3a,right click to move
+Andrew Downing,2013-01-25 22:45:00,bc71689be990fead75f5eb08fb500f056351c05c,"left click to select, don't draw select box for now"
+Andrew Downing,2013-01-25 22:46:17,cfe0e41195bb3da29dac241769ec10459537e281,remove test image code
+Andrew Downing,2013-01-26 12:45:16,18a4f21abeb907b57465070dabab6224e5a8ea14,init multiple matter types (press C to switch which one is controlled)
+Andrew Downing,2013-01-26 14:29:29,f3f862cde1be24b0724e4ebbf18bb32a886c786c,basic fog of war
+Andrew Downing,2013-01-26 18:06:09,c6005a8e0d55477c92b4b1fc87f7c6dbe438b11b,only add/remove changed tiles instead of regenerating every frame
+Andrew Downing,2013-01-26 19:17:43,f09d783e3db35284fd7865f3eef69a39849e3f51,add matter-keyed fog of war tiles
+Andrew Downing,2013-01-26 19:47:26,189fc4f89adb198ea47a3179d5d5514892685364,add pausing and rewinding
+Andrew Downing,2013-01-26 20:17:58,3ae24358809e63fdd8b3b91405aedfaef97cff81,mark 'coherent' tiles
+Andrew Downing,2013-01-26 20:43:23,3acce477348ba00fa7c50902c95bff4cd75e8a2b,use selection image instead of transparency to indicate selected particle
+Andrew Downing,2013-01-26 22:26:33,38eac2f04057a5a0c4ea816af82ee1df317af882,allow giving commands in past\!
+Andrew Downing,2013-01-26 22:29:24,38965814ba3bf5fe3930187596e19d97f3012662,space instead of C changes selected matter type
+Andrew Downing,2013-01-26 22:56:54,7ae02d5e50955a0d605c35b531c50850536723df,ctrl/shift click to select multiple particles
+Andrew Downing,2013-01-26 23:01:50,452eee8fb79edf2456a9e0eb14ba61daf60e7657,update todo in notes.txt
+Andrew Downing,2013-01-26 23:07:41,ce1feef3e6d79151160753bcfdae31fc8c184f73,don't let particles in formation move off map
+Andrew Downing,2013-01-27 00:31:47,c262157e0b6e20baef1f686f5f55fae5f0441c8f,fix bug updating tiles after giving command in past
+Andrew Downing,2013-01-27 00:35:17,21eaf28c830153c3d141e1741543e1c164414cc5,show text when time traveling (in addition to when live)
+Andrew Downing,2013-01-27 00:39:54,dbf4040ab5d2fae7e35362f94954436d356cec0b,don't make particle transparent before new command in past
+Andrew Downing,2013-01-27 00:43:34,0cbd240a0817413d68c4649b7128a127aa90825a,update todo in notes.txt
+Andrew Downing,2013-01-27 01:12:31,c3c8b0c583bb9b7ef8de679954122bdffce8a73a,write readme
+Andrew Downing,2013-01-27 01:24:10,106fcb39f0029aa308dd723fcb35e8df52b6eca2,update readme
+Andrew Downing,2013-01-27 01:36:57,e73ee71d5b5b18626a8431c7bcf5aa4c994dfd5d,update todo
+Andrew Downing,2013-01-27 12:08:18,024c40e1838ea758bb06154a1d45fe91503844fc,use tight formation by default (ctrl + right click now does loose formation)
+Andrew Downing,2013-01-27 12:31:13,a93e6ad7216ee18104e678f89e2d20b75f7b8456,implement selection box
+Andrew Downing,2013-01-27 19:09:30,895c52a74f55533893c3e3064478a1857a921bda,done global game jam todo
+Andrew Downing,2013-02-02 00:36:04,5152ec8c69d1601133c11c74b0208c2ed48c0830,load most of scenario from json file
+Andrew Downing,2013-02-02 00:46:48,835baab8fbcaf31166853a3341355590b59b1d65,rename scenario to universe
+Andrew Downing,2013-02-02 00:52:20,4981cf6d29ea9ed6e36e0d1fe9318aa2b3139f87,make some methods private
+Andrew Downing,2013-02-02 21:53:16,2b0e59f1a108bb1e71dfacce785a95f747660a7c,"specify visCol in json file, minor notes.txt update"
+Andrew Downing,2013-02-02 21:58:34,8160269b3628d928258d5a75679e60e99475aa6a,allow specifying fixed point numbers as hex string in json
+Andrew Downing,2013-02-08 23:22:44,f04d614ffd04f8fded85252a03b2a17447853710,use circular visibility
+Andrew Downing,2013-02-09 00:59:24,b9e28c8fd88c718bcd8de9af89ae18aebac90b1e,fix bug updating tiles after giving command in past
+Andrew Downing,2013-02-09 23:42:59,fbd7d62f5eab1d2e63672ae0ad53168431f5df02,fix tile updates not being applied in time order
+Andrew Downing,2013-02-11 00:26:48,a267cfa03765fade5a681f9e32292b1f2a2e699f,add todo/questions to notes.txt
+Andrew Downing,2013-02-11 13:53:12,1f715fa137aa3dc36c23e4edae3eb5126cf85887,small notes.txt edit
+Andrew Downing,2013-02-15 20:47:28,a02c0b2587cd6ed462a0c45e26f4606d66946e5f,refactor tile move structs into simulation event classes
+Andrew Downing,2013-02-15 22:36:23,29a8316d14be16d5a466fcedaebea13beea4a07f,use MoveEvts for all visibility tile adds and removals
+Andrew Downing,2013-02-15 23:02:56,ba2981a225e82e33e49131598d3a7746237cf62c,pick times a little more carefully
+Andrew Downing,2013-02-22 17:03:21,2d6d40ebfc2244f4e1c866e6a6840e6a78a98d59,simplify MoveEvt.apply()
+Andrew Downing,2013-02-24 02:18:13,6a19e83d036558a613c37d240f5dd80880e8499c,use more specific exceptions
+Andrew Downing,2013-02-24 02:19:11,5a687e29fa1bb0b01c845ecfd7021bed7227ed2a,update particle coherence times more accurately
+Andrew Downing,2013-03-09 00:18:06,aad66a6ce6b7d2fcb4fb3a4d474a06a8ae1d1192,tiles don't lose visibility if can infer that no one is there
+Andrew Downing,2013-03-09 00:18:24,6cbdde536ab79fbe0e85d65f76abe0f4414ce613,update planning notes
+Andrew Downing,2013-03-10 00:39:49,645f7a6e4fb0357310af8195104fe2fe72aceece,put tile data in Tile class
+Andrew Downing,2013-03-10 01:21:44,d4964268af5619c860a407bf480ad4829772959c,show correct particle visibility when time traveling
+Andrew Downing,2013-03-15 23:32:27,96b686927650fd791d4a903cd8f6715b003062cf,edit readme and various minor updates
+Andrew Downing,2013-03-18 01:37:38,5b850e58271980e05ba1bf17adce4df83f484411,add ideas from discussion with Matthew
+Andrew Downing,2013-03-18 01:38:11,67b0cd028582e71e1b3fa3174ef33b8dcb245c72,require all units to have same visibility radius
+Andrew Downing,2013-03-18 13:48:08,686f1dc3e2dbbf0116fc9e442d3afa176d376061,"if move out of visibility of another matter's particle, stop seeing that tile"
+Andrew Downing,2013-03-18 17:04:32,4e9ef22ca81664158c8fa397ee1b5e584d965102,don't use particle physics-inspired naming
+Andrew Downing,2013-03-18 22:27:04,65177a5b52f45b1a9203ccd352a719383317c9c7,start implementing amplitudes (not fully integrated with time travel yet)
+Andrew Downing,2013-03-18 23:25:48,d1aa9e4443abb184123e0743ff9a47ff2ef6cd91,"allow deleting amplitudes, integrate amplitudes with time travel better"
+Andrew Downing,2013-03-18 23:35:01,4d468c3db21624d22e167396f379566a3b4b7688,update planning notes
+Andrew Downing,2013-03-18 23:58:24,c6afe09471c579b1028ab45b7af81fc6a1bdbb6a,draw lines between amplitudes
+Andrew Downing,2013-03-20 19:55:15,3803f717e7f0330e5604697fd67d4d3a0424fddd,use events to add unit moves
+Andrew Downing,2013-03-20 23:22:41,2e678ce8542bc0c51c165be7ef861f075958105d,implement attacking
+Andrew Downing,2013-03-21 00:52:43,b77e67bf86bfc72ff46b3fffda8615a06ece0cf2,draw health bars instead of selection image
+Andrew Downing,2013-03-21 01:31:21,0599892ef28e13d58f77da870d18f46789eb2acb,update notes.txt
+Andrew Downing,2013-03-21 01:38:10,377b1cc6a75969b796fec3b855124e173c58f85f,undo making all units blue
+Andrew Downing,2013-05-07 22:13:46,3f11567eef16b66e28be2fa3feef7d3ef8a8a4ec,fix units sometimes not losing their visibility when they die
+Andrew Downing,2013-05-07 23:29:49,3eac0f311e0ad67152896aa70a4f7e8f273a796e,change some comments into documentation comments
+Andrew Downing,2013-05-11 22:05:37,a7d9b57901d698d6b42d7c903c14f47845915f52,make unit id an instance variable instead of always passing it in
+Andrew Downing,2013-05-11 23:17:20,307969dc73315beae52fe0b2dce928e3ea0b4f5d,make tiles smaller
+Andrew Downing,2013-05-12 16:24:02,c18fdbe4bd46e037506d47e9c2124251d7e2030f,no longer can indirectly see other players' units after a unit dies
+Andrew Downing,2013-05-20 11:28:42,e4764333b3c64e734b6413b10546aa887bf10af0,use timeGame instead of timeStart
+Andrew Downing,2013-05-20 23:27:50,ae7a07ecb3b84a9f22b756914381990164b26228,apply non-live moves on temporary amplitudes
+Andrew Downing,2013-05-21 16:53:55,3d5a9db598d01bcdc9e9bf2deeb39b35985d56cf,check for units moving off coherent areas in past at more accurate times
+Andrew Downing,2013-05-21 17:23:52,3075b92d06d7e63e66ad5ad87e75273731e4a0bf,"delete timeSimLast, so methods don't have to distinguish if they're called inside or outside Sim.update()"
+Andrew Downing,2013-05-21 20:03:19,60276c4360c9748e51d13e966c24fb7aee8b4075,update overview in readme
+Andrew Downing,2013-05-22 12:36:05,ad8fc7670488d7e97be14871cc181830f7b9dddb,creating amplitude then moving parent amplitude before child amplitude created now deletes child amplitude
+Andrew Downing,2013-05-22 13:00:45,980cba579796a30536fb919e7b716d53cceb2832,set tight formation spacing in scenario
+Andrew Downing,2013-05-22 14:14:30,701dda9a9d3137f8c05b4337e36ed7ff771a2e1e,add ring formation (alt + right click)
+Andrew Downing,2013-05-22 14:16:54,224e72a3b1d92756dcdf4943cf9d8c1f8a4e7bdf,remove di (direct input) variable prefixes
+Andrew Downing,2013-05-22 19:56:19,b1924cef2adb1d9184d33bc93828e185c1152660,rename some variables in DX.cs
+Andrew Downing,2013-05-22 22:35:46,861a11eacf95bb9d01a519dc7a41b73ae59a7ed6,fix some bugs when deleting amplitudes
+Andrew Downing,2013-05-22 23:53:19,e0c836f5814d3d887b3808c72423e6d9824856e3,fix bug when making 2 nested child amplitudes then decohering newest child
+Andrew Downing,2013-05-23 15:46:53,a74b55cde04bd83fb651c9ad992a768e9d29752a,fix bugs relating to replacement and non-live amplitudes
+Andrew Downing,2013-05-23 16:17:30,ae1dc313ada33d30ac964d875f0a671a26c29994,update timeSim before applying each event
+Andrew Downing,2013-05-24 13:00:34,f4fde7e4070901d4d26ba9b0a3dac377f3005f1e,recalculate TileMoveEvts whenever a unit moves
+Andrew Downing,2013-05-24 15:51:02,160561330b728316bd75c515246fa5069c60fc2a,update unit selection when units change indices
+Andrew Downing,2013-05-26 23:26:18,a98d95cf96fe0879f6cb9fed51a7a8f97b0ea16e,load units from scenario json file
+Andrew Downing,2013-05-27 20:19:47,f36398c1efebe429d91704a8b8b63ded27e3f04d,pressing esc when another window selected no longer exits program
+Andrew Downing,2013-05-28 11:06:59,65acb122a9eaf7bb349a26b7b5433b6e09ecedc1,use events to make and delete amplitudes
+Andrew Downing,2013-05-28 14:54:50,a2523a503816906a673fc6d119f9fd656c334794,add FixPt data type to replace some longs
+Andrew Downing,2013-05-28 21:00:57,7d8b54925af1b7ec4395f6b0739fd78648213346,must recalculate TileMoveEvts for new amplitudes after using events to make amplitudes
+Andrew Downing,2013-05-28 22:33:24,2dd2153be8c013116be4c04d7053f3f407e65927,update planning notes
+Andrew Downing,2013-05-29 22:47:48,91d13a0328d7403790525a0f3fc006cdeb0c1c95,fix comment formatting in DX.cs
+Andrew Downing,2013-05-29 22:56:22,b7274999ae214079a867f7146f029b893456113f,rename amplitudes to paths
+Andrew Downing,2013-05-29 23:12:45,019c139a01ca45828a97ad5bbe5f62b9ca52a104,use more standard iterator names
+Andrew Downing,2013-05-29 23:21:32,913a440a07fbc02ef51b2ed7ad9311aedeb42764,remove unused code that starts to implement retroactive visibility
+Andrew Downing,2013-05-30 15:58:42,7d013065c5530487c0fe8804f390b2b9e204701d,"Revert ""add FixPt data type to replace some longs""
+
+This reverts commit a2523a503816906a673fc6d119f9fd656c334794 because there
+was too much of a performance hit.
+
+Conflicts:
+	src/Sim.cs"
+Andrew Downing,2013-05-30 16:10:46,20ef695f42bb4a6dabb3b242f7b419a9ab7b559f,more tweaks after revert
+Andrew Downing,2013-05-30 17:16:06,0f22d025c247c4d320b9f4497eb459372b1faa18,pressing + or - changes game speed
+Andrew Downing,2013-05-30 17:20:40,497afcadf0286193878373dac9c378bcef24f0ba,pressing shift shows final positions of selected units
+Andrew Downing,2013-05-30 17:47:53,cc4d97d14241a89f19fcbfb0c42d041acdb27553,move scenario loading code into scnOpen method
+Andrew Downing,2013-05-31 13:32:23,5f3c1c72b293bf524dce12dc27a0514c2bae1164,"split Sim.cs code across multiple files, and allow multiple Sim instances"
+Andrew Downing,2013-05-31 17:11:35,9250eb90864fb9734352f11520102942e78f25f9,"comment most classes and methods, and reorganize some code"
+Andrew Downing,2013-05-31 19:02:10,d16ae4e06ce4d8089b65dd6ca78cf64aa1d2150f,some Unit methods don't need time parameter because they're only called at timeSim
+Andrew Downing,2013-05-31 20:10:30,57b14d5e0de94ff7f246fa01243a61dd67d7f327,calcCoherent() doesn't need time parameter either
+Andrew Downing,2013-05-31 21:26:26,3439fb45eca1da89a5ad8f6635bba4f5e2f61f21,call addTileMoveEvts() in UpdateEvt instead of update()
+Andrew Downing,2013-05-31 21:40:39,6da4fe077ea2d7ff8c73b7ab313206220e044453,small comment tweaks
+Andrew Downing,2013-05-31 22:12:21,b7af1da72a4f2e9ab69392f21b396f7a4c04fa87,fix crash when moving 1 unit in ring formation
+Andrew Downing,2013-05-31 23:01:00,69b2dc6525140dcb67a7d726010c8118313d4f2a,add instant replays (ctrl + r)
+Andrew Downing,2013-05-31 23:29:28,e83940f0ffeaf797d69c4b430fccdfe9e78c4216,add scn_hide_and_seek scenario
+Andrew Downing,2013-06-04 00:07:52,807c07d83dca359d33075c069e0f3bc99280e219,implement units making other units
+Andrew Downing,2013-06-04 14:55:08,1338075ff27c9c153190eb0dc020445368f9217a,bug fix in Unit.deletePath() and cleanup related to previous commit
+Andrew Downing,2013-06-04 19:59:00,437706f5842a1d6aeee0f8fefac71add5e03e790,start implementing resources (negative resources currently allowed)
+Andrew Downing,2013-06-04 20:53:48,65eac158a3210458ecac2f1e4ca3acde1a1e8271,fix not allowing to make units where seen by another player
+Andrew Downing,2013-06-05 14:24:27,ae9a31700551488677adef139792d04121ef6c7c,handle unit indices changing when deleting multiple paths in the same event
+Andrew Downing,2013-06-06 14:40:10,fb80835ca55f81340122a5e26980d6e238d8cc79,add planning notes about disallowing negative resources
+Andrew Downing,2013-06-06 14:41:41,16e30a24a72490191cff4cd3aebfad0d7c7c8dd3,don't allow minimum live resources to go below 0
+Andrew Downing,2013-06-06 14:58:14,ebcb22ef9cb31f363c2e6ea4b50178a825d0f8d7,slightly improve readme overview
+Andrew Downing,2013-06-06 16:10:51,67d33128dc5424d1eb84818f33893bd0573d71f4,improve scenario colors
+Andrew Downing,2013-06-06 18:15:35,a76250859fed07debb99fed20a37da4d62bbb71a,add mineral 'unit'
+Andrew Downing,2013-06-06 23:12:55,5970cecdeea18bfdec5cfe94d09dc03b030b54ba,fix readme typo
+Andrew Downing,2013-06-07 22:28:20,c2e7f2afd51c561f917c8ffd1281d446c83320eb,let user click where to make building
+Andrew Downing,2013-06-07 22:44:04,70884524fee2afd59b98add185f7b2aa8a171a56,"fix bug when making new path, using parent path to make building, then decohering child path"
+Andrew Downing,2013-06-07 23:59:13,5e6d6d7d19727f948b80636406556f489e52c541,automatically move newly made units out of the way
+Andrew Downing,2013-06-08 00:23:17,0c71ad9ceab195c0514f3db65518c693e7f769c3,fix bug finding next move in addTileMoveEvts()
+Andrew Downing,2013-06-08 14:24:11,1ac3eb0975ce5b9af76b06a98ca70072c01bc175,tweak readme overview
+Andrew Downing,2013-06-09 00:58:43,bc3e0986863a499433b9cdb86393a3846ebdf681,add mine building which can only be built on minerals
+Andrew Downing,2013-06-09 21:01:03,ec97cb03979b15a82393c0dff68068607a4a588c,fix bug calculating resources when rewinding before mine path is made
+Andrew Downing,2013-06-09 21:26:42,b3cc31efe726e085f066a96cc892871d41379976,use closest selected unit to make buildings
+Andrew Downing,2013-06-10 18:19:11,8c117a4456ab06c391476e04b45da667628788a3,optimize updating coherence tiles after adding visibility
+Andrew Downing,2013-06-10 22:12:06,d9695270c8a182493f6294d49032aaf2626126dd,add scn_perf_test scenario
+Andrew Downing,2013-06-10 22:14:12,8f101c660eda45251c5aeb5f498b90103a86a06f,optimize updating coherence tiles after removing visibility
+Andrew Downing,2013-06-11 16:00:57,4db19977742b5f54df90757d2182e474d84fe80c,fix problems with previous commit
+Andrew Downing,2013-06-11 17:46:36,e046a3ddb1bc13e67eb0180d800443bef2a886d5,optimize calculating coherence of adjacent tiles (doesn't seem to help)
+Andrew Downing,2013-06-11 17:46:42,858e1080df5894b656967c1c131ddeca31949b87,"Revert ""optimize calculating coherence of adjacent tiles (doesn't seem to help)""
+
+This reverts commit e046a3ddb1bc13e67eb0180d800443bef2a886d5."
+Andrew Downing,2013-06-11 21:44:40,84cd0440245682e14ea313dfbecfe88ee21a9e63,"delete update units and retroactive visibility pseudocode, and other notes.txt updates"
+Andrew Downing,2013-06-20 21:36:03,47d916fd9f76694c7a2d211116993f430b6a6e90,"use fixed point sqrt, cos, sin"
+Andrew Downing,2013-06-22 15:49:54,56fef2fdc9aef81fab8ed3f7bc9f2a804d3ec603,small edits
+Andrew Downing,2013-06-22 16:05:58,761c23f558db655d92222aee3dee3d891e759dd1,delete most files before committing unity port
+Andrew Downing,2013-06-22 16:59:51,ea34d358706ca410a88dc155480413eeafce0939,initial unity port
+Andrew Downing,2013-06-23 16:05:58,b32b7fdaecddadbd6cd182483ab2ecfcf8e451df,add starting and connecting to multiplayer server
+Andrew Downing,2013-07-04 14:15:50,75225497177adee343f67aa3c7560a80697a1042,multiplayer command syncing work in progress
+Andrew Downing,2013-07-28 22:07:41,117c6c2759eafc77bb642e8048e47bf983a3f09b,multiplayer command syncing beginning to work
+Andrew Downing,2013-07-29 16:51:13,fda6839ddec0c2dc873eac303cdcf0dd7e6eef36,support single player again
+Andrew Downing,2013-07-30 16:07:01,d1613688ca0f4ec7864297ab6fe163ae48b41843,update planning notes
+Andrew Downing,2013-07-31 17:16:02,a4fd1b585a31309789ee6357a3c8e7fbdd504c61,draw map in Update() instead of OnGUI()
+Andrew Downing,2013-08-01 17:31:05,8c50aae2312294d1bec78601bac189362453658f,"wait for cmdAllReceived is multiplayer only, and small comment updates"
+Andrew Downing,2013-08-02 16:11:05,ef6972416789dbb964a015e71455ff0805a09ffe,use GUILayout to display text
+Andrew Downing,2013-08-03 00:28:17,907278dcb43305309fd88b53c768aab2d5b50328,add basic UI bar
+Andrew Downing,2013-08-03 22:14:38,13bc8ef0fb2c57f0e47314c3b96b6bbfabe69b6e,group units in selection bar by root parent path
+Andrew Downing,2013-08-04 00:11:48,08acefaf2371dd5d1eeb0c63b19d703a93204ee3,use LineRenderer to draw select box
+Andrew Downing,2013-08-04 00:17:14,a24f76cfd5b8b8ba0210b4850f00b0ca74453426,use color constants more
+Andrew Downing,2013-08-04 00:49:54,bb18cb2a93492c7fffbdebaa5edc1edcce0b4d4c,draw unit path lines
+Andrew Downing,2013-08-04 00:57:33,a01fe55ca91904a497e7c44ea0a8c4e4a2969b1f,destroy health bar GameObjects too
+Andrew Downing,2013-08-05 14:27:17,5e6293b01c12f55843c07dcc82983f2306d0a7ec,optimize tile decoherence checks
+Andrew Downing,2013-08-05 20:38:32,74faf020ad35eabd5a2a25f89471d467ee858654,implement zoom
+Andrew Downing,2013-08-05 20:57:58,aa560ef550ce5fcedda1caa73852a27816e61c43,add unity links and v4.2 notes
+Andrew Downing,2013-08-08 19:00:06,3f1daca4b73181222e4face39478b23b2f8c973c,"add stick figure worker and marine units, and scale units relative to map"
+Andrew Downing,2013-08-08 19:07:19,ec6fa4efe2f3c763f1d245d353392bfc109a6fed,allow selecting any player in instant replays
+Andrew Downing,2013-08-08 19:14:45,dbe89f24da45530fb79e3c849d11822b370aa6ca,scrolling mouse wheel in UI bar shouldn't zoom
+Andrew Downing,2013-08-08 21:10:32,dc0e85187b2a8da373c334ab4232a5b698ef58a7,draw map border (like in slimdx version)
+Andrew Downing,2013-08-08 22:29:30,96bbb5abcd6c969d703657c02a1bd4b9c199d0a9,adjust max health and damage amounts
+Andrew Downing,2013-08-09 13:36:08,7b1aa2ebeb4535e08de04e7907aed0a0aa94f017,disable moving camera by moving mouse in windowed mode
+Andrew Downing,2013-08-10 18:42:05,00262254cc8f1555ad3a17d6c096e7e5e313f282,"fix applying commands in wrong update in multiplayer, and add checksums"
+Andrew Downing,2013-08-10 22:03:02,bae520b3cc49d9430692c727bf0bcb9de5b29c64,disallow non-moving units from making paths
+Andrew Downing,2013-08-11 01:32:41,bd84157e42ae710cf84cb02c401eb5dcd749ae62,add delete other paths command
+Andrew Downing,2013-08-11 16:03:25,8769c247e94c61c8de885717cd18efac84198156,"game is starting to be playable, so call it 'prototype' instead of 'technical proof of concept' in readme"
+Andrew Downing,2013-08-17 15:34:07,4ef111f8a58d767cac05ac90783d7593beb66295,update planning notes after initial playtests
+Andrew Downing,2013-08-18 20:57:40,c799a2f21e80603f6e21b4b354884901aa86e2ab,call InitializeSecurity() in multiplayer
+Andrew Downing,2013-08-18 22:11:03,b7129409a0da740be80f1156540048340252cabe,move make unit menu out of submenu
+Andrew Downing,2013-08-18 22:24:08,4131230c06d6687641d025547370fd250283a8f2,add shift + d as alternate shortcut to delete other paths (at Matthew's insistence)
+Andrew Downing,2013-08-18 23:04:13,2f1da2e81e35bb90195ef841ca68b098d1cab5c8,remove completed todo from notes.txt
+Andrew Downing,2013-09-02 12:22:30,f939e347b04d9dfa8e29864cbc74533b30f349d4,add stacking and delete other paths pseudocode to notes.txt
+Andrew Downing,2013-09-02 12:53:08,6fbb2d967fb264dea360dc4e72dad93a061bb3ad,use text asset serialization (first commit in unity 4.2.0)
+Andrew Downing,2013-09-02 13:01:11,59ac2c1caf68603601b750ed5ce147b5f43e7b43,include Transparent/Diffuse shader in player mode
+Andrew Downing,2013-09-02 21:15:53,c440d17c01d027a62597725c6ac0296bb894170a,"rename u to units, n to nMoves, m to moves"
+Andrew Downing,2013-09-10 22:56:33,0445b835c2764609d45245060274e34addcdd8c7,add skeleton Path class
+Andrew Downing,2013-09-10 23:46:10,51d111995a779a348cc97d1be7367a80095feb7a,rewrite readme overview using defending base example
+Andrew Downing,2013-09-14 15:16:24,9ae540c9ebe5701b225a6bc8e33e29f8f8f77726,"Revert ""rewrite readme overview using defending base example""
+
+This reverts commit 51d111995a779a348cc97d1be7367a80095feb7a because the new overview was long and didn't necessarily explain things better."
+Andrew Downing,2013-09-20 19:42:17,3c251518eeaf88f6e1247835743316147276ec76,use new Path class in scnOpen() and draw()
+Andrew Downing,2013-09-20 20:09:38,ab356cb49ab7315dcf6019659c844ca33daac44d,allow stacked units in scenario files
+Andrew Downing,2013-09-20 23:31:07,74dcb6df53d579126552b80be205909462c15bea,change Path arrays into lists (protobuf-net can serialize them)
+Andrew Downing,2013-09-21 23:06:53,5c8bba57066568759ec10ab2b730138d8af10272,use new path implementation when selecting units
+Andrew Downing,2013-09-21 23:33:00,6c90d75f836fd425c5f3b22c0025152eda08ab2e,draw unit selection bar again
+Andrew Downing,2013-09-23 00:39:53,6f4ee5dd89d4636d8b0a657c8096f582eebdba22,reimplement selecting/deselecting units in unit selection bar
+Andrew Downing,2013-09-27 21:50:35,c76d5c61a7c5016d77bf9bc1189b2f3808e99757,implement moving paths (but not moving only some units in stack)
+Zach Latta,2013-09-27 22:20:46,88a8b307e1ade1fa6fa2ae56296b3e084820fe9b,Fix memory leak.
+Andrew Downing,2013-09-28 15:10:29,5623dfadae644e330a18d4f0a3865d648782d367,"rename Tile.coherence to exclusive, Unit.timeCohere to timeUnseen"
+Andrew Downing,2013-09-28 18:42:46,7c80d8845d06741ce681081a3c2279e6b6faff99,implement making paths
+Andrew Downing,2013-10-05 22:58:53,f410bb7df9ceff14e79bc70acc52ce0899e7cc6b,add existence check when moving and other small edits
+Andrew Downing,2013-10-05 23:35:49,425c14f37ea96baf2d79dda059dadfd337dba1cb,implement moving subset of units in path
+Andrew Downing,2013-10-06 15:16:26,4e3e6d8a2898e2f73e0ac2e73203b375008542a3,add Path.selMinPos() and Path.selMaxPos() methods
+Andrew Downing,2013-10-06 19:10:45,991d24fb085b6fc6e10fc12ba5ee6019b96d2fa2,right click on unit to stack paths
+Andrew Downing,2013-10-10 21:42:06,99071a42252af6dcae1ddf061ca8e730cd808de5,Merge branch 'master' into stacking
+Andrew Downing,2013-10-10 21:47:05,54253db6c22f06c781976a6ca9b2724ffb8ea3ff,fix compile error after merge
+Andrew Downing,2013-10-10 21:55:14,f2f908e97e57cf0f366b68fb9d67ad6c815b0fc6,apply Unit method renames to Path class
+Andrew Downing,2013-10-10 22:06:07,70aa20eecbd1e59f14e50b5bc83bed7d632285e0,update planning notes (including algorithm pseudocode for stacking branch)
+Andrew Downing,2013-10-10 22:16:14,2ce0cfce8ffc9315dec8f6a0399556e81cebfa19,change FP rectangle methods to match new behavior in stacking branch
+Andrew Downing,2013-10-10 22:48:17,6c09aa1e397c063d216bc4a7da128fe1cfad595f,add back nonzero tight formation spacing
+Andrew Downing,2013-10-11 20:06:48,a7030abf33fe01cb27bc1d9d57f6cdecc75fb573,stack paths as they arrive instead of all at once
+Andrew Downing,2013-10-12 14:19:52,48728c900377f61f5838cb07c130258fa23ca2b4,apply CmdEvts only to existing paths and units
+Andrew Downing,2013-10-12 18:27:41,ceaf3520151143ba1dd35f7aaf9094736fb2d593,reimplement making units (currently ignores resources)
+Andrew Downing,2013-10-13 00:32:21,76567865e94f1ce5b90fcd945a6c53f4a66365b6,store tile visibility for paths instead of units
+Andrew Downing,2013-10-14 20:35:34,e7e3048ffceb2ed5a349da2ffceb1d5545dcf43a,update code involving movedUnits (now renamed to movedPaths)
+Andrew Downing,2013-10-17 11:53:05,a08ad100bf2128ccbc84e8db09dd2e993ffa5740,add toggle to enable/disable stacking in GUI
+Andrew Downing,2013-10-17 13:50:37,109851bdaaddb70b201bd83a0b92b7ac7431aa25,reimplement attacking
+Andrew Downing,2013-10-17 14:20:07,be9d131b8a39b36856b14e85ed16bf4ee49686af,basic implementations of Path.beSeen() and Path.beUnseen()
+Andrew Downing,2013-10-17 14:39:33,ab5926bda901ede223837478b7fc97ff1cdc78d3,comment Path.Node variables
+Andrew Downing,2013-10-17 20:24:04,05b125be0737260a49e55de37cb46beccf028c2d,add Sim.nRootPaths variable
+Andrew Downing,2013-10-19 10:55:42,20b45fa6f38277fc80ee6bafc5df4733df8e64c2,reimplement resource calculation (negative resources currently allowed)
+Andrew Downing,2013-10-19 15:00:52,bf267f441365be1058eabe1ff20cb4322a574b2e,tweak childPathOf() and childUnitOf() parameters
+Andrew Downing,2013-10-19 16:49:58,c16b0cfaa6fc9f85748279c5002c8cc9a154f11d,add Sim.nRootUnits variable
+Andrew Downing,2013-10-19 17:08:14,4af2457a3cc06ce2750d6a82ef00cf37e97af61d,reimplement playerCheckNegRsc()
+Andrew Downing,2013-10-20 00:06:37,4fd107fcdb1f1254adb3879abf019b75a949aa1c,reimplement deleting paths (currently has some bugs)
+Andrew Downing,2013-10-20 00:20:19,ffebc7f05fb5fb6d75859156b008512e0eab075a,don't use foreach over list that units are being removed from
+Andrew Downing,2013-10-20 15:17:49,f3d776cd58e2a845488e0df5f67b9db734aff4d4,fix makePath() connecting more paths than it should
+Andrew Downing,2013-10-23 12:42:36,6e8cdf1485ff72a89f41e01a99b742f93b5de46a,add post-infiltration memo (that I had to rewrite due to pluma crashing)
+Andrew Downing,2013-10-23 21:39:37,3caef27bc6bf5112d3c85d369739fd0d426a45c7,allow deleting paths of units defined in scenario as long as other paths remain
+Andrew Downing,2013-10-23 21:41:30,b5a48f4f22217edd185fedd5a0e58887eaae9aa6,delete nRootUnits variable (no longer used)
+Andrew Downing,2013-10-23 22:12:18,4334e5ec1f4f2db5cbfdb57157d3acc2e0d80c50,change Path.speed and Path.player from functions to variables
+Andrew Downing,2013-10-23 22:27:13,704c6966a2d7d51860ef14d7b4340a7ce95c0174,remove empty paths from visibility tiles in Path.removeUnit()
+Andrew Downing,2013-10-25 19:08:37,8af0b68a1fa9cd6636177742e4793689d79605a3,allow moving in past only when on exclusive tiles
+Andrew Downing,2013-10-25 19:12:21,e766cac9aaf26911b23597173596044c378594f7,tweak a comment in Unit.updatePast()
+Andrew Downing,2013-10-25 20:41:39,0c79584aa00e7e555a0457ff7c15a1eb6e324750,reimplement moving newly made units and paths out of the way
+Andrew Downing,2013-10-25 20:47:15,c4421ac0744b295600384bd41ab307a94878aff4,fix distance checking bug in makeUnitMovePos()
+Andrew Downing,2013-10-25 21:05:49,41b1b3998a7961ae6051aad6744ad47733186162,reimplement making units using replacement paths
+Andrew Downing,2013-10-25 21:19:48,c42e58e9d23be18ad23490bb108a2be3d4ea99e4,only draw paths seen by player
+Andrew Downing,2013-11-02 12:13:24,297f7e984f1074d8542b52842a4e8dfcf581a9c9,fix stupid bug in Node constructor
+Andrew Downing,2013-11-02 12:24:59,68a5447359f10de606f2bbf44049ab40a43c9e5c,draw non-live paths as semitransparent
+Andrew Downing,2013-11-02 12:44:35,6b00b21dcc9567e3508d1a1e5e12c9e4550b6ae2,distinguish whether paths are live in Path.removeUnit()
+Andrew Downing,2013-11-02 13:16:55,a99d720269a8e7a14f38c94e0f78a7c304029db5,fix deleting paths with multiple parents
+Andrew Downing,2013-11-02 14:31:36,0b67a60fd4c63278a15a60470ecadaf8d192fdcc,remove try catch in StackEvt
+Andrew Downing,2013-11-02 16:07:39,2f7e974822d575378d5dee942a1b6382fee6dac7,change Path.insertNode() to allow inserting node before 1st node
+Andrew Downing,2013-11-03 14:56:52,51019af76d36801db7eb29ad7305501e4048f59b,flesh out Path.canMakePath()
+Andrew Downing,2013-11-03 15:27:15,6a5f9cc43cc021b20ca12faea605be00fd343d43,make Path.canMove() fail unit will later be seen
+Zach Latta,2013-11-03 12:43:54,4c30bd669d39b923ca49f38706d12fd91baac29a,Implement dependency graph. Closes #2.
+Andrew Downing,2013-11-03 16:18:58,cb6404d0c58b43a0f79178df21b02afd88c09dfb,"Merge pull request #6 from ad510/dependency-graph
+
+Implement dependency graph. Closes #2."
+Andrew Downing,2013-11-03 17:27:44,cf04c1039f130be402cef2dc36998eedc40dcf41,disallow making mine on unseen mineral seen
+Andrew Downing,2013-11-08 11:49:41,3b6ec2b3322559fc356d549c9b81cb0ced50b350,separate Sim instance variables into groups
+Andrew Downing,2013-11-10 00:45:02,a6ad98727406869edf5bcfeacc52e4e917142f4d,fix Path.removeUnit() not removing other paths from visibility tiles
+Andrew Downing,2013-11-10 01:00:41,2990596e933eaa6cc6e1069b28933b860e2ce713,fix deleting old path in StackEvt if it is seen
+Andrew Downing,2013-11-10 01:36:04,297fde0e08dedbb71a49427c4609f4a8a5726c2c,add various todo comments
+Andrew Downing,2013-11-10 01:39:16,15fb3a093a3164f21e8f31737fe96ea32f580def,fix a check in Path.unseenAfter()
+Andrew Downing,2013-11-15 22:25:14,96b1ab68b2f63f4f3a4f3f80b6ed8f23ccec6e59,fix calculating endNode in Path.rscCollected()
+Andrew Downing,2013-11-16 18:07:27,89553e557c9dd437c61b5d2a50eb8a7a78d4e5dd,rename Path to Segment (not renamed everywhere yet)
+Andrew Downing,2013-11-17 13:56:01,19ec99f4ce56db3c2b30a34941b8599917e598c3,add Segment helper functions
+Andrew Downing,2013-11-17 18:48:19,5a73bf178109470142c26e3c1a1244ff3f9c755b,copy several Path methods to Segment and rewrite them using new helper functions
+Andrew Downing,2013-11-17 18:56:05,f9f7eece0f10f25c1ac0bedcb47d9dc58a073b20,"rename Segment.time to timeStart, Segment.paths to pathsOld"
+Andrew Downing,2013-11-17 19:28:22,6b3a6c1b93bf091521cd68acbdc31a6e93d04bad,"use new methods in Segment instead of old ones in Path, use branches instead of pathsOld"
+Andrew Downing,2013-11-17 19:40:34,d277bc6fbefe756312bbc3a6109788856b0709ac,rename addConnectedPath() to connect()
+Andrew Downing,2013-11-21 22:57:52,60cf76b133d60c5dd3b375cafba49a937dcd7d7b,reimplement delete other paths
+Andrew Downing,2013-11-21 23:05:46,4a4f32829ac6a4549eea69fe73c046e85d4564d6,"when path is seen, delete its other paths"
+Andrew Downing,2013-11-22 17:31:39,7ec9649ef78ee526755ac5b49db2eee753693860,simplify deleteOtherPaths()
+Andrew Downing,2013-11-22 18:28:37,c56c89898ba3b876fc78e1f3f96f3ecd40cba237,finish renaming paths to segments
+Zach Latta,2013-11-22 18:44:32,e94161aa9954c4936e1f5dbbdd61c7c1314d4532,80 char limit for license info in DependencyGraph
+Andrew Downing,2013-11-22 23:39:22,a69badcde97c8967c1fa0bcc6fe1ff0fc07154eb,delete instant replays (which was a hack anyway)
+Andrew Downing,2013-11-22 23:55:00,d3fd6ad79cb73d44f5f556cc23021c5f8d3fdc3f,update paths instead of units in exclusiveAdd() and exclusiveRemove()
+Andrew Downing,2013-11-23 00:13:12,65a56da090665af8554394b32df01e78c77903e8,remove legacy pre-stacking code
+Andrew Downing,2013-11-23 21:46:50,9e3b658bd0e841e14f0cfeaa49baa9513d0af608,return IEnumerable instead of List from Segment traversal methods
+Andrew Downing,2013-11-24 13:47:38,3e52d29bbdd5a201da9594741da2320a062b581d,move Move and Segment classes into their own files
+Andrew Downing,2013-11-24 13:58:01,562a869fb129d61e3ea0602f37107d5aaffce568,rename timeVal to timeStartVal in Segment constructor
+Andrew Downing,2013-11-24 14:46:39,35d366b4bcb01c332d6e54c811a00fd5cd1ca181,"remove exists() and isLive(), and modify UpdateEvt to not use them"
+Andrew Downing,2013-11-24 15:58:09,74217fa80268ab57159fe62dcbad99eceffe86b2,draw unit path lines again
+Andrew Downing,2013-11-24 16:32:23,d03b58cf2878e22249fdd2ff62f32d4d644c7f75,fix removeUnit() bug when finding ancestors
+Andrew Downing,2013-11-24 17:13:12,260272cf85a1e602d92422c58eefd5958a9b7125,fix deleting other paths of non-live path
+Andrew Downing,2013-11-24 23:52:33,d81fae32b3c8d28d9cfc0b127371312a6c6999db,support delete other paths command in multiplayer
+Andrew Downing,2013-11-26 20:45:32,f25dc8cca934810cb2a8c7a84d9bbb0745fa2941,consistently don't lose visibility where another player's unit is if your unit and their unit kill each other at the same time
+Andrew Downing,2013-11-26 21:24:36,a258d9f5a0233c348448d3982015eda8df9f6c3b,update doc comments
+Andrew Downing,2013-11-26 21:40:19,479fe4192b0875ab3ddc9d32b76eb4e099e96cef,reorder Path methods
+Andrew Downing,2013-11-26 22:05:59,415bef30269f41892001e36310fda6ed95980fc1,remove extra units from scn.json
+Andrew Downing,2013-11-26 22:13:27,1abf53738e13179898169594e4d42a4fa4af6038,disable stacking in GUI
+Andrew Downing,2013-11-26 22:53:07,9a6f4b283fc49d1002d45eb2e69877c01a2e81d1,change stack todo into normal todo
+Andrew Downing,2013-11-26 23:07:50,3815dafb9c3c34cd739a32eec5ac32f72d32ad76,update planning notes before merging stacking branch
+Andrew Downing,2013-11-27 14:38:54,b4bc862f42c2586c3d60d01ead8211ba643f128b,"Revert ""draw unit path lines again""
+
+This reverts commit 74217fa80268ab57159fe62dcbad99eceffe86b2."
+Andrew Downing,2013-11-27 14:56:16,9db73c56bc1c9d2eadf737ef6fe23cd34a34c839,daisy chain path lines instead of fully connecting them
+Andrew Downing,2013-11-28 16:21:21,533ad8fb8fee73f3a287c957c572897633f1c80e,"Revert ""fix distance checking bug in makeUnitMovePos()""
+
+This reverts commit c4421ac0744b295600384bd41ab307a94878aff4 to make it
+easier to merge the stacking branch."
+Andrew Downing,2013-11-28 16:22:27,0e4cd8f7e98a155b72e9c31636659a2baa27d512,"Revert ""tweak a comment in Unit.updatePast()""
+
+This reverts commit e766cac9aaf26911b23597173596044c378594f7 to make it
+easier to merge the stacking branch."
+Andrew Downing,2013-11-28 16:28:34,92acb7248c8e5085334a82ffca1b6f5214e30bde,"Merge branch 'stacking'
+
+Conflicts:
+	Assets/App.cs"
+Andrew Downing,2013-11-28 21:23:15,460b972fda54dd3e45162ace111d588f9bc35153,fix bug when right clicking with no units selected in multiplayer (because protobuf-net deserializes empty collections to null)
+Andrew Downing,2013-11-29 21:28:39,267b310a91c16356c550323781df61dab74bc7a7,use Last() method of lists
+Andrew Downing,2013-12-02 21:56:06,8ed14de7ae4a5ffa42ca23e799a190141b8af06d,store units in list instead of array
+Andrew Downing,2013-12-02 23:16:17,9eb1500ff2be072d15d73f45042ab7876ff5b714,use .Length instead of 'n' variables
+Andrew Downing,2013-12-02 23:38:38,38b5b6cdc2eca1d9bc9164a2d2840f45fa181562,make PlayerVisRemoveEvt.tiles an array instead of a list
+Andrew Downing,2013-12-03 22:38:33,38c9dceb2f1f58f68b582b60a423b98abbafafbc,declare more local variables inline instead of at top of function
+Andrew Downing,2013-12-04 22:23:31,750307fdd35c037e6423738dc69c87d429fb3642,don't make App constants or newCmdTime() public
+Andrew Downing,2013-12-04 22:27:08,103cfa5d97ddf7c54276c74519e5e41ae09ae961,make Unit.g and Unit.id public and readonly
+Andrew Downing,2013-12-04 22:33:19,ddef6fc7a5dd9d5e2e439802f82cd2558df3bc63,make empty constructors for protobuf-net private
+Andrew Downing,2013-12-04 22:49:23,f055a3695d4b231151403213ec24da023accc7cf,"make Tile.g, Unit.type, Unit.player readonly"
+Andrew Downing,2013-12-06 15:52:42,0847dc427579d75407ed63690eae364571c51b19,store protobuf-net CmdEvt identifiers in enum
+Andrew Downing,2013-12-06 16:11:29,e8df29fa372b0b67bf371a6406c0f8f79556335a,move Sim nested classes into their own files
+Andrew Downing,2013-12-06 16:43:10,d98c57a72d32fd90b8cd58116cf90b7b5b64a933,move classes inside SimEvt.cs into separate files
+Andrew Downing,2013-12-06 17:01:52,1c6d7d49db033d43d5fd40f5666bfde1d45a10ad,move all scripts into Scripts folder
+Andrew Downing,2013-12-06 18:09:17,60006e98913d9337dbea1443f1b3f5bb8172ac54,add events to cmdHistory when removing them from pending command lists instead of when applying the events themselves
+Andrew Downing,2013-12-06 20:01:37,5ca1b63bf2db896e28fbde54425b31087d3acfbe,add comment describing CmdEvt.paths
+Andrew Downing,2013-12-06 20:08:05,bd743512cf2ad667bae727e6d8d4302dc789b2fa,update a comment in TileMoveEvt
+Andrew Downing,2013-12-06 22:35:21,30f0b18894a5abab3b4da1b2d53f6273ba6558c9,put { of DeleteOtherPathsCmdEvt.apply() on same line
+Andrew Downing,2013-12-06 22:54:00,426627c616b561507e239062937dfd504e8e4cc0,tweak Unit.id comment
+Andrew Downing,2013-12-06 23:41:40,764a35e5d254a2e05bcaa9d00a0063fdd00adc19,fix failing recursive removeUnitAfter calls not causing the caller to fail
+Andrew Downing,2013-12-07 15:15:56,a9e3f22b16acacc165bbf0a29a4dd05683ed7fd0,"return object instead of index from getSegment(), insertSegment(), connect()"
+Andrew Downing,2013-12-07 15:23:03,693c0172202861461c8c25d68822c4931fc02801,don't shorten Segment variables as 'seg'
+Andrew Downing,2013-12-07 16:41:37,13518f134846859c22eefa852d43c2a349cf0234,use path objects instead of path indices in more places
+Andrew Downing,2013-12-06 23:01:25,29127e19cda6ff8ac9517f4a14790d94861ab25b,add id variables for Player and UnitType
+Andrew Downing,2013-12-07 17:59:50,ae67000f938f44ed0792e6a2858bcd0c949535b6,refer to players and unit types using references instead of indices
+Andrew Downing,2013-12-07 18:33:09,7c826b0b799790b4bc00a1ae3d9b55906812bfef,"move updatePast(), playerResource(), playerCheckNegRsc(), playerCalcImmutable() from Sim to Player"
+Andrew Downing,2013-12-07 18:44:31,3c1ddc91a5e4ffbf201426aa66d6fc9d7f51889e,checkNegRsc() no longer needs upper bound on path start time because units are no longer deleted by setting moves[0].timeStart = long.MaxValue - 1
+Andrew Downing,2013-12-07 21:40:38,8a456d56319c836aaa995f57c6ae2c27bca5caa6,skip resource check in removeUnit() if no child units were deleted
+Andrew Downing,2013-12-07 21:49:48,5c9bd8150aae098b2ec2d64eca2712dc3c6492ca,remove path from tiles in takeHealth() instead of addTileMoveEvts()
+Andrew Downing,2013-12-07 23:17:07,3a9a86cf3cb158a1a69a9e919c64da59f4f354ed,manually add new paths to visibility tiles instead of doing it in addTileMoveEvts()
+Andrew Downing,2013-12-08 00:06:25,f08b0ef1bcaeac241372c7414b0ebbfa83901c97,"if moving creates new path, try to remove units from old path"
+Andrew Downing,2013-12-08 00:11:42,4931b45dd6d4fe34c62df8c6159f89833a3749eb,addTileMoveEvts no longer needs iNext because moves are never out of order
+Andrew Downing,2013-12-08 19:21:49,2d4c7252f30e70491b93b205f489984481e46dd7,fix not checking resources when 1st segment of unit to remove is removed (regression caused by 8a456d5)
+Andrew Downing,2013-12-08 19:48:27,e8a33c60f2b635f8c76499b8dfccd634dd6b094c,"rename getMove() to activeMove(), getSegment() to activeSegment()"
+Andrew Downing,2013-12-08 19:53:54,234d278c93e28d324e70d82f6682a9a561a5e757,add activeSegments() iterator
+Andrew Downing,2013-12-08 20:20:35,674870be024613092f801ab8052a99e6f7027684,use unit objects instead of unit indices in more places
+Andrew Downing,2013-12-08 22:49:38,70abf56badc79a5dcb3afd4af9b9cd78e8a56e06,improve equality checking and GetHashCode() in FP.Vector
+Andrew Downing,2013-12-08 23:26:30,769e105c6bf3bf6d19abcb9efa480eb47e820b08,"add SegmentUnit struct to replace uses of KeyValuePair<Segment, Unit>"
+Andrew Downing,2013-12-09 00:49:55,a4bfc4a7c480ae442a6b089fa332ac8db5bbaf5b,move several methods into SegmentUnit
+Andrew Downing,2013-12-09 01:57:55,e9e9641f52a6bf2e382e5b45ac10bb0592ef5f04,fix canBeUnambiguousParent() regression introduced in a9e3f22
+Andrew Downing,2013-12-09 15:50:31,979a91e7d7e457baf393d749d4533ad35dff0816,slightly simplify GetHashCode() of FP.Vector
+Andrew Downing,2013-12-09 16:15:46,d0048d1006f284e7e4b054fc72806b626f8c4ea0,fix SegmentUnit.delete() regression introduced in a4bfc4a
+Andrew Downing,2013-12-09 16:38:19,3a9fcab57c945ae10d35c24d67be10775a2be610,HashSet dramatically increases performance of deleteOtherPaths()
+Andrew Downing,2013-12-09 17:23:01,bc6672b3a99e1d455dfaf96efc4d79e191462011,add toggle to enable/disable non-live paths
+Andrew Downing,2013-12-09 18:52:30,8a9003942a42faa9e59ed9df9def066e7101433b,consider whether paths contain units in playerDirectVisWhen()
+Andrew Downing,2013-12-22 00:23:09,744b7ded1c3293cc79ac55edaf58f1087f0b1b69,consistently use Unit objects instead of indices everywhere possible except in App
+Andrew Downing,2013-12-22 00:53:12,565aa6f90ac4d3610b833312382a9bca996969b7,consistently use Unit objects instead of indices in App as well
+Andrew Downing,2013-12-22 01:09:33,82094fd18da1e8725d4a829d451dc0c0f8db5ee4,fix multiplayer regression introduced in 3a9a86c
+Andrew Downing,2013-12-22 01:47:08,adf7cb46a279b1970233acf709c546224f79db29,various cleanup and bug fixes over last few commits
+Andrew Downing,2013-12-22 18:08:05,77ccf2a4a863dcab13122c85c5563129bddb79a1,reset Player.timeGoLiveFail to long.MinValue instead of long.MaxValue
+Andrew Downing,2013-12-22 18:20:52,b548acef8217a3f10a89d57b779a814a818afea0,note a bug involving moving non-live paths
+Andrew Downing,2013-12-22 23:23:10,8511ba651b5348f13de79b9e48261e76d075eef7,"rename CmdEvt to UnitCmdEvt, add new CmdEvt class that all commands inherit from"
+Andrew Downing,2013-12-23 00:51:14,6ff4ed17be3e3e770cf7b25d87ff0649e775251f,don't need to store LineBox GameObject separately
+Andrew Downing,2013-12-23 00:58:18,6937f03cd564700261758723837f3398576ded2b,only display existing units in unit selection bar
+Andrew Downing,2013-12-23 01:04:08,e8d5904f4321205fe7e3c8c3c724307f5e25a6ab,use foreach to loop through unit types in make unit menu
+Andrew Downing,2013-12-23 01:52:27,af54acdad2961c66603f800ab578ae72c2c0c3fc,"move playerVisRemove(), exclusiveAdd(), exclusiveRemove(), calcExclusive() from Sim to Tile"
+Andrew Downing,2013-12-23 02:59:02,52917efd1a42a1a8ef203ca632fa5fe5e4a22908,fix UnitType.id comment
+Andrew Downing,2013-12-26 13:50:23,28a30fb195f91d3f8f5953f9d5d42b67704cf4e2,update planning notes after post-stacking merge refactoring
+Andrew Downing,2013-12-26 15:20:26,a30c8ea9d4a587ba50e91e2be01df9aada3d6601,put ProtoMember attributes on same line as variable declarations
+Andrew Downing,2013-12-29 20:35:59,d2d1ef5e5c346375d19a0fa1d40b0a8bdd111786,serialized variables don't need manual getters or setters
+Andrew Downing,2013-12-30 16:04:57,ebad02a8e86eee709e7d374461d9819c41a1aded,tweak FP.Vector class
+Andrew Downing,2013-12-30 16:11:35,8d794dfeadf1afead705018e079cf4b212a4adda,implement saving and loading games
+Andrew Downing,2013-12-30 17:18:50,9ad57b4dd8bd71ad15799ea84fa7cbeda060a8ff,use object and collection initializers
+Andrew Downing,2013-12-30 17:44:14,0114c0f736774c3cb1363942be256d48b8243739,simplify Path.beSeen() by passing IEnumerator instead of List into deleteOtherPaths()
+Andrew Downing,2014-01-03 18:19:08,3ebd9f73902938d8f44bfb4242f09f62d04d9ff6,fix segment branches not sharing the same List instance after deserialization
+Andrew Downing,2014-01-06 22:27:51,72c1c66cc2beee19f368eeb4097ad1f2d55bdbe1,update copyright year to 2014
+Andrew Downing,2014-01-06 22:35:20,3983e3b79cd994bb4e1e1ef9f57afbe93ed7e26c,resource calculation no longer double-counts units made by stacked units
+Andrew Downing,2014-01-07 14:08:17,81794ef0755cb967b7ad1e4de135cc8f5112526f,simplify resource calculation
+Andrew Downing,2014-01-07 14:52:05,a11f555eafa894510e9d3f5381adeea2ad8e4cc6,cache unit combinations for resource calculation
+Andrew Downing,2014-01-07 15:15:06,34ce5f37d6cdc84196d449647acc5f78fc2faecd,enable stacking by default in GUI
+Andrew Downing,2014-01-07 20:23:49,c17e3e348e4942a2144c8803f05db9f930d954fc,implement sharing paths
+Andrew Downing,2014-01-08 20:46:28,867d84e866a9a9bb97093cd4bdc2eff30315417b,share as many paths as possible if not all selected paths can be shared
+Andrew Downing,2014-01-10 17:50:45,cab67c5ba00e145c0620632d4a2d157252870ba4,start moving todo to github issue tracker
+Andrew Downing,2014-01-10 18:00:46,9a28596c1a2aff3f0f44684c2c8ba6e984592b4d,use collection initializer for dictionary in App.makeUnit()
+Andrew Downing,2014-01-10 18:27:29,c31bcf9fd6f6750c612f02e8873bdd048a2a62ed,"use separate GUIStyle variables for normal and error text, fixes #11"
+Andrew Downing,2014-01-11 22:19:51,5b96f8fe6610cad88b62c91f4afbda528f26e4d2,store delta time instead of last frame time
+Andrew Downing,2014-01-11 22:55:45,4ebeb10579987c7e91e608deb0c6d68f51f4b9f9,selRadius no longer needed in scenario files
+Andrew Downing,2014-01-12 00:49:34,4a3ee378ee51d04b9158395e94c9e0a8cf0228bc,add scn_minimal.json and ensure game can load it
+Andrew Downing,2014-01-12 01:01:13,209acc5bbcab5aadeff9aec38ee232906f38db70,correctly load minimal saved game
+Andrew Downing,2014-01-12 22:40:14,851f27e9c4943e1e3477c46bd845c56aa74fa692,"in multiplayer, serialize the cmdPending list instead of each command separately"
+Andrew Downing,2014-01-12 23:24:37,c675133cec42ef7633a68efad55e11b9608a291d,App doesn't need System.IO prefix because it is already imported
+Andrew Downing,2014-01-16 21:07:17,a800a3b076bc4913ef3c807b6be2c96714fa1ce6,rewrite inVis() to improve performance
+Andrew Downing,2014-01-16 21:42:15,641ed0e7c5b48fe1d286cfd27c5cba9fd1ee3781,"apply PlayerVisRemoveEvts that occur immediately, and precalculate looping bounds in calcExclusive()"
+Andrew Downing,2014-01-17 20:36:18,5488ccf7eae1aada543346ee5074d1ffecc2ee3c,remember last unseen tile to improve calcExclusive() performance
+Andrew Downing,2014-01-17 20:52:15,911ed77a9414412e0a4751e6158e90753c74279e,no longer helps to store lists of added and removed tiles in TileMoveEvt
+Andrew Downing,2014-01-17 22:37:07,0d4f234a6b7632c6c70bec4bd5cad3570f550eca,wait until visibility removed from all tiles before adding more PlayerVisRemoveEvts
+Andrew Downing,2014-01-17 22:56:56,63244aa02254b97a5d77eaaf0509b3d7c3524006,precalculate looping bounds of exclusive check in PlayerVisRemoveEvt
+Andrew Downing,2014-01-18 19:46:10,152408fddfd97a4ba0a3312b95fc27c443f1636f,use foreach to iterate over tiles in PlayerVisRemoveEvt
+Andrew Downing,2014-01-19 15:41:46,4ad4a5738fd83461e524328e02f88650aeb1912f,remove unnecessary 'new FP.Vector' from Move.fromSpeed()
+Andrew Downing,2014-01-24 20:54:00,64226dc8321956cd362d024a706db0f72f2c9de1,add back instant replays
+Andrew Downing,2014-01-24 21:15:44,32040801234530565d0f4aac372064946a40dced,add time slider in replays
+Andrew Downing,2014-01-24 21:22:33,9c5bb0d927c8334414f499a30c76d492be81e2eb,show visibility of deleted units
+Andrew Downing,2014-01-25 12:44:56,7392b790430140db3cd46930ffa0015b83ae42c7,only iterate over segments containing units in activeSegments()
+Andrew Downing,2014-01-25 17:30:11,053cc3d935b8cad698f4bb6a0270acb3af5fed7d,fix replay implementation breaking loading games
+Andrew Downing,2014-01-29 20:35:05,87d882d07593840ba98050adf93352867039ab3d,"add NSA level ideas, alternate path implementation ideas, playtest notes"
+Andrew Downing,2014-01-29 21:33:42,91563e0400d05b7de45f3fb2de3e2604881cb29e,"canMakePath() only called in makePath(), so move its contents into makePath()"
+Andrew Downing,2014-01-29 21:45:34,686698b175f930869f3874217d3ae6ba4bcc2c41,"fix unstacking units when another player sees them, close #10"
+Andrew Downing,2014-02-01 13:44:47,63dc235738330a39081ce63f0bfa8d06304c5192,implement precedence of being seen
+Andrew Downing,2014-02-01 14:45:31,3acc6f95defef8b4486d014dde026347c1ca1a2f,"Merge branch 'replay'
+
+Conflicts:
+	Assets/Scripts/App.cs"
+Andrew Downing,2014-02-01 18:02:28,c350659033dd44bf8dfa9d7ddbe67e2b819e80fe,fix paths not stacking correctly after sharing paths repeatedly
+Andrew Downing,2014-02-01 18:43:29,331a3193e79dd221e38fb012896c73667212f050,add s as share paths hotkey
+Andrew Downing,2014-02-01 22:55:25,e068429d4d32e18bfd7d85a14c7bfa88e2feae91,update unitCombinations by setting it to null instead of calling calcUnitCombinations()
+Andrew Downing,2014-02-11 21:38:16,b8c286c318a3bb72127915df60ca453f29d8f5d5,add formation buttons
+Andrew Downing,2014-02-11 21:38:39,d2345107998eb6db0a005bf5cc5dd35b5011e801,make UI bar taller
+Andrew Downing,2014-02-11 23:02:48,fcb054de6b4c482b3d824060d2bf14529cdd026d,show time slider in game (not just in replays)
+Andrew Downing,2014-02-11 23:07:20,210815fd2ac36b2c061df368602023e40dc52981,remove rewind hotkey
+Andrew Downing,2014-02-11 23:10:15,b404954aa6fb7586ea8a445edfc122d61b11e83a,change ring formation hotkey from o to r
+Andrew Downing,2014-02-18 23:54:17,5d53a17c0f79cb756c61464f574496cfd38f8123,put cheating commands in yellow cheat panel
+Andrew Downing,2014-02-21 15:23:18,499470896081b7c0cdcf9da6b2bafa2e05a5ecea,fix cheat panel buttons moving units into formation
+Andrew Downing,2014-02-21 17:57:06,3e5941f6ae4d26d4f85693fb843d381e6b59c554,draw lines when units/paths are deleted
+Andrew Downing,2014-02-21 17:59:26,a0bfea7c191737ef80213471eed9a8cb895fc238,use VertexLit shader instead of Diffuse shader
+Andrew Downing,2014-02-21 18:47:27,54fabf1d754761ae79b52af8085d716df582f034,only add to deleted units list if deletion was successful
+Andrew Downing,2014-02-22 01:13:33,c28b659499f4df6db2a49dfd3275d2eb0468be8f,store delete line vertices directly instead of segments that units were removed from
+Andrew Downing,2014-02-22 01:23:52,c3caf9bb83954139e5e080cb84c3b084a529ab24,only draw delete line when unit moved
+Andrew Downing,2014-03-01 16:54:29,2206354a0a0a06f2b7075a897e9cb967ef142182,move delete line rendering code into MoveLineRenderer class
+Andrew Downing,2014-03-01 17:36:33,2e7ebbe94e75bdec11142e20025e5afabed5b16e,draw lines when deleting other paths
+Andrew Downing,2014-03-01 17:57:44,57ae1b22068c0e5d5b7b00f1ac636321c32ec64e,only add move lines when appropriate
+Andrew Downing,2014-03-01 17:59:20,bb589b804a9f63fc044e0e89cd24b3f04b43d2a9,Merge branch 'move-lines'
+Andrew Downing,2014-03-02 15:59:16,2c4bfa8d34a3bf139b5d70441138e9c8d1d6db98,add cost tooltip
+Andrew Downing,2014-03-02 16:11:52,71a3f4fd8ecb0da0dc09d1745026b5cea28d98c2,add back stacking GUI toggle
+Andrew Downing,2014-03-02 16:34:15,174c9c60328ac79030c1b2d5125a4614ecb0aeed,disallow giving commands in replays
+Andrew Downing,2014-03-02 16:42:02,ba088bb7bfc57e8b62cc1d60bd4592b21206c52e,add 'they see' and 'you see' descriptions
+Andrew Downing,2014-03-02 18:14:56,de923c9e6059235992ca7f37326c19bd66c0f5d6,fix replay description font size
+Andrew Downing,2014-03-02 18:36:30,f5421f4ee0c140ae398e7c8caa219404aa97a130,fix opening saved games with no keep lines
+Andrew Downing,2014-03-05 17:03:09,f8a75473a1c7dad4894f650d2460c72025659b8e,"store time when each unit is selected, close #12"
+Andrew Downing,2014-03-05 17:22:33,1a6943cd8336c63a57afbb2a90ec23325259d9bd,no longer need to validate selected units
+Andrew Downing,2014-03-05 19:53:55,54d275b62640ac97d55bcd54f565c336becce0bb,rename SegmentUnit.current() to Sim.activeSegmentUnits()
+Andrew Downing,2014-03-06 01:10:14,4f2e86ecd2c499ef3cb7ee6ef525bbbfb634310b,"if not all units in path are selected, select remaining units instead of deselecting path, close #18"
+Andrew Downing,2014-03-06 01:36:22,b80bfdd7af19f3cb86419d125ea836d938b0b386,add unstack button and hotkey
+Andrew Downing,2014-03-06 01:41:27,845ceecfa675f51b6286896e89a46f794cbd5575,remove no longer needed selected unit validation in setFormation()
+Andrew Downing,2014-03-06 21:29:03,a9921029d6769c625c57944e39de3535b3a844d2,continue trying to stack paths if they're later told to move
+Andrew Downing,2014-03-16 13:07:38,0cb4907352c7fdc47d601d960e53e27f1253f2b0,fix deleting other paths of non-live path (bug reintroduced in 3a9fcab57c945ae10d35c24d67be10775a2be610)
+Andrew Downing,2014-03-16 15:49:31,9e0d2ecdcca2ad84b5da3ab1cce4e1c56884ba55,calculate tile exclusivity directly instead of using exclusive variable when non-live paths disabled (fixes #34)
+Andrew Downing,2014-03-16 18:46:26,7518f10cdec1c2c320a6d88d036bf8f444ba56ff,"do normal move if can't stack onto clicked unit, fixes #13"
+Andrew Downing,2014-03-17 12:33:24,dc7ca513f3d6f9bd0fb367d35ccc827aa80c9dcc,don't store command history
+Andrew Downing,2014-03-17 16:38:04,013a825dba37f1e06dffc888faa44f5d3cb95926,fix allChildren() returning no combinations if a unit is killed
+Andrew Downing,2014-03-17 17:31:41,9ace9d1c79ee27bbc0f6a1cf0a36a789a8faece8,"change formation hotkeys to q, w, e"
+Andrew Downing,2014-03-17 21:21:47,5815b2d7896f6adc2726cb436993f458a30e615e,reset to tight formation when selecting paths
+Andrew Downing,2014-03-21 00:07:56,7a84097ef78d140a6b3873a1bb410d813812c2e6,disable automatic attacking for now
+Andrew Downing,2014-03-21 00:33:53,cfccc4d1f46785faeda2632c7edec059095a8a5d,add manual attack command
+Andrew Downing,2014-03-21 20:03:40,3b324661bc8c214d4a53e04a218b4eda2620affd,add snipers
+Andrew Downing,2014-03-21 23:12:46,a4c4b823e0c935e207c05c25360cb7feca72614e,add back automatic attacking
+Andrew Downing,2014-03-22 00:52:31,70b0b8b3e3b49b65c9b26ea79f7eb025b5db30d6,sniper unit balancing
+Andrew Downing,2014-03-22 14:53:25,d7a08699834b4d20c16f640ee6af25abf3d02e2a,show delete lines instead of keep lines when manually deleting other paths
+Andrew Downing,2014-03-22 15:03:03,5db0f692acfb7ef354cb4e3e2a8913d967e7324c,"if select building and worker and right click building, don't try to stack"
+Andrew Downing,2014-03-22 15:34:25,607b505b95acd1d91381006f5ce3e3347984fef8,only show formation buttons if a movable unit is selected
+Andrew Downing,2014-04-05 23:49:50,a005e761d2bdfabd4c00aa9741066ec3df9600b9,"implement lasers using LineRenderer, close #41"
+Andrew Downing,2014-04-12 08:39:46,cfa7cc6ffca41fbb3839d873ad66710787244b2e,automatically delete other paths when making new units
+Andrew Downing,2014-04-12 09:31:36,f00e20c4648b801cd3d55f5ef58b164b7e2db9c6,only allow making child path if parent didn't later make a child unit
+Andrew Downing,2014-04-12 09:42:34,0fb9b650a540b622fe0e3602cbf4ac3b61dbce10,make goLive() recursive
+Andrew Downing,2014-04-15 19:16:50,4d1fe3a40538241417e2aaafe1b3173ee3ec87e2,"make deleteOtherPaths() delete alternate non-live paths made at same time as specified path's ancestor, so there can only be 1 non-live resource total"
+Andrew Downing,2014-04-17 21:34:12,245366a90f70428927988f0d7efcd4445642eae8,Merge branch 'simplify-rsc'
+Andrew Downing,2014-04-17 22:43:37,8d04b4dce83702adb6dc97347927779ab53eeeb8,dramatically simplify resource calculation
+Andrew Downing,2014-04-20 00:03:05,d8492721c2b2c275239339a0ba9366fa890ff637,update some comments to reflect simplified resource assumptions
+Andrew Downing,2014-04-20 00:08:40,f2deb75064c7221c358ccc6a759fa1150736424e,"implement population limit, close #38"
+Andrew Downing,2014-04-20 17:36:24,1d64927f1b1323d2a0eed5040b889a39ab03d8af,fix laser implementation breaking loading games
+Andrew Downing,2014-01-30 19:20:09,31dac8fd45e8eb5bb7f89863e2db9e84a9a516e8,"only do resource check in SegmentUnit.delete() if unit that collects resources is deleted
+
+Conflicts:
+	Assets/Scripts/SegmentUnit.cs"
+Andrew Downing,2014-04-20 23:47:17,4f39fdd1c290ff53d9cea7fc9538b97f0936c8ba,only count movable units towards population limit
+Andrew Downing,2014-04-20 23:48:09,f15266da00e92107c51522977db95460ac35eb4f,set population limit to 10 in scn.json
+Andrew Downing,2014-04-20 23:56:05,2d30303cdc15ffedf9c8f6d46488be64e91ab00f,add d as alternate shortcut to delete paths (at Matthew's insistence)
+Andrew Downing,2014-04-21 12:10:40,0fdeef556d89e1f038bf18f04be96b731a3e947f,"fix units losing their visibility if they're stacked onto a deleted path, fixes #42"
+Andrew Downing,2014-04-22 17:56:57,2b5cd0b3f2a3abd41419403d1682313da6cc7ab7,don't say reached population limit if there is none
+Andrew Downing,2014-05-10 15:09:11,5da84b242860f938dfb6428cb0b21f451ed4e728,explain cheating with plausible deniability in readme overview
+Andrew Downing,2014-05-14 18:59:46,c8dfeb612930aa06b2aa525b7ca10786c832a846,recognize when player is superuser
+Andrew Downing,2014-05-14 20:56:54,f9cfd6e15220c300e1340bab19661f98a715be4c,implement map hack
+Andrew Downing,2014-05-14 21:00:38,65660099b45a807c3a379e7f9563190376c321b0,hotkey to change selected player is now f2
+Andrew Downing,2014-05-16 12:52:30,b2a3ab06ffcee438d6df471c1567b1788afef0d1,small simplification in TileMoveEvt
+Andrew Downing,2014-05-16 16:32:18,6b67e173d859fcaf82f8b6230931298ad9c1e3cf,"allow moving unit when another unit on same segment is seen later, fixes #32"
+Andrew Downing,2014-05-16 17:10:53,eabd4551a02f67e8527d91a99b2a850bb319f903,pull canMakePath() out into a separate function again and call it in canMove()
+Andrew Downing,2014-05-16 17:39:53,d935d627f0af582322a46d308fec5867039151af,"when making new unit, only delete other paths of units that made the new unit"
+Andrew Downing,2014-05-16 18:06:48,e672c958df8c22320eefe93b6c7d390c828fff09,small readme overview updates
+Andrew Downing,2014-05-18 17:35:12,7248248ad6d0bd68fcaba0491f35cd868da19a58,move paths between tiles at fixed intervals instead of calculating when they change tiles
+Andrew Downing,2014-05-18 18:40:46,4a10aec8d413787184a874b6c3878e96d0ec2cd0,make map hack work in multiplayer
+Andrew Downing,2014-05-18 18:52:07,1bdcfbd9da5d28a4d9fa55e1ec04800c2e0c094a,snipers may only shoot units in direct visibility when using map hack
+Andrew Downing,2014-05-18 18:21:40,c241473cb4749ae5805fe0003bea56bb67779ec3,move TileMoveEvt logic into TileUpdateEvt
+Andrew Downing,2014-05-18 19:26:32,6b6828cf3fbfc7f32d834b31be5bbd47bae118c1,fix nested non-live paths
+Andrew Downing,2014-05-18 19:31:41,faeb2b4a7a101dde483db2e233b99ed13f5a3b32,"fix sharing paths while time traveling, close #44"
+Andrew Downing,2014-05-18 20:28:58,9fe0d0c51a34341e685ede521df5e26f4d8da4ce,move GoLiveCmdEvt logic into Player.updatePast()
+Andrew Downing,2014-05-18 21:09:17,811362a63c5c7c45ad2cd63172fee3d1b2f4e1f7,refactor go live code
+Andrew Downing,2014-05-18 21:25:03,1e6ef2f6482a9f76a9b06ce43f6891f704fdf4ce,move unseen update loop out of main tile update loop
+Andrew Downing,2014-05-18 21:32:04,b07dc760219ddb1a0a738e4e84833841738855a8,only draw other players' paths that think they're seen
+Andrew Downing,2014-05-18 23:13:41,d8c3d3ae06f97b8a0a0e70a5828dc7480b4b12e7,"support time traveling in multiplayer, fixes #26"
+Andrew Downing,2014-05-18 23:40:27,90d2be197681a705ed07c313ea76e517b69edf12,better vis check for other players' paths that works during map hacks
+Andrew Downing,2014-05-19 00:31:17,ba953f27347b9582b64f52039f01788bc4fbdf15,add Path.activeTile() to replace some uses of tileAt()
+Andrew Downing,2014-05-19 00:34:22,a5bb15cb143d856fb65b27b687b6255b6a3e2f47,add tileInterval field to scn_perf_test.json
+Andrew Downing,2014-05-19 06:38:42,a1fc8ebd15ad65eae76d1e236341a4ffb9f3f0c6,"Merge branch 'refactor-tile-move'
+
+Conflicts:
+	Assets/Scripts/App.cs
+	Assets/Scripts/SimEvt/CmdEvt/CmdEvt.cs"
+Andrew Downing,2014-05-19 06:58:03,0b2de1758bc8d230a4f0a082948a7b1115135b32,use activeTile() in attack visibility checks
+Andrew Downing,2014-05-19 07:15:41,e5c9045ed95ba4c5ff237ee594f1c706ddce4f14,premature optimization in loop to find target
+Andrew Downing,2014-05-19 07:33:33,f0803c7a44021cb5fb3f47800b5c68ca9d4a6c1f,use latest tile pos of other player's path when removing current player's visibility there
+Andrew Downing,2014-05-19 07:35:33,6c65babf725e0b033501c2f6575bd9218bb1b99f,use as instead of typecast when calculating timeSimPast for UpdatePastCmdEvt
+Andrew Downing,2014-05-20 12:20:50,3fcf2bee8cf168cb84ff0f188b957a9eecb1040c,"fix deleting non-live unit immediately when it's made, close #45"
+Andrew Downing,2014-05-20 12:50:31,f72405c94d0e879612fe0a97bfa2965df5ff40b6,refuse to stack live and non-live paths
+Andrew Downing,2014-05-20 13:29:22,3b96ddea0b8a56ed4b2fe6ccd02f1d5f20e36f23,only stack paths whose last segment is active at stack time
+Andrew Downing,2014-05-20 13:54:47,acec3e82ed0e7e078503b7e305f22b39afe593d1,call updatePast() before trying to stack paths
+Andrew Downing,2014-05-20 13:55:38,5daf172203fe54c2b7bb98d5fd81dc982111d7c9,never set timeSim to time in past
+Andrew Downing,2014-05-20 14:51:26,aa9739b81ca4825dec04a0b8b015a6cfc397d90d,"when going live, try again to stack paths that failed to stack in the past"
+Andrew Downing,2014-05-20 15:18:34,b05d7ec54e289a362a7e04e1c929de60fe9ca5ac,"remove timeHealth todo comment, since it's long term and what it says is pretty obvious"
+Andrew Downing,2014-05-16 18:06:48,3ae194b5d7dd297bba0352ea3783c511a839c2b1,small readme overview updates
+Andrew Downing,2014-05-23 01:08:41,e7b654fca4dd5575bfb98643439f2fb1699efbf8,rename this thing to Plausible Deniability
+Andrew Downing,2014-05-23 01:14:45,7605333114e65e0adc969b1ad903c213a096b391,Merge branch 'rename' (early part)
+Andrew Downing,2014-05-23 01:15:56,dbe0d29d929786bf80afdfe0aeda2d13ad93d32e,Merge branch 'rename'
+Andrew Downing,2014-05-23 13:08:43,3b5ed77645a815018a0298c29fbc85e0a5b618f6,upgrade from unity 4.2.1 to 4.3.4
+Andrew Downing,2014-05-23 17:35:08,208a92f76667b02a87d03a0eaa5900a5b2657cf7,"only attack paths that think they're seen, close #48"
+Andrew Downing,2014-05-23 22:58:47,1444db0b18f16633949943b433437d81fd36765e,add waypoint infrastructure
+Andrew Downing,2014-05-23 23:41:38,800bfdf821217e1381cd6cd95680ed27f6f3bc4b,key waypoints by unit instead of path
+Andrew Downing,2014-05-24 01:44:06,b94e181fd2f7aba1ec180ea2d8d622dda04c3d7a,calculate waypoints to be used for automatic time travel
+Andrew Downing,2014-05-24 09:21:59,00f59c893f20dd85d2508712a80a321d4aec9403,reset waypoints by removing unit key instead of adding waypoint entry
+Andrew Downing,2014-05-24 09:42:34,b233cbc06df3176f74de36fd275507500f0c442d,store UnitSelection in starting waypoints
+Andrew Downing,2014-05-24 10:04:30,031256d782090ca778a7ed845e3e2666a55b2331,try to add a waypoint every time a unit moves between tiles
+Andrew Downing,2014-05-24 10:07:00,b6423543d2e3f65091875475245eebe4c3d443a4,rename resetWaypoints() and setWaypoint()
+Andrew Downing,2014-05-24 10:39:55,5dbfe565b5c560686983d16852e9642400561050,add delay when adding waypoints to newly exclusive tiles
+Andrew Downing,2014-05-24 12:49:09,3ac71b3f644cd3031093d6d7c4b7dedf0292b44d,I think path can be unambiguous parent even if parent segment would be on different path
+Andrew Downing,2014-05-24 12:58:47,45201c60d041145ab57a5111778271b1cbe6f1b1,implement automatic time travel for non-stacked units (this is so cheeky)
+Andrew Downing,2014-05-24 13:05:21,678538854717d5770f87600c40a4f6f9f50155e0,rename simpler moveTo() to moveToDirect()
+Andrew Downing,2014-05-27 16:27:56,bb2b07d6f13527b6f6f3580148d5d46bff4c2226,fix sometimes using wrong parent path for automatic time travel
+Andrew Downing,2014-05-27 19:27:44,d0a22d50305313c449d852d03e0dd51db3fb6bf8,"if unit not found on start waypoint, add it back to past segments"
+Andrew Downing,2014-05-27 19:33:40,d7ab777b26633dbf808c0c8f95542ce14962e798,don't make buildings before command time
+Andrew Downing,2014-05-27 21:33:18,930c0e6971d41c2aad0841d5d7b6bd4476e3df35,support automatic time travel with stacked units
+Andrew Downing,2014-05-27 21:35:38,bf3cf7ce991005a71e790c18791823d5f2f182fa,I think timeCmd + 1 is no longer needed here
+Andrew Downing,2014-05-27 21:45:09,daef43f9368a85b60de107834ba93bff8a6d3e7f,hacky fix to let sharing paths stack correctly when using automatic time travel
+Andrew Downing,2014-06-07 12:57:52,9f7eac8c5327ad44a290dccdab83bc632df68b78,automatically select newly made alternate paths of selected units
+Andrew Downing,2014-06-07 13:05:29,dc1ec02635a6d7fb7538c64529730dbb767ceb4f,reword some comments in canMakePath()
+Andrew Downing,2014-06-07 13:57:03,54d62c3e6b44c9b11f6ea2c1d86bdc67b65d7099,add automatic time travel GUI toggle
+Andrew Downing,2014-06-07 13:59:15,a9a3a7ab403324594e012f474943348e1f932fcd,remove unused waypoints list
+Andrew Downing,2014-06-08 11:41:22,71c6c5be6312276c54c4b9becd5ac52f0629debc,work again with non-live paths disabled
+Andrew Downing,2014-06-08 11:46:17,21d4fc05393fa4d9619ddc63fbe39639d245ac59,don't automatically select moved path if it isn't a new path
+Andrew Downing,2014-06-08 12:30:12,80d6622aaa12ff81eb83f532d467760a35a89ea3,add some comments
+Andrew Downing,2014-06-08 12:31:37,0a2f7401efa69ffde39ba11c3efb317bda4af53b,remove never-executed line in canMakePath()
+Andrew Downing,2014-06-08 14:04:53,339bab4c98ca23f1fd5363f84f8442cf8d03393e,WaypointAddEvt shouldn't add waypoint if unit is seen
+Andrew Downing,2014-06-08 14:10:06,25ff2989aa2fe39f6aa667a94c7c672e1fdfe087,reset waypoints when shooting
+Andrew Downing,2014-06-08 14:25:52,801debf7bd84ba78c56bfa0dcaf70173e1c866dd,add .DS_Store to .gitignore
+Andrew Downing,2014-06-08 15:23:04,ceed360f01eedf7ffab8b68c405231d69f6b3931,fix saving games after adding automatic time travel
+Andrew Downing,2014-06-08 15:57:52,5c2ea579e375bb79440cedb6cdc9bb3475396e44,store objects instead of indices in StackEvt
+Andrew Downing,2014-06-08 16:17:55,87d18e70971d418bf4237fb8faeecb91a04d174e,store objects instead of indices in PlayerVisRemoveEvt
+Andrew Downing,2014-06-08 16:23:40,e8695dd18ce028fb0ae45e71591df411e8849c73,specify waypointCol in scn_perf_test.json
+Andrew Downing,2014-06-15 11:20:18,4dc869eda161a25c1a8b0d0991fbb75940b02c23,playerVisIndexWhen() and exclusiveIndexWhen() are no longer called by anyone
+Andrew Downing,2014-06-15 12:05:15,e9d4b5cf7630924dc383e21b36c3adec856433ee,consistently use *When() method naming
+Andrew Downing,2014-06-15 12:15:41,e82e336cf0fb0395343da388d057365840a3d218,stackAllowed() is really only used in 1 place
+Andrew Downing,2014-06-15 15:49:26,f0319c79052dafdfb33dedbba854154a9e2abe2f,remove unhelpful comments
+Andrew Downing,2014-06-15 16:12:59,872c7af6a42f639e07b96873f1efea253aff6829,add comments describing 'danger zone' in SegmentUnit.delete()
+Andrew Downing,2014-06-15 16:26:11,26542264220449940589dcacdff7b6da8b2c0579,use collection initializer instead of unitList in MakeUnitCmdEvt
+Andrew Downing,2014-06-21 00:38:10,a8a945009151dcbb39db62399d4575ed0e767b26,make constants lowercase
+Andrew Downing,2014-06-21 03:20:15,488148162ca86b2fdfa01eb796ab33b7717da685,rename mayAttack to canAttack
+Andrew Downing,2014-06-21 15:33:46,4ded9e19716d0f6446b20f3bd48ad31ed5c78df2,shorten comments about 'danger zone'
+Andrew Downing,2014-06-21 16:29:20,b9bccf67cba0a69719190bffea82a52c0cf827fc,remove unit from deletedUnits list when adding it back to past segments
+Andrew Downing,2014-06-26 22:40:40,d7c19638a65ff200671306ea5423d092336b7463,only add waypoint when can be unambiguous parent
+Andrew Downing,2014-06-26 23:09:36,106cd496613c94fc59df9b22911423239e25df77,fix potential bug when path deleted before WaypointAddEvt
+Andrew Downing,2014-06-26 23:18:08,cd1a01624a06a5a98351a49688ab329b98e21029,make FP a static class
+Andrew Downing,2014-06-27 00:05:40,43bfbca056da6884ab1838f1d3e37f9d37666a55,implement SimEvtList using extension methods
+Andrew Downing,2014-07-02 23:40:37,82ef981812ff536dea939a279ac483d04f1333ae,"add non-live paths to visibility tiles, close #49"
+Andrew Downing,2014-07-04 19:07:38,9ad68f67de270789628b7e07878000e50aab7cab,add new path to parent path's tile
+Andrew Downing,2014-07-04 19:23:39,062ef313a7fe45adfc89c64ff8aa014287c0f0e1,combine nested if in TileUpdateEvt
+Andrew Downing,2014-07-04 22:21:14,f44293aa32144acf86307e041eabf6a213546cfa,add path smoothing during automatic time travel
+Andrew Downing,2014-07-04 22:47:51,44b62b249be53b825c723c08eb147b3f0b0eb8f6,add automatically time traveling paths to visibility tiles
+Andrew Downing,2014-07-04 23:30:12,b591d355d44d4e42220d67b52c82018a0f942297,remove unhelpful comments in Move
+Andrew Downing,2014-08-29 12:49:38,d3b8d2aeb180fd741f8763d31cbc343e6118090a,update planning notes as of 5/23/2014
+Andrew Downing,2014-08-29 14:37:01,94dae3f79bc5ca570925e32c4430d92290349c83,update readme overview and planning notes
+Andrew Downing,2014-09-20 17:29:10,041790f336f4088127e1c104552c6b9e14bdfc86,tweak readme overview
+Andrew Downing,2014-12-02 20:55:03,6e363a9c50e8d7ad27f943da701f422e82552857,put else on same line as }
+Andrew Downing,2014-12-12 20:13:07,c25fb38dbed0ef44d450fc8d2144939058454b51,remove unnecessary () before collection initializer
+Andrew Downing,2014-12-12 23:54:44,595d7aaa4d8e39d9adcc0a237d4c08b3b3c2e53a,replace loop with query in SegmentUnit.delete() (surprisingly improves performance)
+Andrew Downing,2014-12-21 15:15:32,00ea2c9a790e056e5c8fead0b618f8ba979b8a59,"Benjamin's data model, prune old notes"
+Andrew Downing,2014-12-21 21:23:49,7475f8cc368f9823dedb21e80ca9cd348a0271d1,change more links to https
+Andrew Downing,2014-12-22 20:57:43,302450a7c32cb5535adea17478a55d186246f24f,remove d as delete paths hotkey (too close to other hotkeys)
+Andrew Downing,2015-01-26 20:50:41,fd20c602949c50e97b0a04293b9a29cc05671ed9,monty hall level idea
+Andrew Downing,2015-01-26 21:42:41,fefb223d717c81df022a6cfaf986d60b9e6844a5,only add/clear waypoints if non-live paths enabled
+Andrew Downing,2015-01-26 22:43:28,ad96faed4652e6464094619ef18e09d7dd3b2570,restructure readme overview
+Andrew Downing,2015-01-26 23:22:02,31305a1dfac80d1efeaa3613800a2a47c5179982,copyright 2015
+Andrew Downing,2015-01-26 23:52:28,2709421fbce002fa25b46a7afe48fdaeda2f2d01,"nah, don't mention that"
+Andrew Downing,2015-03-18 23:03:53,ecc76e41f111202260a1116b57cbf1ffc061c76d,more level ideas
+Andrew Downing,2015-05-02 20:15:29,d64497fa316fcf7f67b0a12b99bde2aa71811329,"more level ideas, more functional graph traversal idea"
+Andrew Downing,2015-05-16 16:16:22,62265a12a228683bf7d772f6cc37d2f6832c9f5e,move non-unity links to reference
+Andrew Downing,2015-08-20 12:58:24,444d2c8112b14a0302e654e6c39d3dbf7c980ce4,"CC0, close #51"
+Andrew Downing,2015-08-20 13:23:08,8c34c83c731fa240e69fa28e7b5bc61c6c2ffefc,clarify json copyright
+Andrew Downing,2015-08-24 01:46:43,9fb5e936fcf17837c6c5bb0a6de80824f87573eb,comment: DependencyGraph is unused but brings back good memories
+Andrew Downing,2015-08-24 01:49:01,ef6658d7f62bcef1a691a87d8fe86c32c415137a,remove seemingly unused copy constructors
+Andrew Downing,2016-08-14 11:02:34,820b2ec0c87287be8ab7ab5ed7c57295a6a103d3,"Revert ""clarify json copyright""
+
+This reverts commit 8c34c83c731fa240e69fa28e7b5bc61c6c2ffefc."
+Andrew Downing,2016-08-14 11:04:18,208e6617a9787b15ce73abd79cd1d646a7033504,"Revert ""CC0, close #51""
+
+This reverts commit 444d2c8112b14a0302e654e6c39d3dbf7c980ce4."
+Andrew Downing,2016-08-14 11:34:29,cb1e7be383037c790927d74cf5b0f9170a144b4a,"clarify Unity 4.3.4, since it doesn't compile on newer versions"
+Andrew Downing,2016-08-14 18:47:45,b314f118e4b3d19b87e58eff999307a99c40a630,stacked unit animation
