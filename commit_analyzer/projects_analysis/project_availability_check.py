@@ -31,7 +31,8 @@ def read_json_file(file_path):
 def clean_json_file(file_path):
     if os.path.exists(file_path):
         with open(file_path, 'w') as file:
-            file.write('{}')  # Write empty JSON object
+            print(f'''Cleaning {file_path}''')
+            file.write('[]')  # Write empty JSON object
 
 def write_json_file(file_path, data):
     with open(file_path, 'w') as file:
