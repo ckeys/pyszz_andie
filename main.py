@@ -155,9 +155,9 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
 
     out2_json = os.path.join('out', f'bic_{szz_name}_{int(ts())}.json')
     with open(out2_json, 'w') as out:
+        log.info(f'''Writing Results to {out2_json}!''')
         json.dump(bugfix_commits, out)
-
-    log.info("+++ DONE +++")
+    log.info(f"+++ DONE +++")
 
 
 if __name__ == "__main__":

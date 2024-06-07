@@ -1,0 +1,100 @@
+,author_name,date_time,commit_hash,commit_message,bug_inducing
+11,Andrew Downing,2013-01-20 15:09:07,cc87f5eec9790a29b76407dc8dfae143961805cb,fix bugs in fixed point operations,True
+31,Andrew Downing,2013-01-27 00:31:47,c262157e0b6e20baef1f686f5f55fae5f0441c8f,fix bug updating tiles after giving command in past,True
+45,Andrew Downing,2013-02-02 21:58:34,8160269b3628d928258d5a75679e60e99475aa6a,allow specifying fixed point numbers as hex string in json,True
+47,Andrew Downing,2013-02-09 00:59:24,b9e28c8fd88c718bcd8de9af89ae18aebac90b1e,fix bug updating tiles after giving command in past,True
+48,Andrew Downing,2013-02-09 23:42:59,fbd7d62f5eab1d2e63672ae0ad53168431f5df02,fix tile updates not being applied in time order,True
+75,Andrew Downing,2013-05-07 22:13:46,3f11567eef16b66e28be2fa3feef7d3ef8a8a4ec,fix units sometimes not losing their visibility when they die,True
+88,Andrew Downing,2013-05-22 14:16:54,224e72a3b1d92756dcdf4943cf9d8c1f8a4e7bdf,remove di (direct input) variable prefixes,True
+90,Andrew Downing,2013-05-22 22:35:46,861a11eacf95bb9d01a519dc7a41b73ae59a7ed6,fix some bugs when deleting amplitudes,True
+91,Andrew Downing,2013-05-22 23:53:19,e0c836f5814d3d887b3808c72423e6d9824856e3,fix bug when making 2 nested child amplitudes then decohering newest child,True
+92,Andrew Downing,2013-05-23 15:46:53,a74b55cde04bd83fb651c9ad992a768e9d29752a,fix bugs relating to replacement and non-live amplitudes,True
+99,Andrew Downing,2013-05-28 14:54:50,a2523a503816906a673fc6d119f9fd656c334794,add FixPt data type to replace some longs,True
+102,Andrew Downing,2013-05-29 22:47:48,91d13a0328d7403790525a0f3fc006cdeb0c1c95,fix comment formatting in DX.cs,True
+106,Andrew Downing,2013-05-30 15:58:42,7d013065c5530487c0fe8804f390b2b9e204701d,"Revert ""add FixPt data type to replace some longs""
+
+This reverts commit a2523a503816906a673fc6d119f9fd656c334794 because there
+was too much of a performance hit.
+
+Conflicts:
+	src/Sim.cs",True
+117,Andrew Downing,2013-05-31 22:12:21,b7af1da72a4f2e9ab69392f21b396f7a4c04fa87,fix crash when moving 1 unit in ring formation,True
+121,Andrew Downing,2013-06-04 14:55:08,1338075ff27c9c153190eb0dc020445368f9217a,bug fix in Unit.deletePath() and cleanup related to previous commit,True
+123,Andrew Downing,2013-06-04 20:53:48,65eac158a3210458ecac2f1e4ca3acde1a1e8271,fix not allowing to make units where seen by another player,True
+130,Andrew Downing,2013-06-06 23:12:55,5970cecdeea18bfdec5cfe94d09dc03b030b54ba,fix readme typo,True
+132,Andrew Downing,2013-06-07 22:44:04,70884524fee2afd59b98add185f7b2aa8a171a56,"fix bug when making new path, using parent path to make building, then decohering child path",True
+134,Andrew Downing,2013-06-08 00:23:17,0c71ad9ceab195c0514f3db65518c693e7f769c3,fix bug finding next move in addTileMoveEvts(),True
+137,Andrew Downing,2013-06-09 21:01:03,ec97cb03979b15a82393c0dff68068607a4a588c,fix bug calculating resources when rewinding before mine path is made,True
+142,Andrew Downing,2013-06-11 16:00:57,4db19977742b5f54df90757d2182e474d84fe80c,fix problems with previous commit,True
+144,Andrew Downing,2013-06-11 17:46:42,858e1080df5894b656967c1c131ddeca31949b87,"Revert ""optimize calculating coherence of adjacent tiles (doesn't seem to help)""
+
+This reverts commit e046a3ddb1bc13e67eb0180d800443bef2a886d5.",True
+146,Andrew Downing,2013-06-20 21:36:03,47d916fd9f76694c7a2d211116993f430b6a6e90,"use fixed point sqrt, cos, sin",True
+173,Andrew Downing,2013-08-10 18:42:05,00262254cc8f1555ad3a17d6c096e7e5e313f282,"fix applying commands in wrong update in multiplayer, and add checksums",True
+188,Andrew Downing,2013-09-14 15:16:24,9ae540c9ebe5701b225a6bc8e33e29f8f8f77726,"Revert ""rewrite readme overview using defending base example""
+
+This reverts commit 51d111995a779a348cc97d1be7367a80095feb7a because the new overview was long and didn't necessarily explain things better.",True
+196,Zach Latta,2013-09-27 22:20:46,88a8b307e1ade1fa6fa2ae56296b3e084820fe9b,Fix memory leak.,True
+204,Andrew Downing,2013-10-10 21:47:05,54253db6c22f06c781976a6ca9b2724ffb8ea3ff,fix compile error after merge,True
+223,Andrew Downing,2013-10-20 00:06:37,4fd107fcdb1f1254adb3879abf019b75a949aa1c,reimplement deleting paths (currently has some bugs),True
+225,Andrew Downing,2013-10-20 15:17:49,f3d776cd58e2a845488e0df5f67b9db734aff4d4,fix makePath() connecting more paths than it should,True
+234,Andrew Downing,2013-10-25 20:47:15,c4421ac0744b295600384bd41ab307a94878aff4,fix distance checking bug in makeUnitMovePos(),True
+237,Andrew Downing,2013-11-02 12:13:24,297f7e984f1074d8542b52842a4e8dfcf581a9c9,fix stupid bug in Node constructor,True
+240,Andrew Downing,2013-11-02 13:16:55,a99d720269a8e7a14f38c94e0f78a7c304029db5,fix deleting paths with multiple parents,True
+249,Andrew Downing,2013-11-10 00:45:02,a6ad98727406869edf5bcfeacc52e4e917142f4d,fix Path.removeUnit() not removing other paths from visibility tiles,True
+250,Andrew Downing,2013-11-10 01:00:41,2990596e933eaa6cc6e1069b28933b860e2ce713,fix deleting old path in StackEvt if it is seen,True
+252,Andrew Downing,2013-11-10 01:39:16,15fb3a093a3164f21e8f31737fe96ea32f580def,fix a check in Path.unseenAfter(),True
+253,Andrew Downing,2013-11-15 22:25:14,96b1ab68b2f63f4f3a4f3f80b6ed8f23ccec6e59,fix calculating endNode in Path.rscCollected(),True
+273,Andrew Downing,2013-11-24 16:32:23,d03b58cf2878e22249fdd2ff62f32d4d644c7f75,fix removeUnit() bug when finding ancestors,True
+274,Andrew Downing,2013-11-24 17:13:12,260272cf85a1e602d92422c58eefd5958a9b7125,fix deleting other paths of non-live path,True
+283,Andrew Downing,2013-11-27 14:38:54,b4bc862f42c2586c3d60d01ead8211ba643f128b,"Revert ""draw unit path lines again""
+
+This reverts commit 74217fa80268ab57159fe62dcbad99eceffe86b2.",True
+285,Andrew Downing,2013-11-28 16:21:21,533ad8fb8fee73f3a287c957c572897633f1c80e,"Revert ""fix distance checking bug in makeUnitMovePos()""
+
+This reverts commit c4421ac0744b295600384bd41ab307a94878aff4 to make it
+easier to merge the stacking branch.",True
+286,Andrew Downing,2013-11-28 16:22:27,0e4cd8f7e98a155b72e9c31636659a2baa27d512,"Revert ""tweak a comment in Unit.updatePast()""
+
+This reverts commit e766cac9aaf26911b23597173596044c378594f7 to make it
+easier to merge the stacking branch.",True
+288,Andrew Downing,2013-11-28 21:23:15,460b972fda54dd3e45162ace111d588f9bc35153,fix bug when right clicking with no units selected in multiplayer (because protobuf-net deserializes empty collections to null),True
+307,Andrew Downing,2013-12-06 23:41:40,764a35e5d254a2e05bcaa9d00a0063fdd00adc19,fix failing recursive removeUnitAfter calls not causing the caller to fail,True
+320,Andrew Downing,2013-12-08 19:21:49,2d4c7252f30e70491b93b205f489984481e46dd7,fix not checking resources when 1st segment of unit to remove is removed (regression caused by 8a456d5),True
+327,Andrew Downing,2013-12-09 01:57:55,e9e9641f52a6bf2e382e5b45ac10bb0592ef5f04,fix canBeUnambiguousParent() regression introduced in a9e3f22,True
+329,Andrew Downing,2013-12-09 16:15:46,d0048d1006f284e7e4b054fc72806b626f8c4ea0,fix SegmentUnit.delete() regression introduced in a4bfc4a,True
+335,Andrew Downing,2013-12-22 01:09:33,82094fd18da1e8725d4a829d451dc0c0f8db5ee4,fix multiplayer regression introduced in 3a9a86c,True
+336,Andrew Downing,2013-12-22 01:47:08,adf7cb46a279b1970233acf709c546224f79db29,various cleanup and bug fixes over last few commits,True
+338,Andrew Downing,2013-12-22 18:20:52,b548acef8217a3f10a89d57b779a814a818afea0,note a bug involving moving non-live paths,True
+344,Andrew Downing,2013-12-23 02:59:02,52917efd1a42a1a8ef203ca632fa5fe5e4a22908,fix UnitType.id comment,True
+352,Andrew Downing,2014-01-03 18:19:08,3ebd9f73902938d8f44bfb4242f09f62d04d9ff6,fix segment branches not sharing the same List instance after deserialization,True
+362,Andrew Downing,2014-01-10 18:27:29,c31bcf9fd6f6750c612f02e8873bdd048a2a62ed,"use separate GUIStyle variables for normal and error text, fixes #11",True
+368,Andrew Downing,2014-01-12 23:24:37,c675133cec42ef7633a68efad55e11b9608a291d,App doesn't need System.IO prefix because it is already imported,True
+381,Andrew Downing,2014-01-25 17:30:11,053cc3d935b8cad698f4bb6a0270acb3af5fed7d,fix replay implementation breaking loading games,True
+384,Andrew Downing,2014-01-29 21:45:34,686698b175f930869f3874217d3ae6ba4bcc2c41,"fix unstacking units when another player sees them, close #10",True
+387,Andrew Downing,2014-02-01 18:02:28,c350659033dd44bf8dfa9d7ddbe67e2b819e80fe,fix paths not stacking correctly after sharing paths repeatedly,True
+396,Andrew Downing,2014-02-21 15:23:18,499470896081b7c0cdcf9da6b2bafa2e05a5ecea,fix cheat panel buttons moving units into formation,True
+410,Andrew Downing,2014-03-02 18:14:56,de923c9e6059235992ca7f37326c19bd66c0f5d6,fix replay description font size,True
+411,Andrew Downing,2014-03-02 18:36:30,f5421f4ee0c140ae398e7c8caa219404aa97a130,fix opening saved games with no keep lines,True
+419,Andrew Downing,2014-03-16 13:07:38,0cb4907352c7fdc47d601d960e53e27f1253f2b0,fix deleting other paths of non-live path (bug reintroduced in 3a9fcab57c945ae10d35c24d67be10775a2be610),True
+420,Andrew Downing,2014-03-16 15:49:31,9e0d2ecdcca2ad84b5da3ab1cce4e1c56884ba55,calculate tile exclusivity directly instead of using exclusive variable when non-live paths disabled (fixes #34),True
+421,Andrew Downing,2014-03-16 18:46:26,7518f10cdec1c2c320a6d88d036bf8f444ba56ff,"do normal move if can't stack onto clicked unit, fixes #13",True
+423,Andrew Downing,2014-03-17 16:38:04,013a825dba37f1e06dffc888faa44f5d3cb95926,fix allChildren() returning no combinations if a unit is killed,True
+443,Andrew Downing,2014-04-20 17:36:24,1d64927f1b1323d2a0eed5040b889a39ab03d8af,fix laser implementation breaking loading games,True
+448,Andrew Downing,2014-04-21 12:10:40,0fdeef556d89e1f038bf18f04be96b731a3e947f,"fix units losing their visibility if they're stacked onto a deleted path, fixes #42",True
+455,Andrew Downing,2014-05-16 16:32:18,6b67e173d859fcaf82f8b6230931298ad9c1e3cf,"allow moving unit when another unit on same segment is seen later, fixes #32",True
+459,Andrew Downing,2014-05-18 17:35:12,7248248ad6d0bd68fcaba0491f35cd868da19a58,move paths between tiles at fixed intervals instead of calculating when they change tiles,True
+463,Andrew Downing,2014-05-18 19:26:32,6b6828cf3fbfc7f32d834b31be5bbd47bae118c1,fix nested non-live paths,True
+464,Andrew Downing,2014-05-18 19:31:41,faeb2b4a7a101dde483db2e233b99ed13f5a3b32,"fix sharing paths while time traveling, close #44",True
+469,Andrew Downing,2014-05-18 23:13:41,d8c3d3ae06f97b8a0a0e70a5828dc7480b4b12e7,"support time traveling in multiplayer, fixes #26",True
+478,Andrew Downing,2014-05-20 12:20:50,3fcf2bee8cf168cb84ff0f188b957a9eecb1040c,"fix deleting non-live unit immediately when it's made, close #45",True
+502,Andrew Downing,2014-05-27 16:27:56,bb2b07d6f13527b6f6f3580148d5d46bff4c2226,fix sometimes using wrong parent path for automatic time travel,True
+507,Andrew Downing,2014-05-27 21:45:09,daef43f9368a85b60de107834ba93bff8a6d3e7f,hacky fix to let sharing paths stack correctly when using automatic time travel,True
+519,Andrew Downing,2014-06-08 15:23:04,ceed360f01eedf7ffab8b68c405231d69f6b3931,fix saving games after adding automatic time travel,True
+534,Andrew Downing,2014-06-26 23:09:36,106cd496613c94fc59df9b22911423239e25df77,fix potential bug when path deleted before WaypointAddEvt,True
+564,Andrew Downing,2016-08-14 11:02:34,820b2ec0c87287be8ab7ab5ed7c57295a6a103d3,"Revert ""clarify json copyright""
+
+This reverts commit 8c34c83c731fa240e69fa28e7b5bc61c6c2ffefc.",True
+565,Andrew Downing,2016-08-14 11:04:18,208e6617a9787b15ce73abd79cd1d646a7033504,"Revert ""CC0, close #51""
+
+This reverts commit 444d2c8112b14a0302e654e6c39d3dbf7c980ce4.",True

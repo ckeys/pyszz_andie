@@ -1,50 +1,531 @@
 [
-  {
-      "id":26,
-      "repo_name":"trenkel/collectd",
-      "fix_commit_hash":"e5ec04602ccc08aa45d8a9e60d9bcb476d3f9655",
-      "bug_commit_hash":[
-         "496ca2b758344bc6372ab0adf98ad8050f69b25a"
-      ],
-      "best_scenario_issue_date":"2016-08-06T18:18:13",
-      "language":[
-         "c"
-      ]
-   },
-  {
-      "id":123,
-      "repo_name":"Redmaner/MiCore_kernel_aries",
-      "fix_commit_hash":"791446102231d10b325cd522183016e240290f40",
-      "bug_commit_hash":[
-         "072bb0aa5e062902968c5c1007bba332c7820cf4"
-      ],
-      "best_scenario_issue_date":"2012-08-01T01:43:45",
-      "language":[
-         "c"
-      ]
-   },
-  {
-      "id":233,
-      "repo_name":"gxt/QEMU",
-      "fix_commit_hash":"d6ef40bf1881ddc82c8d64e72d412090efe1190e",
-      "bug_commit_hash":[
-         "39879bbbea4661a4004ca26673e3d1e6ae1e0bc3"
-      ],
-      "best_scenario_issue_date":"2012-04-06T15:50:58",
-      "language":[
-         "c"
-      ]
-   },
-   {
-      "id":478,
-      "repo_name":"Kasukoi/eisverkauf",
-      "fix_commit_hash":"9e07b47233034a027c1e7d177dd4b9874c8c15e4",
-      "bug_commit_hash":[
-         "37abe6467f96363d02cde153c4a50b57d9a700a5"
-      ],
-      "best_scenario_issue_date":"2018-06-25T18:49:29",
-      "language":[
-         "java"
-      ]
-   }
+    {
+        "id": 26,
+        "repo_name": "trenkel/collectd",
+        "fix_commit_hash": "e5ec04602ccc08aa45d8a9e60d9bcb476d3f9655",
+        "bug_commit_hash": [
+            "496ca2b758344bc6372ab0adf98ad8050f69b25a"
+        ],
+        "best_scenario_issue_date": "2016-08-06T18:18:13",
+        "language": [
+            "c"
+        ]
+    },
+    {
+        "id": 123,
+        "repo_name": "Redmaner/MiCore_kernel_aries",
+        "fix_commit_hash": "791446102231d10b325cd522183016e240290f40",
+        "bug_commit_hash": [
+            "072bb0aa5e062902968c5c1007bba332c7820cf4"
+        ],
+        "best_scenario_issue_date": "2012-08-01T01:43:45",
+        "language": [
+            "c"
+        ]
+    },
+    {
+        "id": 233,
+        "repo_name": "gxt/QEMU",
+        "fix_commit_hash": "d6ef40bf1881ddc82c8d64e72d412090efe1190e",
+        "bug_commit_hash": [
+            "39879bbbea4661a4004ca26673e3d1e6ae1e0bc3"
+        ],
+        "best_scenario_issue_date": "2012-04-06T15:50:58",
+        "language": [
+            "c"
+        ]
+    },
+    {
+        "id": 478,
+        "repo_name": "Kasukoi/eisverkauf",
+        "fix_commit_hash": "9e07b47233034a027c1e7d177dd4b9874c8c15e4",
+        "bug_commit_hash": [
+            "37abe6467f96363d02cde153c4a50b57d9a700a5"
+        ],
+        "best_scenario_issue_date": "2018-06-25T18:49:29",
+        "language": [
+            "java"
+        ]
+    },
+    {
+        "id": 26,
+        "repo_name": "trenkel/collectd",
+        "fix_commit_hash": "e5ec04602ccc08aa45d8a9e60d9bcb476d3f9655",
+        "bug_commit_hash": [
+            "496ca2b758344bc6372ab0adf98ad8050f69b25a"
+        ],
+        "best_scenario_issue_date": "2016-08-06T18:18:13",
+        "language": [
+            "c"
+        ]
+    },
+    {
+        "id": 26,
+        "repo_name": "trenkel/collectd",
+        "fix_commit_hash": "e5ec04602ccc08aa45d8a9e60d9bcb476d3f9655",
+        "bug_commit_hash": [
+            "496ca2b758344bc6372ab0adf98ad8050f69b25a"
+        ],
+        "best_scenario_issue_date": "2016-08-06T18:18:13",
+        "language": [
+            "c"
+        ]
+    },
+    {
+        "id": 123,
+        "repo_name": "Redmaner/MiCore_kernel_aries",
+        "fix_commit_hash": "791446102231d10b325cd522183016e240290f40",
+        "bug_commit_hash": [
+            "072bb0aa5e062902968c5c1007bba332c7820cf4"
+        ],
+        "best_scenario_issue_date": "2012-08-01T01:43:45",
+        "language": [
+            "c"
+        ]
+    },
+    {
+        "id": 26,
+        "repo_name": "trenkel/collectd",
+        "fix_commit_hash": "e5ec04602ccc08aa45d8a9e60d9bcb476d3f9655",
+        "bug_commit_hash": [
+            "496ca2b758344bc6372ab0adf98ad8050f69b25a"
+        ],
+        "best_scenario_issue_date": "2016-08-06T18:18:13",
+        "language": [
+            "c"
+        ]
+    },
+    {
+        "id": 123,
+        "repo_name": "Redmaner/MiCore_kernel_aries",
+        "fix_commit_hash": "791446102231d10b325cd522183016e240290f40",
+        "bug_commit_hash": [
+            "072bb0aa5e062902968c5c1007bba332c7820cf4"
+        ],
+        "best_scenario_issue_date": "2012-08-01T01:43:45",
+        "language": [
+            "c"
+        ]
+    },
+    {
+        "id": 233,
+        "repo_name": "gxt/QEMU",
+        "fix_commit_hash": "d6ef40bf1881ddc82c8d64e72d412090efe1190e",
+        "bug_commit_hash": [
+            "39879bbbea4661a4004ca26673e3d1e6ae1e0bc3"
+        ],
+        "best_scenario_issue_date": "2012-04-06T15:50:58",
+        "language": [
+            "c"
+        ]
+    },
+    {
+        "id": 478,
+        "repo_name": "Kasukoi/eisverkauf",
+        "fix_commit_hash": "9e07b47233034a027c1e7d177dd4b9874c8c15e4",
+        "bug_commit_hash": [
+            "37abe6467f96363d02cde153c4a50b57d9a700a5"
+        ],
+        "best_scenario_issue_date": "2018-06-25T18:49:29",
+        "language": [
+            "java"
+        ]
+    },
+    {
+        "id": 581,
+        "repo_name": "heldergg/webpymail",
+        "fix_commit_hash": "e41bb532eede8dc5562c6070e31a98a90f16d2be",
+        "bug_commit_hash": [
+            "ee479c28a4090d4af08269a2a8be340aec87f843"
+        ],
+        "best_scenario_issue_date": "2016-09-01T21:40:02",
+        "language": [
+            "py"
+        ]
+    },
+    {
+        "id": 625,
+        "repo_name": "crimsonthunder/Crystal_Kernel_OP6T",
+        "fix_commit_hash": "44a6607dcceede5879fa3988d80ca40592f45917",
+        "bug_commit_hash": [
+            "55d7de9de6c30adce8d675c7ce513e283829c2ff"
+        ],
+        "earliest_issue_date": "2018-07-12T20:38:44",
+        "language": [
+            "c"
+        ]
+    },
+    {
+        "id": 812,
+        "repo_name": "aexmod-tmp/kernel_oneplus_sdm845",
+        "fix_commit_hash": "36d34e2535856c1199346a7f6bff7be3caf50f28",
+        "bug_commit_hash": [
+            "72f9f3fdc928dc3ecd223e801b32d930b662b6ed"
+        ],
+        "best_scenario_issue_date": "2016-03-08T11:25:55",
+        "language": [
+            "c"
+        ]
+    },
+    {
+        "id": 857,
+        "repo_name": "rideconnection/lowdown",
+        "fix_commit_hash": "58e5b7fa4c2f2a26c2dbf9a5fd3140356d0d567c",
+        "bug_commit_hash": [
+            "2ad823919c7a934ff2e5f841136177ae75869ed9"
+        ],
+        "best_scenario_issue_date": "2012-10-22T20:41:32",
+        "language": [
+            "rb"
+        ]
+    },
+    {
+        "id": 1070,
+        "repo_name": "bmorel/ValyriaTear",
+        "fix_commit_hash": "411a95806c0287a540210fac0a7f6fdfd301f6a9",
+        "bug_commit_hash": [
+            "a1e27dfc857a91f93988faabd771283570696f7c"
+        ],
+        "best_scenario_issue_date": "2015-05-11T16:04:31",
+        "language": [
+            "cpp"
+        ]
+    },
+    {
+        "id": 1099,
+        "repo_name": "sobotka/blender",
+        "fix_commit_hash": "956cb4f403dd3a6ddb379202dc1f2770b9820073",
+        "bug_commit_hash": [
+            "c5b1e7cd4e86f9aff010fa84192d783b895ce6c7"
+        ],
+        "best_scenario_issue_date": "2019-06-11T13:52:39",
+        "language": [
+            "c"
+        ]
+    },
+    {
+        "id": 1123,
+        "repo_name": "freedesktop/cairo",
+        "fix_commit_hash": "bb4ab5a8be2f66bfc03716eb37b94ec186ab1e55",
+        "bug_commit_hash": [
+            "4790a3663d12cfbbe643023713477204d61b1c4a"
+        ],
+        "best_scenario_issue_date": "2016-10-06T21:09:37",
+        "language": [
+            "c"
+        ]
+    },
+    {
+        "id": 1250,
+        "repo_name": "Cloudrexx/cloudrexx",
+        "fix_commit_hash": "f4ee028b06b4d44610a728576608eaa2fb411c18",
+        "bug_commit_hash": [
+            "dbe85c9ccc6fe35f47819a7b67b41acc85fb5f87"
+        ],
+        "best_scenario_issue_date": "2015-09-25T11:11:33",
+        "language": [
+            "php"
+        ]
+    },
+    {
+        "id": 1553,
+        "repo_name": "jeffpferreira/tpm2-abrmd",
+        "fix_commit_hash": "0611ebceac45f113365af37664d45cf0b5780a1b",
+        "bug_commit_hash": [
+            "c5e66b78def9a7f6f6bf47d778a2795af306f73c"
+        ],
+        "best_scenario_issue_date": "2019-05-07T14:35:12",
+        "language": [
+            "c"
+        ]
+    },
+    {
+        "id": 1760,
+        "repo_name": "systemd-mailing-devs/systemd-mailing-list",
+        "fix_commit_hash": "9b5b4bed1778d16680d97b73a4555568d956e588",
+        "bug_commit_hash": [
+            "0d94088e4e9e00f5ca9afdb8e68c94558fe23268"
+        ],
+        "best_scenario_issue_date": "2018-11-23T18:54:18",
+        "language": [
+            "c"
+        ]
+    },
+    {
+        "id": 1763,
+        "repo_name": "systemd-mailing-devs/systemd-mailing-list",
+        "fix_commit_hash": "67577508d8de4169f3d62c23da0016a481ac096d",
+        "bug_commit_hash": [
+            "c3e658004a66115fa09abcf602d573e65e577aa9"
+        ],
+        "best_scenario_issue_date": "2018-11-23T18:15:32",
+        "language": [
+            "c"
+        ]
+    },
+    {
+        "id": 1783,
+        "repo_name": "Ichimonji10/pulp-smash",
+        "fix_commit_hash": "33880335759ae46cc23a2a9c3e2c81dbfede3944",
+        "bug_commit_hash": [
+            "eb383cd06144dac7f213478b619572140a09d7e1"
+        ],
+        "best_scenario_issue_date": "2016-05-26T16:59:21",
+        "language": [
+            "py"
+        ]
+    },
+    {
+        "id": 1855,
+        "repo_name": "jonasjberg/autonameow",
+        "fix_commit_hash": "66fc65e1d3c8baa4d574ab96665c4e94bfeb71f0",
+        "bug_commit_hash": [
+            "ca4779cdb7e6235911c799cf3081fa80669b85c6"
+        ],
+        "best_scenario_issue_date": "2017-09-25T13:30:56",
+        "language": [
+            "py"
+        ]
+    },
+    {
+        "id": 1978,
+        "repo_name": "fratajczak/21sh",
+        "fix_commit_hash": "eacd64f50d63764187f3973c047e593846d0206e",
+        "bug_commit_hash": [
+            "ad11237828f2afb41eea1a9b16d058d1755925c6"
+        ],
+        "best_scenario_issue_date": "2020-01-12T15:17:17",
+        "language": [
+            "c"
+        ]
+    },
+    {
+        "id": 2032,
+        "repo_name": "lazyfrosch/puppet-lint",
+        "fix_commit_hash": "88b1a20ddbb1dd66864c4b689262668e84da98b0",
+        "bug_commit_hash": [
+            "b91d0058da6265ade231bfcd5516bb0050ecc3d5"
+        ],
+        "best_scenario_issue_date": "2013-01-21T12:25:01",
+        "language": [
+            "rb"
+        ]
+    },
+    {
+        "id": 2099,
+        "repo_name": "vdrhtc/Measurement-automation",
+        "fix_commit_hash": "118ddc0ebe7b617cd5cfc9f85a3af15488e84f77",
+        "bug_commit_hash": [
+            "7658bc9f6b06459f22b7e2a09b3bdcab98873081"
+        ],
+        "best_scenario_issue_date": "2020-01-10T12:30:07",
+        "language": [
+            "py"
+        ]
+    },
+    {
+        "id": 2139,
+        "repo_name": "mesa3d/mesa",
+        "fix_commit_hash": "b3de274b05c75565d14ec2d665a8bbfe55a7fb16",
+        "bug_commit_hash": [
+            "3948cd37973696dc319170877382676809659465"
+        ],
+        "best_scenario_issue_date": "2016-06-22T09:45:03",
+        "language": [
+            "c"
+        ]
+    },
+    {
+        "id": 2220,
+        "repo_name": "GNOME/pybliographer",
+        "fix_commit_hash": "4202149c7b475bdf6454449f5193f786bd133583",
+        "bug_commit_hash": [
+            "c01060d350db5242adfb3b1e03765d6af755b29e"
+        ],
+        "best_scenario_issue_date": "2017-10-07T02:24:15",
+        "language": [
+            "py"
+        ]
+    },
+    {
+        "id": 2253,
+        "repo_name": "smargh/alfred-workflow",
+        "fix_commit_hash": "1df79c8e548bc60702a5d064f79fda04aa1c22f8",
+        "bug_commit_hash": [
+            "5a22c1123c4b330f8ea73ef1d9e0538c3abe3e0f"
+        ],
+        "best_scenario_issue_date": "2014-07-23T06:05:25",
+        "language": [
+            "py"
+        ]
+    },
+    {
+        "id": 2284,
+        "repo_name": "biola/chef-bacula-backup",
+        "fix_commit_hash": "14336fce83ac3391687449e4e612fd7358f475ed",
+        "bug_commit_hash": [
+            "d0771dbfa45cddf93cc4e62c1878116729acb112"
+        ],
+        "best_scenario_issue_date": "2014-09-07T05:58:27",
+        "language": [
+            "rb"
+        ]
+    },
+    {
+        "id": 2346,
+        "repo_name": "aragon/aragon-ui",
+        "fix_commit_hash": "976cdc9d1e6bd32de72e68c19e7e3080e9c8d5fe",
+        "bug_commit_hash": [
+            "3599f33afac53b6b1d979dbb3c1f2dc3154d5736"
+        ],
+        "best_scenario_issue_date": "2019-05-03T10:52:47",
+        "language": [
+            "js"
+        ]
+    },
+    {
+        "id": 2412,
+        "repo_name": "johnyf/tulip-control",
+        "fix_commit_hash": "755377d162256ced6975557470221f9fb5d516bf",
+        "bug_commit_hash": [
+            "5ed12b3673b571c2afe3462316f3345ebd629441"
+        ],
+        "best_scenario_issue_date": "2014-09-28T02:47:34",
+        "language": [
+            "py"
+        ]
+    },
+    {
+        "id": 2496,
+        "repo_name": "negge/tx_fun",
+        "fix_commit_hash": "81b6cebb95500ed1353b7fb5f98c6e1c1a57f02f",
+        "bug_commit_hash": [
+            "3dd5a11b8d551de1033d5945bb88f645beb9a8ec"
+        ],
+        "best_scenario_issue_date": "2017-10-23T20:59:04",
+        "language": [
+            "c"
+        ]
+    },
+    {
+        "id": 2514,
+        "repo_name": "SirMaximilian/snickerdoodle-linux",
+        "fix_commit_hash": "744889b7cbb56a64f957e65ade7cb65fe3f35714",
+        "bug_commit_hash": [
+            "a22c4d7e34402ccdf3414f64c50365436eba7b93"
+        ],
+        "best_scenario_issue_date": "2015-10-28T00:13:58",
+        "language": [
+            "c"
+        ]
+    },
+    {
+        "id": 2516,
+        "repo_name": "chadcatlett/brew",
+        "fix_commit_hash": "3769bcc52338a4381d19443c18386f8261297fd7",
+        "bug_commit_hash": [
+            "01e9ec9a9f723b2ef89c7adfaea39f9e4db9aede"
+        ],
+        "best_scenario_issue_date": "2017-09-24T20:24:59",
+        "language": [
+            "rb"
+        ]
+    },
+    {
+        "id": 2606,
+        "repo_name": "mesa3d/mesa",
+        "fix_commit_hash": "da76dfb5159c2ca8ee24d64a5f85a68f28b70c65",
+        "bug_commit_hash": [
+            "a8ec4082a41830cf67a4fd405402fd2d820722fd"
+        ],
+        "earliest_issue_date": "2020-01-13T12:00:39",
+        "language": [
+            "cpp"
+        ]
+    },
+    {
+        "id": 2723,
+        "repo_name": "freedesktop/ezbench",
+        "fix_commit_hash": "98dd86f8c329434bf9ddc4af9f2d99c5a86400c6",
+        "bug_commit_hash": [
+            "b0c85333de21ea77cd7d0df26d8790a98ec5c39e"
+        ],
+        "best_scenario_issue_date": "2017-01-09T12:15:22",
+        "language": [
+            "py"
+        ]
+    },
+    {
+        "id": 2796,
+        "repo_name": "freedesktop/spice-html5",
+        "fix_commit_hash": "368fdaf51de2478eee9223032b3f7caee58cf132",
+        "bug_commit_hash": [
+            "42134d3e56f5c7551eeb2d0dac9fced89b7e49b6"
+        ],
+        "best_scenario_issue_date": "2016-10-10T16:31:28",
+        "language": [
+            "js"
+        ]
+    },
+    {
+        "id": 2979,
+        "repo_name": "bluemaex/node-dmx",
+        "fix_commit_hash": "9a1ee28ec305ec7811b5c6d350cb0b2156048812",
+        "bug_commit_hash": [
+            "d16472193895e6190465a2f66c0a33f9cfe3fb6e"
+        ],
+        "best_scenario_issue_date": "2016-10-15T21:24:51",
+        "language": [
+            "js"
+        ]
+    },
+    {
+        "id": 2994,
+        "repo_name": "freedesktop/drm-tip",
+        "fix_commit_hash": "2bc5ff0bdc00d81d719dad74589317a260d583ed",
+        "bug_commit_hash": [
+            "24aac6011f704d69b5f34514923413f85669f282"
+        ],
+        "best_scenario_issue_date": "2018-03-01T07:19:18",
+        "language": [
+            "c"
+        ]
+    },
+    {
+        "id": 3217,
+        "repo_name": "freedesktop/libreoffice-core",
+        "fix_commit_hash": "642581c4cc1ff95795885fe331f1c052d33bdf59",
+        "bug_commit_hash": [
+            "df905f41a33d0d7d2cde7fad80c5b3dc3c837c10"
+        ],
+        "best_scenario_issue_date": "2019-08-27T13:58:17",
+        "language": [
+            "cxx"
+        ]
+    },
+    {
+        "id": 3316,
+        "repo_name": "bgermann/graphite",
+        "fix_commit_hash": "0fa3fce65af30d0578b935e6d4940d31b0c6027e",
+        "bug_commit_hash": [
+            "d9be1d805ffe22392b8be3cd74e8ed0117bc1e38"
+        ],
+        "best_scenario_issue_date": "2018-09-06T04:05:06",
+        "language": [
+            "py"
+        ]
+    },
+    {
+        "id": 3462,
+        "repo_name": "greenplum-db/gpdb",
+        "fix_commit_hash": "6a3a31b92e6b79dc8abd8b1b6c1581061a11143b",
+        "bug_commit_hash": [
+            "f4f4bdcc8b7327faccbda8e12721b2c6b943aed7"
+        ],
+        "best_scenario_issue_date": "2018-10-23T02:15:36",
+        "language": [
+            "c",
+            "h"
+        ]
+    }
 ]
