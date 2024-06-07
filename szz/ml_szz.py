@@ -1,6 +1,8 @@
 import logging as log
 import traceback
 import math
+import re
+import subprocess
 from datetime import timezone
 from collections import defaultdict
 from datetime import datetime, timedelta
@@ -13,6 +15,7 @@ from szz.core.abstract_szz import AbstractSZZ, ImpactedFile
 from szz.ag_szz import AGSZZ
 from szz.core.abstract_szz import ImpactedFile, DetectLineMoved
 from szz.ma_szz import MASZZ
+from collections import Counter
 
 
 class MLSZZ(AGSZZ):
@@ -20,17 +23,15 @@ class MLSZZ(AGSZZ):
     def __init__(self, repo_full_name: str, repo_url: str, repos_dir: str = None):
         super().__init__(repo_full_name, repo_url, repos_dir)
 
-    def calculate_REXP(self, developer_changes, commit):
-        total_weighted_changes = 0
-        total_weight = 0
+    def calculate_REXP_old(self, developer_changes, commit):
         commit_date_aware = commit.committed_datetime.replace(tzinfo=timezone.utc)
         changes_per_year = defaultdict(int)
-        total_changes = 0
         for change in developer_changes:
             if change['date'] < commit_date_aware:
                 # Calculate time interval before commit_date_aware
                 time_interval = commit_date_aware - change['date']
-                years_before_commit = time_interval.days // 365
+                years_before_commit = float(time_interval.days) // float(365)
+                years_before_commit_tmp = time_interval.year
                 # Add changes to the first year
                 changes_per_year[years_before_commit + 1] += change['num_changes']
 
@@ -39,7 +40,40 @@ class MLSZZ(AGSZZ):
         # REXP = total_weighted_changes
         return REXP
 
-    def calculate_SEXP(self, developer_changes, subsystem_changes):
+    def calculate_REXP(self, commit):
+        author_name = commit.author.name
+        author_email = commit.author.email
+        commit_date = commit.authored_datetime
+        commit_num = commit.hexsha
+        current_year = commit_date.year
+        rev_list_command = [
+            'git',
+            'rev-list',
+            f'--author="{author_name} <{author_email}>"',
+            f'--before="{commit_date}"',
+            '--all',
+            '--format=format:"%H | %ad" --date=format:%Y',
+            "|awk '!seen[$1]++'"
+        ]
+        cwd = self.repository.working_dir
+        result = subprocess.run(' '.join(rev_list_command), shell=True, cwd=cwd, stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE, text=True)
+        # hist_commits_with_year = self.repository.git.execute(rev_list_command, shell=True).strip().split('\n')[1:]
+        hist_commits_with_year = result.stdout.strip().split('\n')[1:]
+        year_to_commit = dict()
+        for commit_with_year in hist_commits_with_year:
+            hist_commit, year = commit_with_year.split("|")
+            if year.strip() not in year_to_commit:
+                year_to_commit[year.strip()] = [hist_commit.strip()]
+            else:
+                year_to_commit[year.strip()].append(hist_commit.strip())
+        REXP = 0.0
+        for year, list_of_changes in year_to_commit.items():
+            n = (current_year - int(year))
+            REXP += len(list_of_changes) / float(n + 1)
+        return REXP
+
+    def calculate_SEXP_old(self, developer_changes, subsystem_changes):
         total_changes_to_subsystems = 0
 
         # Iterate over developer's changes
@@ -51,6 +85,41 @@ class MLSZZ(AGSZZ):
 
         # Calculate SEXP
         SEXP = total_changes_to_subsystems
+        return SEXP
+
+    def calculate_SEXP(self, commit: Commit):
+        author_name = commit.author.name
+        author_email = commit.author.email
+        commit_date = commit.authored_datetime
+
+        git_command = [
+            "git",
+            "log",
+            f'--author="{author_name} <{author_email}>"',
+            f'--before="{commit_date}"',
+            "--all",
+            '--format="%H"',
+            "--name-only",
+            "|",
+            "awk",
+            "'/^[0-9a-f]{40}$/{if(commit!=\"\") print commit\" | \"files; commit=$0; files=\"\"; next} {if($0!=\"\") files=files\",\"$0} END{print commit\" | \"files}'"
+        ]
+        cwd = self.repository.working_dir
+        result = subprocess.run(' '.join(git_command), shell=True, cwd=cwd, stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE, text=True)
+
+        # hist_commits_with_filename = self.repository.git.execute(git_command).strip().split('\n')[1:]
+        hist_commits_with_filename = result.stdout.strip().split('\n')[1:]
+        current_modified_subsystem = set([f.split("/")[0] for f in commit.stats.files.keys()])
+        SEXP = 0.0
+        for hist in hist_commits_with_filename:
+            hist_commit_num, modified_files = hist.split("|")
+            hist_commit_num = hist_commit_num.strip()
+            modified_files = modified_files.strip().split(",")
+            modified_files = [f for f in modified_files if f != '']
+            modified_subsystem = set([f.split("/")[0] for f in modified_files])
+            if len(current_modified_subsystem & modified_subsystem) > 0:
+                SEXP += 1.0
         return SEXP
 
     def calculate_author_metrics_optimized(self, commit):
@@ -67,38 +136,27 @@ class MLSZZ(AGSZZ):
             f"""--before={commit_date}""",
             '--all'
         ]
-
-        print(rev_list_command)
-        commit_hashes = self.repository.git.execute(rev_list_command).strip().split('\n')
+        hist_commit_hashes = self.repository.git.execute(rev_list_command).strip().split('\n')[1:]
         hist_modified_files = set()
         developer_changes = []  # Store developer changes for REXP calculation
         exp_added_lines = 0
         exp_removed_lines = 0
 
         start_time = time.time()
-        parent_commits = commit.parents
-        commit_hashes = [parent_commit.hexsha for parent_commit in parent_commits]
-        log.info(f'''---> Have to analyze {len(commit_hashes)} commits in total''')
-        if commit.hexsha in commit_hashes:
-            commit_hashes.remove(commit.hexsha)
-        log.info(f'''---> Have to analyze {len(commit_hashes)} commits in total''')
-        for i in range(0, len(commit_hashes)):
-            commit_hash = commit_hashes[i]
+        log.info(f'''---> Have to analyze {len(hist_commit_hashes)} commits in total''')
+        if commit.hexsha in hist_commit_hashes:
+            hist_commit_hashes.remove(commit.hexsha)
+        log.info(f'''---> Have to analyze {len(hist_commit_hashes)} commits in total''')
+        for i in range(0, len(hist_commit_hashes)):
+            commit_hash = hist_commit_hashes[i]
             commit_obj = self.repository.commit(commit_hash)
-            # diff_stat = self.repository.git.diff("--shortstat", f"{commit_hash}^..{commit_hash}")
             diff_stat_tmp = commit_obj.stats
-            # diff_filenames = self.repository.git.diff("--name-only", f"{commit_hash}^..{commit_hash}").splitlines()
             diff_filenames_tmp = commit_obj.stats.files
             diff_filenames = list(diff_filenames_tmp.keys())
             hist_modified_files.update(diff_filenames)
             # changes = diff_stat.split(',')
             exp_added_lines += diff_stat_tmp.total['insertions']
             exp_removed_lines += diff_stat_tmp.total['deletions']
-            # exp_added_lines += sum(
-            #     [int(change.strip().split()[0]) if 'insertion' in change else 0 for change in changes])
-            # exp_removed_lines += sum(
-            #     [int(change.strip().split()[0]) if 'deletion' in change else 0 for change in changes])
-            # Store developer changes for REXP calculation
             developer_changes.append(
                 {'date': self.repository.commit(commit_hash).committed_datetime, 'num_changes': 1,
                  'files': diff_filenames})
@@ -113,13 +171,13 @@ class MLSZZ(AGSZZ):
         exp_changed_lines = (exp_added_lines + exp_removed_lines)
         end_time = time.time()
         # Calculate REXP
-        REXP = self.calculate_REXP(developer_changes, commit)
+        REXP = self.calculate_REXP(commit)
         # Calculate SEXP
-        SEXP = self.calculate_SEXP(developer_changes, subsystem_changes)
+        SEXP = self.calculate_SEXP(commit)
 
         log.info(f"It takes {(end_time - start_time) / 60} minutes to run the historical commits analyse!")
         return {"commit": commit_num, "exp_of_files": len(hist_modified_files),
-                "exp_of_codes": exp_changed_lines, "exp_of_commits": len(commit_hashes),
+                "exp_of_codes": exp_changed_lines, "EXP": len(hist_commit_hashes),
                 "REXP": REXP, "SEXP": SEXP}
 
     def get_merge_commits(self, commit_hash: str) -> Set[str]:
@@ -229,22 +287,47 @@ class MLSZZ(AGSZZ):
             log.info("Not filtering by issue date.")
         return (bug_introd_commits, can_feas)
 
-    def calculate_entropy(self, commit):
-        modified_lines = []
+    def get_commit_changes(self, commit: Commit):
+        # Get the parent commit
+        if not commit.parents:
+            raise Exception("The commit has no parents, it's the initial commit.")
+        parent = commit.parents[0]
 
-        # Calculate modified lines in each file and collect them
-        for file_path, stats in commit.stats.files.items():
-            modified_lines.append(stats['insertions'] + stats['deletions'])
+        # Get the diff between the commit and its parent
+        diffs = parent.diff(commit, create_patch=True)
 
-        total_modified_lines = sum(modified_lines)
+        # Extract the list of changed files
+        changes = [diff.a_path if diff.a_path else diff.b_path for diff in diffs]
+        return changes
 
-        # Calculate entropy
+    def calculate_entropy(self, commit: Commit):
+        changes = self.get_commit_changes(commit)
+        # Count the occurrences of each file change
+        file_changes = Counter(changes)
+        # Calculate the total number of changes
+        total_changes = sum(file_changes.values())
+        # Calculate the entropy
         entropy = 0
-        for lines in modified_lines:
-            if lines > 0:
-                entropy -= lines / total_modified_lines * math.log2(lines / total_modified_lines)
-
+        for count in file_changes.values():
+            probability = count / total_changes
+            entropy -= probability * math.log(probability, 2)
         return entropy
+        # #
+        # # modified_lines = []
+        # #
+        # # # Calculate modified lines in each file and collect them
+        # # for file_path, stats in commit.stats.files.items():
+        # #     modified_lines.append(stats['insertions'] + stats['deletions'])
+        # #
+        # # total_modified_lines = sum(modified_lines)
+        # #
+        # # # Calculate entropy
+        # # entropy = 0
+        # # for lines in modified_lines:
+        # #     if lines > 0:
+        # #         entropy -= lines / total_modified_lines * math.log2(lines / total_modified_lines)
+        #
+        # return entropy
 
     def contains_defect_fix(self, commit):
         # Keywords to search for in the commit message
@@ -259,7 +342,7 @@ class MLSZZ(AGSZZ):
         return 0
 
     def get_touched_files(self, commit):
-        return [diff.a_path for diff in commit.diff(commit.parents[0])]
+        return [diff.a_path if diff.a_path else diff.b_path for diff in commit.diff(commit.parents[0])]
 
     def calculate_age(self, commit):
         """
@@ -274,7 +357,7 @@ class MLSZZ(AGSZZ):
             last_modified_ts = self.get_latest_modified_date_before_commit(commit, file_path)
             if last_modified_ts:
                 time_interval = commit_ts - last_modified_ts
-                total_interval += time_interval
+                total_interval += float(time_interval) / float(86400)
                 file_count += 1
 
         if file_count == 0:
@@ -288,6 +371,24 @@ class MLSZZ(AGSZZ):
         # Get the file modification time
         file_mod_time = commit.tree[file_path].committed_date
         return datetime.fromtimestamp(file_mod_time)
+
+    def calcualte_ndev(self, commit):
+        touched_files = self.get_touched_files(commit)
+        developers = set()
+        commit_hash = commit.hexsha
+        for touched_file in touched_files:
+            git_command = [
+                'git',
+                'log',
+                '--pretty=format:%an | %ae',
+                commit_hash,
+                '--',
+                touched_file
+            ]
+            list_of_developers = self.repository.git.execute(git_command).strip().split('\n')[1:]
+            for d in list_of_developers:
+                developers.add(d)
+        return len(developers)
 
     def calculate_ndevelopers(self, commit):
         touched_files = self.get_touched_files(commit)
@@ -307,14 +408,14 @@ class MLSZZ(AGSZZ):
     def get_touched_files(self, commit):
         return commit.stats.files.keys()
 
-    def calculate_metrics(self, commit):
+    def calculate_diffusion_metrics(self, commit):
         modified_directories = set()
         subsystems = set()
 
         for file_path in self.get_touched_files(commit):
             # Extract root directory name
             root_directory = file_path.split('/')[0]
-            modified_directories.add(file_path.split('/')[0])
+            modified_directories.add("/".join(file_path.split('/')[:-1]))
 
             # Extract subsystem (root directory name)
             subsystems.add(root_directory)
@@ -371,6 +472,97 @@ class MLSZZ(AGSZZ):
                 last_modified_date = datetime.fromtimestamp(file.committed_date)
                 break
         return last_modified_date
+
+    def get_lines_of_code_before_change(self, commit: Commit):
+
+        # Get the parent commit (the commit before the current one)
+        parent_commit = commit.parents[0]
+
+        if not commit.parents:
+            # If there are no parents, it's the initial commit, and there's nothing before it.
+            return None, None
+
+        lines_of_code_before_change = {}
+
+        # Get the list of files changed in the commit
+        for diff in commit.diff(parent_commit):
+            file_path = diff.a_path if diff.a_path else diff.b_path
+            try:
+                file_content = parent_commit.tree[file_path].data_stream.read().decode('utf-8')
+                # TODO： need to remove annotations and remove files that are not source codes
+                lines_of_code = len(file_content.splitlines())
+            except KeyError:
+                # File did not exist in the parent commit
+                lines_of_code = 0
+
+            lines_of_code_before_change[file_path] = lines_of_code
+        if lines_of_code_before_change:
+            average_lines_of_code = sum(lines_of_code_before_change.values()) / len(lines_of_code_before_change)
+        else:
+            average_lines_of_code = 0
+        LT = average_lines_of_code
+        return LT
+
+    def purpose_of_change(self, commit: Commit):
+        # List of keywords that indicate a fix
+        fix_patterns = [
+            r'\bfix(es|ed)?\b',
+            r'\bbug(s|fix(es|ed)?)?\b',
+            r'\berror(s|fix(es|ed)?)?\b',
+            r'\brepair(s|ed)?\b',
+            r'\bpatch(ed|es)?\b',
+            r'\bdefect(s|fix(es|ed)?)?\b',
+            r'\bcorrect(s|ed|ing)?\b',
+            r'\bissue(s|fix(es|ed)?)?\b',
+            r'\bresolve(s|d)?\b',
+            r'\bdebug(s|ged|ging)?\b',
+            r'\bflaw(s|less|ed)?\b',
+            r'\bfault(s|ed|less)?\b'
+        ]
+        commit_message_lower = commit.message.lower()
+        for pattern in fix_patterns:
+            if re.search(pattern, commit_message_lower):
+                return 1
+        return 0
+
+    def get_last_change(self, file_path, commit):
+        current_commit = commit.parents[0]
+        while current_commit:
+            # Check if the file exists in the current commit
+            try:
+                blob = current_commit.tree / file_path
+                if blob:
+                    # File exists in this commit, return the commit
+                    return current_commit
+            except Exception as e:
+                log.error(e)  # File doesn't exist in this commit
+
+            # Move to the parent commit
+            if current_commit.parents:
+                current_commit = current_commit.parents[0]
+            else:
+                break  # No more parent commits, end the loop
+
+        # File not found in the commit history
+        return None
+
+    def calculate_nuc(self, commit):
+        commit_hash = commit.hexsha
+        modified_files = self.get_touched_files(commit)
+        unique_last_changes = set()
+        for file_path in modified_files:
+            git_command = [
+                'git',
+                'log',
+                '--pretty=format:%H',
+                commit_hash,
+                '--',
+                file_path
+            ]
+            list_of_commits = self.repository.git.execute(git_command).strip().split('\n')[1:]
+            for c in list_of_commits:
+                unique_last_changes.add(c)
+        return len(unique_last_changes)
 
     def find_bic_v2(self, fix_commit_hash: str, impacted_files: List['ImpactedFile'], **kwargs) -> Tuple[
         Set[Commit], List[Dict]]:
@@ -440,15 +632,17 @@ class MLSZZ(AGSZZ):
 
                     bug_introd_commits.update([entry.commit for entry in blame_data])
                     for commit in bug_introd_commits:
-                        num_subsystems, num_modified_directories, entropy = self.calculate_metrics(commit)
+                        num_subsystems, num_modified_directories, entropy = self.calculate_diffusion_metrics(commit)
                         res_dic['num_subsystems'] = num_subsystems
                         res_dic['num_modified_directories'] = num_modified_directories
                         res_dic['entropy'] = entropy
-                        fix_commit = self.repository.commit(fix_commit_hash)
+                        res_dic['LT'] = self.get_lines_of_code_before_change(commit)
+                        res_dic['FIX'] = self.purpose_of_change(commit)
                         age = self.calculate_age(commit)
                         res_dic['age'] = age
-                        ndev = self.calculate_ndevelopers(commit)
+                        ndev = self.calcualte_ndev(commit)
                         res_dic['ndev'] = ndev
+                        res_dic['nuc'] = self.calculate_nuc(commit)
                         add = commit.stats.total['insertions']
                         print(add)
                         deleted = commit.stats.total['deletions']
@@ -457,7 +651,9 @@ class MLSZZ(AGSZZ):
                         print(num_files)
                         lines = commit.stats.total['lines']
                         print(lines)
-                        res_dic = self.calculate_author_metrics_optimized(commit)
+                        experience_dict = self.calculate_author_metrics_optimized(commit)
+                        # This creates a new dictionary
+                        res_dic.update(experience_dict)
                         commit_modified_files = list(commit.stats.files.keys())
                         res_dic['lines_of_added'] = add
                         res_dic['lines_of_deleted'] = deleted
