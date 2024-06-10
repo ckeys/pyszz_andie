@@ -26,6 +26,18 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
     tot = len(bugfix_commits)
     if end_index is None:
         end_index = len(bugfix_commits)
+
+    write_file_index = end_index // (end_index - start_index)
+    write_file_name = f"output_{szz_name}/output_write_{write_file_index}.log"
+    if not os.path.exists(f'''output_{szz_name}'''):
+        os.makedirs(f'''output_{szz_name}''')
+    # Check if file exists, and clear its content if it does
+    if os.path.exists(write_file_name):
+        with open(write_file_name, 'w'):
+            pass  # This clears the content of the file
+
+    w_file = open(write_file_name, 'a')
+
     with open(out_json, 'w') as file:
         log.info(f'''Start at : {start_index} and end at : {end_index}, total length : {len(bugfix_commits[start_index:end_index])}''')
         bic_dict = None
@@ -152,14 +164,16 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
             bugfix_commits[i]["inducing_commit_hash"] = [bic.hexsha for bic in bug_introducing_commits if bic]
             if bic_dict is not None:
                 bugfix_commits[i]["candidate_features"] = bic_dict
-            log.info(f'''Write {i}, {bugfix_commits[i]['id']}: {bugfix_commits[i]} ''')
-            file.write(json.dumps(bugfix_commits[i]) + '\n')  # 可选：添加换行符，以便每个JSON对象单独占据一行
-
+            # log.info(f'''Write {i}, {bugfix_commits[i]['id']}: {bugfix_commits[i]} ''')
+            w_file.write(f'''Write {i}, {bugfix_commits[i]['id']}: {bugfix_commits[i]} ''')
+            file.write(json.dumps(bugfix_commits[i]) + '\n')
     out2_json = os.path.join('out', f'bic_{szz_name}_{int(ts())}.json')
     with open(out2_json, 'w') as out:
         log.info(f'''Writing Results to {out2_json}!''')
         json.dump(bugfix_commits, out)
+    w_file.close()
     log.info(f"+++ DONE +++")
+
 
 
 if __name__ == "__main__":
