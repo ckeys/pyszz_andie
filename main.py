@@ -39,8 +39,7 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
     w_file = open(write_file_name, 'a')
 
     with open(out_json, 'w') as file:
-        log.info(
-            f'''Start at : {start_index} and end at : {end_index}, total length : {len(bugfix_commits[start_index:end_index])}''')
+        log.info(f'''Start at : {start_index} and end at : {end_index}, total length : {len(bugfix_commits[start_index:end_index])}''')
         bic_dict = None
         for i, commit in enumerate(bugfix_commits[start_index:end_index], start=start_index):
             log.info(f'''Repo Directory is {repos_dir} and Repo Name is {commit['repo_name']}''')
@@ -173,17 +172,17 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
         log.info(f'''Writing Results to {out2_json}!''')
         json.dump(bugfix_commits, out)
     w_file.close()
-    log_files = [f for f in os.listdir(f'''output_{szz_name}''') if
-                 f.startswith("output_write_") and "summary" not in f and f.endswith(".log")]
+    log_files = [f for f in os.listdir(f'''output_{szz_name}''') if f.startswith("output_write_") and "summary" not in f and f.endswith(".log")]
     # Combine content of individual log files into summary file
     with open(f"output_{szz_name}/output_write_summary.log", "w") as summary_file:
         for log_file in log_files:
             with open(f"output_{szz_name}/{log_file}", "r") as file:
-                summary_file.write(file.read() + "\n")
+                summary_file.write(file.read()+"\n")
     # Remove individual log files
     for log_file in log_files:
         os.remove(f"output_{szz_name}/{log_file}")
     log.info(f"+++ DONE +++")
+
 
 
 if __name__ == "__main__":
