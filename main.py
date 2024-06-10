@@ -173,18 +173,18 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
         log.info(f'''Writing Results to {out2_json}!''')
         json.dump(bugfix_commits, out)
     w_file.close()
-    log_files = [f for f in os.listdir(f'''output_{szz_name}''') if
-                 f.startswith("output_write_") and f.endswith(".log") and f != 'output_write_summary.log']
-    # Combine content of individual log files into summary file
-    with open(f"output_{szz_name}/output_write_summary.log", "w") as summary_file:
-        for log_file in log_files:
-            with open(f"output_{szz_name}/{log_file}", "r") as file:
-                summary_file.write(file.read() + "\n")
+    # log_files = [f for f in os.listdir(f'''output_{szz_name}''') if
+    #              f.startswith("output_write_") and f.endswith(".log") and f != 'output_write_summary.log']
+    # # Combine content of individual log files into summary file
+    # with open(f"output_{szz_name}/output_write_summary.log", "w") as summary_file:
+    #     for log_file in log_files:
+    #         with open(f"output_{szz_name}/{log_file}", "r") as file:
+    #             summary_file.write(file.read() + "\n")
                 # if file_content.strip() != "":
                 #     summary_file.write(file_content + "\n")
     # Remove individual log files
-    for log_file in log_files:
-        os.remove(f"output_{szz_name}/{log_file}")
+    # for log_file in log_files:
+    #     os.remove(f"output_{szz_name}/{log_file}")
     log.info(f"+++ DONE +++")
 
 
