@@ -174,7 +174,7 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
         json.dump(bugfix_commits, out)
     w_file.close()
     log_files = [f for f in os.listdir(f'''output_{szz_name}''') if
-                 f.startswith("output_write_") and "summary" not in f and f.endswith(".log")]
+                 f.startswith("output_write_") and f.endswith(".log") and f != 'output_write_summary.log']
     # Combine content of individual log files into summary file
     with open(f"output_{szz_name}/output_write_summary.log", "w") as summary_file:
         for log_file in log_files:
