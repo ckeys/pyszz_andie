@@ -180,9 +180,9 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
         for log_file in log_files:
             with open(f"output_{szz_name}/{log_file}", "r") as file:
                 file_content = file.read()
-                # summary_file.write(file_content + "\n")
-                if file_content.strip() != "":
-                    summary_file.write(file_content + "\n")
+                summary_file.write(file_content + "\n")
+                # if file_content.strip() != "":
+                #     summary_file.write(file_content + "\n")
     # Remove individual log files
     for log_file in log_files:
         os.remove(f"output_{szz_name}/{log_file}")
