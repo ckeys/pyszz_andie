@@ -166,7 +166,7 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
             if bic_dict is not None:
                 bugfix_commits[i]["candidate_features"] = bic_dict
             # log.info(f'''Write {i}, {bugfix_commits[i]['id']}: {bugfix_commits[i]} ''')
-            w_file.write(f'''Write {i}, {bugfix_commits[i]['id']}: {bugfix_commits[i]} ''')
+            w_file.write(f'''Write {i}, {bugfix_commits[i]['id']}: {bugfix_commits[i]} \n''')
             file.write(json.dumps(bugfix_commits[i]) + '\n')
     out2_json = os.path.join('out', f'bic_{szz_name}_{int(ts())}.json')
     with open(out2_json, 'w') as out:
@@ -180,8 +180,8 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
     #     for log_file in log_files:
     #         with open(f"output_{szz_name}/{log_file}", "r") as file:
     #             summary_file.write(file.read() + "\n")
-                # if file_content.strip() != "":
-                #     summary_file.write(file_content + "\n")
+    # if file_content.strip() != "":
+    #     summary_file.write(file_content + "\n")
     # Remove individual log files
     # for log_file in log_files:
     #     os.remove(f"output_{szz_name}/{log_file}")
