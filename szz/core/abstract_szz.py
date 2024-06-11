@@ -198,7 +198,7 @@ class AbstractSZZ(ABC):
                     log.info(f"skip comment line ({line_num}): {line_str}")
                     continue
 
-                log.info(b_data)
+                # log.info(b_data)
                 bug_introd_commits.add(b_data)
 
         return bug_introd_commits
