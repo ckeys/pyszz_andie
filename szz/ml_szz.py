@@ -73,6 +73,14 @@ class MLSZZ(AGSZZ):
             REXP += len(list_of_changes) / float(n + 1)
         return REXP
 
+    def get_commit_time(self, commit_hash):
+        # Get the commit object
+        commit = self.repository.commit(commit_hash)
+        # Get the commit time and convert it to a datetime object
+        commit_time = commit.committed_datetime
+
+        return commit_time
+
     def calculate_SEXP_old(self, developer_changes, subsystem_changes):
         total_changes_to_subsystems = 0
 
@@ -258,13 +266,9 @@ class MLSZZ(AGSZZ):
                 bug_introd_commits.update([entry.commit for entry in blame_data])
                 for commit in bug_introd_commits:
                     add = commit.stats.total['insertions']
-                    print(add)
                     deleted = commit.stats.total['deletions']
-                    print(deleted)
                     num_files = commit.stats.total['files']
-                    print(num_files)
                     lines = commit.stats.total['lines']
-                    print(lines)
                     res_dic = self.calculate_author_metrics_optimized(commit)
                     commit_modified_files = list(commit.stats.files.keys())
                     res_dic['lines_of_added'] = add
@@ -435,19 +439,16 @@ class MLSZZ(AGSZZ):
             if blob.path == file_path:
                 break
         else:
-            print(f"[Error]: File '{file_path}' not found in commit '{commit.hexsha}'")
+            log.error(f"File '{file_path}' not found in commit '{commit.hexsha}'")
             return None
 
         latest_modification_ts = None
         # Traverse the history of the file until the latest modification before the commit
         for parent_commit in commit.iter_parents():
             try:
-                print(f'''[INFO]: Commit Date {parent_commit.committed_datetime}''')
-                print(f'''[INFO]: Blob path: {blob.path}''')
                 parent_blob = parent_commit.tree / blob.path
                 # If the blob is found, return the modification date of the parent commit
                 if parent_blob:
-                    print(f"找到该文件！{parent_blob.path}")
                     modification_ts = parent_commit.committed_date
 
                     if parent_commit.committed_date < commit.committed_date:
@@ -455,7 +456,7 @@ class MLSZZ(AGSZZ):
                             latest_modification_ts = modification_ts
                             break
             except Exception as e:
-                print(f"[Error]: {e}")
+                log.error(f"{e}")
                 continue
 
         # If no modification before the commit is found, return None
@@ -612,7 +613,6 @@ class MLSZZ(AGSZZ):
                     while to_blame:
                         log.info(f"excluding commits: {params['ignore_revs_list']}")
                         blame_data = self._ag_annotate([imp_file], **params)
-
                         new_commits_to_ignore = set()
                         new_commits_to_ignore_current_file = set()
                         for bd in blame_data:
@@ -644,13 +644,9 @@ class MLSZZ(AGSZZ):
                         res_dic['ndev'] = ndev
                         res_dic['nuc'] = self.calculate_nuc(commit)
                         add = commit.stats.total['insertions']
-                        print(add)
                         deleted = commit.stats.total['deletions']
-                        print(deleted)
                         num_files = commit.stats.total['files']
-                        print(num_files)
                         lines = commit.stats.total['lines']
-                        print(lines)
                         experience_dict = self.calculate_author_metrics_optimized(commit)
                         # This creates a new dictionary
                         res_dic.update(experience_dict)
@@ -660,6 +656,8 @@ class MLSZZ(AGSZZ):
                         res_dic['lines_of_modified'] = lines
                         res_dic['num_files'] = num_files
                         res_dic['modified_files'] = commit_modified_files
+                        res_dic['candidate_commit_to_fix'] = abs(
+                            (self.get_commit_time(fix_commit_hash) - self.get_commit_time(commit.hexsha)).seconds)
                         res_dic['is_Friday'] = 1 if commit.committed_datetime.weekday() == 4 else 0
                         print(res_dic)
                         can_feas.append(res_dic)
