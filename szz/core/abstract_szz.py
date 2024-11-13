@@ -59,13 +59,13 @@ def check_and_log_invalid_repos(log_file="invalid_repos.log"):
                         return clone_func(*args, **kwargs)
                     else:
                         # Log invalid repository URL
-                        with open(log_file, "a") as log:
-                            log.write(f"{datetime.now()}: {repo_full_name}\n")
+                        with open(log_file, "a") as f:
+                            f.write(f"{datetime.now()}: {repo_full_name}\n")
                         log.info(f"Repository URL is invalid. Logged {repo_url} to {log_file}.")
                 except requests.exceptions.RequestException as e:
                     # Log any exception encountered during URL checking
-                    with open(log_file, "a") as log:
-                        log.write(f"{datetime.now()}: Exception for {repo_url} - {e}\n")
+                    with open(log_file, "a") as f:
+                        f.write(f"{datetime.now()}: Exception for {repo_url} - {e}\n")
                     log.info(f"Exception occurred. Logged {repo_url} to {log_file}.")
             else:
                 log.info("No repository URL provided.")
