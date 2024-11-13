@@ -2,6 +2,7 @@ import logging as log
 import ntpath
 import os
 import math
+import requests
 from abc import ABC, abstractmethod
 from enum import Enum
 from shutil import copytree
