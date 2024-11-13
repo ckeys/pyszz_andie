@@ -17,6 +17,60 @@ from options import Options
 from szz.core.comment_parser import parse_comments
 from datetime import datetime, timedelta
 
+from functools import wraps
+def retry_on_rmtree_failure(retries=3, delay=1):
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            for i in range(retries):
+                try:
+                    return func(*args, **kwargs)
+                except OSError as e:
+                    # Only retry if it's a directory-not-empty error
+                    if e.errno == 39:  # Errno 39 is 'Directory not empty'
+                        log.info(f'''[Retry on rmtree]: Directory is not empty!''')
+                        if i < retries - 1:
+                            time.sleep(delay)  # Wait before retrying
+                        else:
+                            raise e  # Raise if max retries exceeded
+                    else:
+                        raise e  # Raise immediately for other OSError types
+        return wrapper
+    return decorator
+
+def check_and_log_invalid_repos(log_file="invalid_repos.log"):
+    """
+    Decorator to check if a repo URL is valid before cloning. Logs invalid URLs to a log file.
+    """
+    def decorator(clone_func):
+        @wraps(clone_func)
+        def wrapper(*args, **kwargs):
+            repo_url = kwargs.get("url")
+            repo_full_name = kwargs.get("repo_full_name")
+            repository_path = kwargs.get("to_path")
+            if repo_url:
+                try:
+                    # Send a HEAD request to check if the repository URL is accessible
+                    response = requests.head(repo_url)
+                    if response.status_code == 200:
+                        log.info("Repository URL is accessible. Proceeding with clone.")
+                        # Proceed with the actual clone function
+                        return clone_func(*args, **kwargs)
+                    else:
+                        # Log invalid repository URL
+                        with open(log_file, "a") as log:
+                            log.write(f"{datetime.now()}: {repo_full_name}\n")
+                        log.info(f"Repository URL is invalid. Logged {repo_url} to {log_file}.")
+                except requests.exceptions.RequestException as e:
+                    # Log any exception encountered during URL checking
+                    with open(log_file, "a") as log:
+                        log.write(f"{datetime.now()}: Exception for {repo_url} - {e}\n")
+                    log.info(f"Exception occurred. Logged {repo_url} to {log_file}.")
+            else:
+                log.info("No repository URL provided.")
+        return wrapper
+    return decorator
+
 class AbstractSZZ(ABC):
     """
     AbstractSZZ is the base class for SZZ implementations. It has core methods for SZZ
@@ -39,10 +93,11 @@ class AbstractSZZ(ABC):
 
         os.makedirs(Options.TEMP_WORKING_DIR, exist_ok=True)
         self.__temp_dir = mkdtemp(dir=os.path.join(os.getcwd(), Options.TEMP_WORKING_DIR))
-        log.info(f"Create a temp directory : {self.__temp_dir}")
+        log.info(f"[SlurmJob Info] Create a temp directory : {self.__temp_dir}")
         self._repository_path = os.path.join(self.__temp_dir, repo_full_name.replace('/', '_'))
         if not os.path.isdir(self._repository_path):
             if repos_dir:
+                log.info(f'''Local Repo Directory Existed! {repos_dir}''')
                 repo_dir = os.path.join(repos_dir, repo_full_name)
                 if os.path.isdir(repo_dir):
                     copytree(repo_dir, self._repository_path, symlinks=True)
@@ -50,8 +105,11 @@ class AbstractSZZ(ABC):
                     log.error(f'unable to find local repository path: {repo_dir}')
                     exit(-4)
             else:
-                log.info(f"Cloning repository {repo_full_name}...")
-                Repo.clone_from(url=repo_url, to_path=self._repository_path)
+                log.info(
+                    f'''[SlurmJob Info] Local Repo Directory is not Existed and Need to Clone {self._repository_path}!''')
+                log.info(f"[SlurmJob Info] Cloning repository {repo_full_name}...")
+                Repo.clone_from = check_and_log_invalid_repos()(Repo.clone_from)
+                Repo.clone_from(url=repo_url, to_path=repository_path, repo_full_name=repo_full_name)
 
         self._repository = Repo(self._repository_path)
 
@@ -251,6 +309,7 @@ class AbstractSZZ(ABC):
             if comment_range.start <= line_num <= comment_range.end:
                 return True
         return False
+
     def _calculate_metrics(self, commit):
         modified_directories = set()
         subsystems = set()
@@ -332,6 +391,7 @@ class AbstractSZZ(ABC):
                 except KeyError:
                     continue
         return len(developers)
+
     def _calculate_REXP(self, developer_changes, commit):
         total_weighted_changes = 0
         total_weight = 0
@@ -364,6 +424,7 @@ class AbstractSZZ(ABC):
         # Calculate SEXP
         SEXP = total_changes_to_subsystems
         return SEXP
+
     def _calculate_entropy(self, commit):
         modified_lines = []
 
@@ -380,6 +441,7 @@ class AbstractSZZ(ABC):
                 entropy -= lines / total_modified_lines * math.log2(lines / total_modified_lines)
 
         return entropy
+
     def _calculate_author_metrics_optimized(self, commit):
         author_name = commit.author.name
         author_email = commit.author.email
@@ -456,11 +518,13 @@ class AbstractSZZ(ABC):
         """ return the Commit object for the given hash """
         return self.repository.commit(hash)
 
+
+    @retry_on_rmtree_failure(retries=3, delay=2)
     def __cleanup_repo(self):
         """ Cleanup of local repository used by SZZ """
         log.info(f"Clean up {self.__temp_dir}")
         if os.path.isdir(self.__temp_dir):
-            rmtree(self.__temp_dir)
+            rmtree(self.__temp_dir, ignore_errors=True)
 
     def __clear_gitpython(self):
         """ Cleanup of GitPython due to memory problems """
@@ -541,3 +605,5 @@ class BlameData:
 
     def __hash__(self) -> int:
         return 31 * hash(self.line_num) + hash(self.file_path)
+
+
