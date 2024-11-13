@@ -109,7 +109,7 @@ class AbstractSZZ(ABC):
                     f'''[SlurmJob Info] Local Repo Directory is not Existed and Need to Clone {self._repository_path}!''')
                 log.info(f"[SlurmJob Info] Cloning repository {repo_full_name}...")
                 Repo.clone_from = check_and_log_invalid_repos()(Repo.clone_from)
-                Repo.clone_from(url=repo_url, to_path=repository_path, repo_full_name=repo_full_name)
+                Repo.clone_from(url=repo_url, to_path=self._repository_path, repo_full_name=repo_full_name)
 
         self._repository = Repo(self._repository_path)
 
