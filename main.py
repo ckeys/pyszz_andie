@@ -52,7 +52,7 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
 
             bug_introducing_commits = set()
             repo_name = commit['repo_name']
-            repo_url = f'https://test:test@github.com/{repo_name}.git'  # using test:test as git login to skip private repos during clone
+            repo_url = f'https://{os.getenv("GITUSERNAME")}:{os.getenv("GITPAT")}@github.com/{repo_name}.git'  # using test:test as git login to skip private repos during clone
             # username = 'ckeys'
             # st = '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'
             # repo_url = f'''https://{username}:{st}@github.com/{repo_name}.git'''
