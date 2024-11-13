@@ -17,7 +17,11 @@ from szz.core.abstract_szz import ImpactedFile, DetectLineMoved
 from szz.ma_szz import MASZZ
 from collections import Counter
 from operator import attrgetter
+import logging
 
+# Configure the logger
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 class MLSZZ(AGSZZ):
 
@@ -295,7 +299,8 @@ class MLSZZ(AGSZZ):
     def get_commit_changes(self, commit: Commit):
         # Get the parent commit
         if not commit.parents:
-            raise Exception("The commit has no parents, it's the initial commit.")
+            logger.info("The commit has no parents, likely an initial commit.")
+            return []
         parent = commit.parents[0]
 
         # Get the diff between the commit and its parent

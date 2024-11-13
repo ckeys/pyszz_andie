@@ -1,7 +1,14 @@
 #!/bin/bash
-
+#SBATCH --output=/home/huayo708/projects/pyszz_andie/slurm_jobs/logs/%x_%j.out      # Standard output log
+#SBATCH --error=/home/huayo708/projects/pyszz_andie/slurm_jobs/logs/%x_%j.err       # Standard error log
+#SBATCH --cpus-per-task=2                     # Number of CPU cores per task
 # Directory containing the log files
-LOG_DIR="/home/huayo708/projects/pyszz_andie/slurm_jobs"
+LOG_DIR="/home/huayo708/projects/pyszz_andie/slurm_jobs/logs"
+
+# Check if the log directory exists, if not, create it
+if [ ! -d "$LOG_DIR" ]; then
+    mkdir -p "$LOG_DIR"
+fi
 
 # Find the highest index from existing log files
 LAST_INDEX=$(ls $LOG_DIR/mlszz_p*.log 2>/dev/null | sed -n 's/.*mlszz_p\([0-9]\+\)\.log/\1/p' | sort -n | tail -1)
@@ -34,6 +41,7 @@ echo $ERR_FILE
 #SBATCH --job-name=$JOB_NAME
 #SBATCH --output=$LOG_FILE
 #SBATCH --error=$ERR_FILE
+
 
 # Command to run
 /usr/bin/python /home/huayo708/projects/pyszz_andie/main.py /home/huayo708/projects/pyszz_andie/in/bugfix_commits_all.json /home/huayo708/projects/pyszz_andie/conf/mlszz.yml /home/huayo708/projects/repo $PARAM_VALUE
