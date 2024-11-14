@@ -66,8 +66,11 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
                 commit_issue_date = (
                         commit.get('earliest_issue_date', None) or commit.get('best_scenario_issue_date', None))
                 commit_issue_date = dateparser.parse(commit_issue_date).timestamp()
+            
             if szz_name == 'b':
                 b_szz = BaseSZZ(repo_full_name=repo_name, repo_url=repo_url, repos_dir=repos_dir)
+                if ag_szz.invalid_repo:
+                    continue
                 imp_files = b_szz.get_impacted_files(fix_commit_hash=fix_commit,
                                                      file_ext_to_parse=conf.get('file_ext_to_parse'),
                                                      only_deleted_lines=conf.get('only_deleted_lines', True))
@@ -80,6 +83,8 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
                 # print(bic_dict)
             elif szz_name == 'ag':
                 ag_szz = AGSZZ(repo_full_name=repo_name, repo_url=repo_url, repos_dir=repos_dir)
+                if ag_szz.invalid_repo:
+                    continue
                 imp_files = ag_szz.get_impacted_files(fix_commit_hash=fix_commit,
                                                       file_ext_to_parse=conf.get('file_ext_to_parse'),
                                                       only_deleted_lines=conf.get('only_deleted_lines', True))
@@ -92,6 +97,8 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
 
             elif szz_name == 'ma':
                 ma_szz = MASZZ(repo_full_name=repo_name, repo_url=repo_url, repos_dir=repos_dir)
+                if ma_szz.invalid_repo:
+                    continue
                 imp_files = ma_szz.get_impacted_files(fix_commit_hash=fix_commit,
                                                       file_ext_to_parse=conf.get('file_ext_to_parse'),
                                                       only_deleted_lines=conf.get('only_deleted_lines', True))
@@ -106,6 +113,8 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
 
             elif szz_name == 'r':
                 r_szz = RSZZ(repo_full_name=repo_name, repo_url=repo_url, repos_dir=repos_dir)
+                if r_szz.invalid_repo:
+                    continue
                 imp_files = r_szz.get_impacted_files(fix_commit_hash=fix_commit,
                                                      file_ext_to_parse=conf.get('file_ext_to_parse'),
                                                      only_deleted_lines=conf.get('only_deleted_lines', True))
@@ -120,6 +129,8 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
 
             elif szz_name == 'l':
                 l_szz = LSZZ(repo_full_name=repo_name, repo_url=repo_url, repos_dir=repos_dir)
+                if l_szz.invalid_repo:
+                    continue
                 imp_files = l_szz.get_impacted_files(fix_commit_hash=fix_commit,
                                                      file_ext_to_parse=conf.get('file_ext_to_parse'),
                                                      only_deleted_lines=conf.get('only_deleted_lines', True))
@@ -133,6 +144,8 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
                                                          issue_date=commit_issue_date)
             elif szz_name == 'ra':
                 ra_szz = RASZZ(repo_full_name=repo_name, repo_url=repo_url, repos_dir=repos_dir)
+                if ra_szz.invalid_repo:
+                    continue
                 imp_files = ra_szz.get_impacted_files(fix_commit_hash=fix_commit,
                                                       file_ext_to_parse=conf.get('file_ext_to_parse'),
                                                       only_deleted_lines=conf.get('only_deleted_lines', True))
@@ -146,6 +159,10 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
                                                           issue_date=commit_issue_date)
             elif szz_name == 'ml':
                 ml_szz = MLSZZ(repo_full_name=repo_name, repo_url=repo_url, repos_dir=repos_dir)
+                
+                if ml_szz.invalid_repo:
+                    continue
+                
                 imp_files = ml_szz.get_impacted_files(fix_commit_hash=fix_commit,
                                                       file_ext_to_parse=conf.get('file_ext_to_parse'),
                                                       only_deleted_lines=conf.get('only_deleted_lines', True))

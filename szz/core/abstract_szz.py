@@ -124,6 +124,7 @@ class AbstractSZZ(ABC):
         if os.path.isdir(self._repository_path):
             self._repository = Repo(self._repository_path)
         else:
+            self.invalid_repo = True
             log.error(f"The repository path does not exist: {self._repository_path}")
             # You may choose to handle this error as needed, e.g., by exiting or raising an exception
 
