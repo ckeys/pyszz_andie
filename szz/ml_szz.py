@@ -202,6 +202,7 @@ class MLSZZ(AGSZZ):
                     merge.add(commit.hash)
             except Exception as e:
                 log.error(f'unable to analyze commit: {self.repository_path} {commit.hash}')
+                log.error(f'''[ML-SZZ: {e}''')
 
         if len(merge) > 0:
             log.info(f'merge commits count: {len(merge)}')
