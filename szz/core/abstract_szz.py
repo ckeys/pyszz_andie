@@ -13,7 +13,7 @@ import time
 from datetime import timezone
 from git import Commit, Repo
 from pydriller import ModificationType, GitRepository as PyDrillerGitRepo
-
+from urllib.parse import urlparse
 from options import Options
 from szz.core.comment_parser import parse_comments
 from datetime import datetime, timedelta
