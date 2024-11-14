@@ -99,7 +99,7 @@ class AbstractSZZ(ABC):
         :param str repos_dir: temp folder where to clone the given repo
         """
         self._repository = None
-
+        self.invalid_repo = False # it is a valid repo by default
         os.makedirs(Options.TEMP_WORKING_DIR, exist_ok=True)
         self.__temp_dir = mkdtemp(dir=os.path.join(os.getcwd(), Options.TEMP_WORKING_DIR))
         log.info(f"[SlurmJob Info] Create a temp directory : {self.__temp_dir}")
