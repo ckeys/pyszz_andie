@@ -638,7 +638,7 @@ class MLSZZ(AGSZZ):
                             to_blame = False
 
                     bug_introd_commits.update([entry.commit for entry in blame_data])
-
+                    max_lines_of_modified = max(commit.stats.total['lines'] for commit in bug_introd_commits)
                     latest_bic = None
                     if len(bug_introd_commits) > 0:
                         latest_bic = max(bug_introd_commits, key=attrgetter('committed_date'))
@@ -673,6 +673,7 @@ class MLSZZ(AGSZZ):
                         res_dic['is_Friday'] = 1 if commit.committed_datetime.weekday() == 4 else 0
                         res_dic[
                             'is_latest_bic'] = 1 if latest_bic is not None and latest_bic.hexsha == commit.hexsha else 0
+                        res_dic['is_largest_bic'] = 1 if lines == max_lines_of_modified else 0
                         print(res_dic)
                         can_feas.append(res_dic)
                 #  {'commit': <git.Commit "2574243a39d90a2673cf56647c524e268d7f169e">, 'num_files_changed': 4956, 'lines_of_code_changed': 548857, 'num_of_commits': 1566}
