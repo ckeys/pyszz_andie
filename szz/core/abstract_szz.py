@@ -39,6 +39,14 @@ def retry_on_rmtree_failure(retries=3, delay=1):
         return wrapper
     return decorator
 
+
+def extract_repo_full_name(repo_url):
+        # Parse the URL to get the path
+        path = urlparse(repo_url).path
+        # Remove leading slash and .git suffix if present
+        repo_full_name = path.lstrip('/').removesuffix('.git')
+        return repo_full_name
+    
 def check_and_log_invalid_repos(log_file="invalid_repos.log"):
     """
     Decorator to check if a repo URL is valid before cloning. Logs invalid URLs to a log file.
@@ -47,7 +55,7 @@ def check_and_log_invalid_repos(log_file="invalid_repos.log"):
         @wraps(clone_func)
         def wrapper(*args, **kwargs):
             repo_url = kwargs.get("url")
-            repo_full_name = kwargs.get("repo_full_name")
+            repo_full_name = extract_repo_full_name(repo_url=repo_url)
             repository_path = kwargs.get("to_path")
             if repo_url:
                 try:
@@ -110,7 +118,7 @@ class AbstractSZZ(ABC):
                     f'''[SlurmJob Info] Local Repo Directory is not Existed and Need to Clone {self._repository_path}!''')
                 log.info(f"[SlurmJob Info] Cloning repository {repo_full_name}...")
                 Repo.clone_from = check_and_log_invalid_repos()(Repo.clone_from)
-                Repo.clone_from(url=repo_url, to_path=self._repository_path, repo_full_name=repo_full_name)
+                Repo.clone_from(url=repo_url, to_path=self._repository_path)
 
         # Only initialize `self._repository` if cloning was successful or repo was copied
         if os.path.isdir(self._repository_path):
