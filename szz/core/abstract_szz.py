@@ -52,7 +52,7 @@ def check_and_log_invalid_repos(log_file="invalid_repos.log"):
             if repo_url:
                 try:
                     # Send a HEAD request to check if the repository URL is accessible
-                    response = requests.head(repo_url)
+                    response = requests.head(repo_url, allow_redirects=True)
                     if response.status_code == 200:
                         log.info("Repository URL is accessible. Proceeding with clone.")
                         # Proceed with the actual clone function
@@ -65,7 +65,7 @@ def check_and_log_invalid_repos(log_file="invalid_repos.log"):
                 except requests.exceptions.RequestException as e:
                     # Log any exception encountered during URL checking
                     with open(log_file, "a") as f:
-                        f.write(f"{datetime.now()}: Exception for {repo_url} - {e}\n")
+                        f.write(f"{datetime.now()}: {repo_full_name}\n")
                     log.info(f"Exception occurred. Logged {repo_url} to {log_file}.")
             else:
                 log.info("No repository URL provided.")
@@ -112,7 +112,12 @@ class AbstractSZZ(ABC):
                 Repo.clone_from = check_and_log_invalid_repos()(Repo.clone_from)
                 Repo.clone_from(url=repo_url, to_path=self._repository_path, repo_full_name=repo_full_name)
 
-        self._repository = Repo(self._repository_path)
+        # Only initialize `self._repository` if cloning was successful or repo was copied
+        if os.path.isdir(self._repository_path):
+            self._repository = Repo(self._repository_path)
+        else:
+            log.error(f"The repository path does not exist: {self._repository_path}")
+            # You may choose to handle this error as needed, e.g., by exiting or raising an exception
 
     def __del__(self):
         log.info("cleanup objects...")
