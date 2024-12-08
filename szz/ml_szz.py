@@ -24,23 +24,6 @@ class MLSZZ(AGSZZ):
     def __init__(self, repo_full_name: str, repo_url: str, repos_dir: str = None):
         super().__init__(repo_full_name, repo_url, repos_dir)
 
-    def calculate_REXP_old(self, developer_changes, commit):
-        commit_date_aware = commit.committed_datetime.replace(tzinfo=timezone.utc)
-        changes_per_year = defaultdict(int)
-        for change in developer_changes:
-            if change['date'] < commit_date_aware:
-                # Calculate time interval before commit_date_aware
-                time_interval = commit_date_aware - change['date']
-                years_before_commit = float(time_interval.days) // float(365)
-                years_before_commit_tmp = time_interval.year
-                # Add changes to the first year
-                changes_per_year[years_before_commit + 1] += change['num_changes']
-
-        REXP = sum([x[1] / x[0] for x in changes_per_year.items()])
-        # Calculate REXP
-        # REXP = total_weighted_changes
-        return REXP
-
     def calculate_REXP(self, commit):
         author_name = commit.author.name
         author_email = commit.author.email
@@ -225,7 +208,7 @@ class MLSZZ(AGSZZ):
                 try:
                     for m in commit.modifications:
                         if (current_file == m.new_path or current_file == m.old_path) and (
-                                m.change_type in self.change_types_to_ignore):
+                            m.change_type in self.change_types_to_ignore):
                             log.info(f'exclude meta-change ({m.change_type}): {current_file} {commit.hash}')
                             meta_changes.add(commit.hash)
                 except Exception as e:
@@ -370,13 +353,6 @@ class MLSZZ(AGSZZ):
         average_age = total_interval / file_count
         return average_age
 
-    def get_touched_date(self, commit, file_path):
-        # Get the commit time for the file
-        commit_time = commit.committed_date
-        # Get the file modification time
-        file_mod_time = commit.tree[file_path].committed_date
-        return datetime.fromtimestamp(file_mod_time)
-
     def calcualte_ndev(self, commit):
         touched_files = self.get_touched_files(commit)
         developers = set()
@@ -462,18 +438,6 @@ class MLSZZ(AGSZZ):
 
         # If no modification before the commit is found, return None
         return latest_modification_ts
-
-    def get_last_modified_date_before_commit_tmp(self, file_path, commit):
-        """
-        Get the last modification date of the given file before the commit date.
-        """
-        last_modified_date = None
-        for commit in self.repository.iter_commits(commit):
-            file = commit.tree[file_path]
-            if file:
-                last_modified_date = datetime.fromtimestamp(file.committed_date)
-                break
-        return last_modified_date
 
     def get_lines_of_code_before_change(self, commit: Commit):
 
@@ -597,7 +561,6 @@ class MLSZZ(AGSZZ):
             params['ignore_revs_list'] = list()
             if kwargs.get('blame_rev_pointer', None):
                 params['rev_pointer'] = kwargs['blame_rev_pointer']
-            res_dic = dict()
             start = ts()
             for imp_file in impacted_files:
                 commits_to_ignore_current_file = commits_to_ignore.copy()
@@ -632,46 +595,51 @@ class MLSZZ(AGSZZ):
                             to_blame = False
 
                     bug_introd_commits.update([entry.commit for entry in blame_data])
-
-                    latest_bic = None
-                    if len(bug_introd_commits) > 0:
-                        latest_bic = max(bug_introd_commits, key=attrgetter('committed_date'))
-
-                    for commit in bug_introd_commits:
-                        num_subsystems, num_modified_directories, entropy = self.calculate_diffusion_metrics(commit)
-                        res_dic['num_subsystems'] = num_subsystems
-                        res_dic['num_modified_directories'] = num_modified_directories
-                        res_dic['entropy'] = entropy
-                        res_dic['LT'] = self.get_lines_of_code_before_change(commit)
-                        res_dic['FIX'] = self.purpose_of_change(commit)
-                        age = self.calculate_age(commit)
-                        res_dic['age'] = age
-                        ndev = self.calcualte_ndev(commit)
-                        res_dic['ndev'] = ndev
-                        res_dic['nuc'] = self.calculate_nuc(commit)
-                        add = commit.stats.total['insertions']
-                        deleted = commit.stats.total['deletions']
-                        num_files = commit.stats.total['files']
-                        lines = commit.stats.total['lines']
-                        experience_dict = self.calculate_author_metrics_optimized(commit)
-                        # This creates a new dictionary
-                        res_dic.update(experience_dict)
-                        commit_modified_files = list(commit.stats.files.keys())
-                        res_dic['lines_of_added'] = add
-                        res_dic['lines_of_deleted'] = deleted
-                        res_dic['lines_of_modified'] = lines
-                        res_dic['num_files'] = num_files
-                        res_dic['modified_files'] = commit_modified_files
-                        res_dic['candidate_commit_to_fix'] = abs(
-                            (self.get_commit_time(fix_commit_hash) - self.get_commit_time(commit.hexsha)).seconds)
-                        res_dic['is_Friday'] = 1 if commit.committed_datetime.weekday() == 4 else 0
-                        res_dic[
-                            'is_latest_bic'] = 1 if latest_bic is not None and latest_bic.hexsha == commit.hexsha else 0
-                        print(res_dic)
-                        can_feas.append(res_dic)
                 #  {'commit': <git.Commit "2574243a39d90a2673cf56647c524e268d7f169e">, 'num_files_changed': 4956, 'lines_of_code_changed': 548857, 'num_of_commits': 1566}
                 except:
                     print(traceback.format_exc())
+
+            latest_bic = None
+
+            if len(bug_introd_commits) > 0:
+                latest_bic = max(bug_introd_commits, key=attrgetter('committed_date'))
+                max_modified_lines = max(commit.stats.total['lines'] for commit in bug_introd_commits)
+
+            for commit in bug_introd_commits:
+                res_dic = dict()
+                num_subsystems, num_modified_directories, entropy = self.calculate_diffusion_metrics(commit)
+                res_dic['num_subsystems'] = num_subsystems
+                res_dic['num_modified_directories'] = num_modified_directories
+                res_dic['entropy'] = entropy
+                res_dic['LT'] = self.get_lines_of_code_before_change(commit)
+                res_dic['FIX'] = self.purpose_of_change(commit)
+                age = self.calculate_age(commit)
+                res_dic['age'] = age
+                ndev = self.calcualte_ndev(commit)
+                res_dic['ndev'] = ndev
+                res_dic['nuc'] = self.calculate_nuc(commit)
+                add = commit.stats.total['insertions']
+                deleted = commit.stats.total['deletions']
+                num_files = commit.stats.total['files']
+                lines = commit.stats.total['lines']
+                experience_dict = self.calculate_author_metrics_optimized(commit)
+                # This creates a new dictionary
+                res_dic.update(experience_dict)
+                commit_modified_files = list(commit.stats.files.keys())
+                res_dic['lines_of_added'] = add
+                res_dic['lines_of_deleted'] = deleted
+                res_dic['lines_of_modified'] = lines
+                res_dic['num_files'] = num_files
+                res_dic['modified_files'] = commit_modified_files
+                res_dic['candidate_commit_to_fix'] = abs(
+                    (self.get_commit_time(fix_commit_hash) - self.get_commit_time(commit.hexsha)).seconds)
+                res_dic['is_Friday'] = 1 if commit.committed_datetime.weekday() == 4 else 0
+                res_dic[
+                    'is_latest_bic'] = 1 if latest_bic is not None and latest_bic.hexsha == commit.hexsha else 0
+                res_dic['is_largest_mod'] = 1 if lines == max_modified_lines else 0
+                print(res_dic)
+                can_feas.append(res_dic)
+
 
             if 'issue_date_filter' in kwargs and kwargs['issue_date_filter']:
                 before = len(bug_introd_commits)

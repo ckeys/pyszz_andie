@@ -14,6 +14,7 @@ from szz.ml_szz import MLSZZ
 from szz.ma_szz import MASZZ, DetectLineMoved
 from szz.r_szz import RSZZ
 from szz.ra_szz import RASZZ
+from szz.util.data_collection_from_bic_to_pd import process_data
 
 log.basicConfig(level=log.INFO, format='%(asctime)s :: %(levelname)s :: %(message)s')
 log.getLogger('pydriller').setLevel(log.WARNING)
@@ -63,7 +64,7 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
             commit_issue_date = None
             if conf.get('issue_date_filter', None):
                 commit_issue_date = (
-                        commit.get('earliest_issue_date', None) or commit.get('best_scenario_issue_date', None))
+                    commit.get('earliest_issue_date', None) or commit.get('best_scenario_issue_date', None))
                 commit_issue_date = dateparser.parse(commit_issue_date).timestamp()
             if szz_name == 'b':
                 b_szz = BaseSZZ(repo_full_name=repo_name, repo_url=repo_url, repos_dir=repos_dir)
@@ -165,26 +166,16 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
             bugfix_commits[i]["inducing_commit_hash"] = [bic.hexsha for bic in bug_introducing_commits if bic]
             if bic_dict is not None:
                 bugfix_commits[i]["candidate_features"] = bic_dict
-            # log.info(f'''Write {i}, {bugfix_commits[i]['id']}: {bugfix_commits[i]} ''')
             w_file.write(f'''Write {i}, {bugfix_commits[i]['id']}: {bugfix_commits[i]} \n''')
             file.write(json.dumps(bugfix_commits[i]) + '\n')
+    df = process_data(bugfix_commits)
     out2_json = os.path.join('out', f'bic_{szz_name}_{int(ts())}.json')
+    out2_df = os.path.join('out', f'bic_{szz_name}_{int(ts())}.csv')
+    df.to_csv(out2_df, index=False)
     with open(out2_json, 'w') as out:
         log.info(f'''Writing Results to {out2_json}!''')
         json.dump(bugfix_commits, out)
     w_file.close()
-    # log_files = [f for f in os.listdir(f'''output_{szz_name}''') if
-    #              f.startswith("output_write_") and f.endswith(".log") and f != 'output_write_summary.log']
-    # # Combine content of individual log files into summary file
-    # with open(f"output_{szz_name}/output_write_summary.log", "w") as summary_file:
-    #     for log_file in log_files:
-    #         with open(f"output_{szz_name}/{log_file}", "r") as file:
-    #             summary_file.write(file.read() + "\n")
-    # if file_content.strip() != "":
-    #     summary_file.write(file_content + "\n")
-    # Remove individual log files
-    # for log_file in log_files:
-    #     os.remove(f"output_{szz_name}/{log_file}")
     log.info(f"+++ DONE +++")
 
 

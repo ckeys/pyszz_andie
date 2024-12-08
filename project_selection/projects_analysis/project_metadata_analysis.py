@@ -13,7 +13,7 @@ output_csv = os.path.join(data_dir, "repo_metadata.csv")
 
 # API URL for searching repositories
 search_url = f"https://api.github.com/search/repositories?q={repo_name} in:name"
-
+token = "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"
 # Headers for authentication
 headers = {
     "Authorization": f"token {token}"
@@ -59,13 +59,16 @@ def fetch_repo_metadata(repo_name):
         forks = repo_data.get("forks_count", 0)
         contributors = len(contributors_data)
         pull_requests = len(pulls_data)
+        language = repo_data.get("language", "Unknown")  # Get the primary language
+
         print({
             "owner": owner,
             "repo": repo,
             "stars": stars,
             "forks": forks,
             "contributors": contributors,
-            "pull_requests": pull_requests
+            "pull_requests": pull_requests,
+            "language": language
         })
         return {
             "owner": owner,
@@ -73,7 +76,8 @@ def fetch_repo_metadata(repo_name):
             "stars": stars,
             "forks": forks,
             "contributors": contributors,
-            "pull_requests": pull_requests
+            "pull_requests": pull_requests,
+            "language": language
         }
     else:
         return None
