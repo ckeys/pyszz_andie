@@ -90,3 +90,13 @@ if __name__ == "__main__":
 
     # Save to CSV (optional)
     df.to_csv('processed_data.csv', index=False)
+
+    data2 = [{'id': 4, 'repo_name': 'ahobson/ruby-pcap', 'fix_commit_hash': '0ad41d0684c2ec4c2a6b604f7aafbaf9f0459dcc',
+              'bug_commit_hash': ['272f03ff3b5bf79829f80c2febd004904d64006e'],
+              'best_scenario_issue_date': '2011-06-01T04:05:04', 'language': ['rb']}]
+
+    # Process data
+    df = process_data(data2)
+
+    # Display the DataFrame
+    print(df)
