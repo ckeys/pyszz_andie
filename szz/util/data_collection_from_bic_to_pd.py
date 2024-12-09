@@ -15,7 +15,7 @@ def process_data(data):
         bug_commit_hash = ','.join(entry['bug_commit_hash'])  # Convert list to string
         best_scenario_issue_date = entry.get('best_scenario_issue_date', None)
         language = ','.join(entry.get('language', []))  # Convert list to string
-        inducing_commit_hash = ','.join(entry['inducing_commit_hash'])  # Convert list to string
+        inducing_commit_hash = ','.join(entry.get('inducing_commit_hash', []))  # Convert list to string
 
         # Iterate through candidate features
         for feature in entry['candidate_features']:
