@@ -169,8 +169,8 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
             w_file.write(f'''Write {i}, {bugfix_commits[i]['id']}: {bugfix_commits[i]} \n''')
             file.write(json.dumps(bugfix_commits[i]) + '\n')
     df = process_data(bugfix_commits[start_index:end_index])
-    out2_json = os.path.join('out', f'bic_{szz_name}_{int(ts())}.json')
-    out2_df = os.path.join('out', f'bic_{szz_name}_{int(ts())}.csv')
+    out2_json = os.path.join('out', f'bic_{szz_name}_{int(ts())}_{start_index}_{end_index}.json')
+    out2_df = os.path.join('out', f'bic_{szz_name}_{int(ts())}_{start_index}_{end_index}.csv')
     df.to_csv(out2_df, index=False)
     with open(out2_json, 'w') as out:
         log.info(f'''Writing Results to {out2_json}!''')
