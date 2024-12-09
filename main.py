@@ -59,7 +59,7 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
             # repo_url = f'''https://{username}:{st}@github.com/{repo_name}.git'''
             fix_commit = commit['fix_commit_hash']
 
-            log.info(f'{i + 1} of {tot}: {repo_name} {fix_commit}')
+            log.info(f'[Tracking:] {i + 1} of {tot}: {repo_name} {fix_commit}')
 
             commit_issue_date = None
             if conf.get('issue_date_filter', None):
