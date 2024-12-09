@@ -11,14 +11,14 @@ base_command="nohup python $MLSZZ_PATH/main.py $MLSZZ_PATH/in/valid_project.json
 
 # Job parameters
 start=0
-increment=50
+increment=2
 
 # Create 10 jobs
-for i in {0..9}; do
-  end=$((start + increment))
-  log_file="output_${i}.log"
+for i in {0..2}; do
+  end=$((start + (i + 1) * increment - 1))
+  log_file="output_${start}_${end}.log"
   full_command="$base_command $start $end > $log_file 2>&1 &"
   echo "Running job $i: $full_command"
   eval $full_command
-  start=$end
+  start=$((end + 1))
 done
