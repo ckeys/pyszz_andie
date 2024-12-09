@@ -604,6 +604,7 @@ class MLSZZ(AGSZZ):
             if len(bug_introd_commits) > 0:
                 latest_bic = max(bug_introd_commits, key=attrgetter('committed_date'))
                 max_modified_lines = max(commit.stats.total['lines'] for commit in bug_introd_commits)
+                earliest_bic = min(bug_introd_commits, key=attrgetter('committed_date'))
 
             for commit in bug_introd_commits:
                 res_dic = dict()
@@ -637,9 +638,10 @@ class MLSZZ(AGSZZ):
                 res_dic[
                     'is_latest_bic'] = 1 if latest_bic is not None and latest_bic.hexsha == commit.hexsha else 0
                 res_dic['is_largest_mod'] = 1 if lines == max_modified_lines else 0
+                res_dic[
+                    'is_earliest_bic'] = 1 if earliest_bic is not None and earliest_bic.hexsha == commit.hexsha else 0
                 print(res_dic)
                 can_feas.append(res_dic)
-
 
             if 'issue_date_filter' in kwargs and kwargs['issue_date_filter']:
                 before = len(bug_introd_commits)
