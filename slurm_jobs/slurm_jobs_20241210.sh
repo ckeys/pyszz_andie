@@ -46,7 +46,7 @@ NUM_JOBS=10  # Change this to the desired number of jobs
 BATCH_SIZE=50  # Size of each batch (i.e., 0-999 for the first job, 1000-1999 for the second job, etc.)
 
 # Loop to create and submit jobs
-for ((i=4; i<START_AT+NUM_JOBS; i++)); do
+for ((i=2; i<START_AT+NUM_JOBS; i++)); do
   # Calculate start_index and end_index for each job
   start_index=$((i * BATCH_SIZE))
   end_index=$(((i + 1) * BATCH_SIZE - 1))
@@ -68,5 +68,5 @@ for ((i=4; i<START_AT+NUM_JOBS; i++)); do
   # Optionally, you can print information about the job that was submitted
   echo "Submitted job: $JOB_NAME with start_index=$start_index, end_index=$end_index, log: $LOG_FILE and error: $ERR_FILE"
   # Find the highest index from existing log files
-  LAST_INDEX=$(ls $LOG_DIR/mlszz_p*.log 2>/dev/null | sed -n 's/.*mlszz_p\([0-9]\+\)\.log/\1/p' | sort -n | tail -1)
+  LAST_INDEX = $((NEXT_INDEX))
 done
