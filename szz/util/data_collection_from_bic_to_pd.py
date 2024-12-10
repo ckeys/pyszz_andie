@@ -12,7 +12,7 @@ def process_data(data):
         id_ = entry['id']
         repo_name = entry['repo_name']
         fix_commit_hash = entry['fix_commit_hash']
-        bug_commit_hash = ','.join(entry['bug_commit_hash'])  # Convert list to string
+        bug_commit_hash = ','.join(entry.get('bug_commit_hash', []))  # Convert list to string
         best_scenario_issue_date = entry.get('best_scenario_issue_date', None)
         language = ','.join(entry.get('language', []))  # Convert list to string
         inducing_commit_hash = ','.join(entry.get('inducing_commit_hash', []))  # Convert list to string
