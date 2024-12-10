@@ -43,10 +43,10 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
     signal_label = start_index
     with open(out_json, 'w') as file:
         log.info(
-            f'''Start at : {start_index} and end at : {end_index}, total length : {len(bugfix_commits[start_index:end_index])}''')
+            f'''Start at : {start_index} and end at : {end_index}, total length : {len(bugfix_commits[start_index:end_index + 1])}''')
         bic_dict = None
         for i, commit in enumerate(
-            tqdm(bugfix_commits[start_index:end_index], desc="Processing Commits"),
+            tqdm(bugfix_commits[start_index:end_index + 1], desc="Processing Commits"),
             start=start_index):
             log.info(f'''Repo Directory is {repos_dir} and Repo Name is {commit['repo_name']}''')
 
@@ -181,7 +181,6 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
         json.dump(bugfix_commits, out)
     w_file.close()
     log.info(f"+++ DONE +++")
-
 
 
 if __name__ == "__main__":
