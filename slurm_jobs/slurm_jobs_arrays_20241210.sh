@@ -6,6 +6,8 @@
 #SBATCH --partition=aoraki              # Partition name (adjust as needed)
 #SBATCH --time=03:00:00                 # Maximum time allocation
 #SBATCH --array=0-49                    # Define an array with 50 tasks (adjust as needed)
+#SBATCH --nodes=1                       # Require exactly 1 node per task
+#SBATCH --ntasks=1                      # One task per job
 
 # Load required modules
 module purge                             # Purge any loaded modules to avoid conflicts
