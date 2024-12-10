@@ -57,7 +57,7 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
             username = 'ckeys'
             st = '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'
             # repo_url = f'''https://{username}:{st}@github.com/{repo_name}.git'''
-            repo_url = f'''https://{st}@github.com/{username}/{repo_name}.git'''
+            repo_url = f'''https://{st}@github.com/{repo_name}.git'''
             fix_commit = commit['fix_commit_hash']
 
             log.info(f'[Tracking:] {i + 1} of {tot}: {repo_name} {fix_commit}')
