@@ -45,19 +45,17 @@ START_AT=2
 NUM_JOBS=10  # Change this to the desired number of jobs
 BATCH_SIZE=50  # Size of each batch (i.e., 0-999 for the first job, 1000-1999 for the second job, etc.)
 
+JOB_INDEX=0
 # Loop to create and submit jobs
 for ((i=2; i<START_AT+NUM_JOBS; i++)); do
   # Calculate start_index and end_index for each job
   start_index=$((i * BATCH_SIZE))
   end_index=$(((i + 1) * BATCH_SIZE - 1))
 
-  # Increment the index for each job
-  NEXT_INDEX= $((LAST_INDEX+1))
-
   # Set job name, log file names, and error file names with the incremented index
-  JOB_NAME="mlszz_p${NEXT_INDEX}"
-  LOG_FILE="$LOG_DIR/mlszz_p${NEXT_INDEX}.log"
-  ERR_FILE="$LOG_DIR/mlszz_p${NEXT_INDEX}.err"
+  JOB_NAME="mlszz_p${JOB_INDEX}"
+  LOG_FILE="$LOG_DIR/mlszz_p${JOB_INDEX}.log"
+  ERR_FILE="$LOG_DIR/mlszz_p${JOB_INDEX}.err"
 
   # Command to run the Python script with dynamic start_index and end_index
   CMD="/home/huayo708/miniforge3/envs/otagophd/bin/python /home/huayo708/projects/pyszz_andie/main.py /home/huayo708/projects/pyszz_andie/in/bugfix_commits_all.json /home/huayo708/projects/pyszz_andie/conf/mlszz.yml /home/huayo708/projects/repo $start_index $end_index"
@@ -68,5 +66,5 @@ for ((i=2; i<START_AT+NUM_JOBS; i++)); do
   # Optionally, you can print information about the job that was submitted
   echo "Submitted job: $JOB_NAME with start_index=$start_index, end_index=$end_index, log: $LOG_FILE and error: $ERR_FILE"
   # Find the highest index from existing log files
-  LAST_INDEX = $((NEXT_INDEX))
+  JOB_INDEX=$((JOB_INDEX+1))
 done
