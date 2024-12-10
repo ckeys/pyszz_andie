@@ -18,7 +18,7 @@ def process_data(data):
         inducing_commit_hash = ','.join(entry.get('inducing_commit_hash', []))  # Convert list to string
 
         # Iterate through candidate features
-        for feature in entry['candidate_features']:
+        for feature in entry.get('candidate_features', list(dict())):
             # Create a row combining metadata and feature data
             row = {
                 'id': id_,
