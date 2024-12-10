@@ -69,5 +69,4 @@ for ((i=4; i<START_AT+NUM_JOBS; i++)); do
   echo "Submitted job: $JOB_NAME with start_index=$start_index, end_index=$end_index, log: $LOG_FILE and error: $ERR_FILE"
   # Find the highest index from existing log files
   LAST_INDEX=$(ls $LOG_DIR/mlszz_p*.log 2>/dev/null | sed -n 's/.*mlszz_p\([0-9]\+\)\.log/\1/p' | sort -n | tail -1)
-
 done
