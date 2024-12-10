@@ -52,7 +52,7 @@ for ((i=4; i<START_AT+NUM_JOBS; i++)); do
   end_index=$(((i + 1) * BATCH_SIZE - 1))
 
   # Increment the index for each job
-  NEXT_INDEX=$((LAST_INDEX))
+  NEXT_INDEX=$((LAST_INDEX+1))
 
   # Set job name, log file names, and error file names with the incremented index
   JOB_NAME="mlszz_p${NEXT_INDEX}"
