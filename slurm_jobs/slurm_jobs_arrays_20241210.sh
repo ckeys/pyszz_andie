@@ -22,7 +22,7 @@ LOG_DIR="/home/huayo708/projects/pyszz_andie/slurm_jobs/logs"
 mkdir -p "$LOG_DIR"                     # Ensure the log directory exists
 
 # Batch configuration
-BATCH_SIZE=30                           # Size of each batch
+BATCH_SIZE=50                           # Size of each batch
 
 # Set job-specific parameters based on SLURM_ARRAY_TASK_ID
 JOB_INDEX=$SLURM_ARRAY_TASK_ID          # Use SLURM array ID for unique job indexing
