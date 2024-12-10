@@ -1,9 +1,11 @@
 #!/bin/bash
 #SBATCH --job-name=srcml_job            # Base job name
+#SBATCH --array=1-6           # Create 3 tasks
+#SBATCH --nodes=1             # Each task runs on a separate node
 #SBATCH --cpus-per-task=2               # Number of CPU cores per task
 #SBATCH --mem=8G                        # Memory allocation
-#SBATCH --output=srcml_output.%j.log     # Base output log file name with job ID
-#SBATCH --error=srcml_error.%j.log       # Base error log file name with job ID
+#SBATCH --output=srcml_output.%j_%A_%a.log     # Base output log file name with job ID
+#SBATCH --error=srcml_error.%j_%A_%a.log       # Base error log file name with job ID
 #SBATCH --partition=aoraki              # Partition name (adjust as needed)
 #SBATCH --time=03:00:00                 # Maximum time allocation
 
@@ -42,11 +44,12 @@ if [[ -f "$LAST_ERR_FILE" ]]; then
 fi
 
 # Set the number of jobs to submit
-NUM_JOBS=18  # Change this to the desired number of jobs
+START_AT=$((2 * SLURM_ARRAY_TASK_ID))
+NUM_JOBS=2  # Change this to the desired number of jobs
 BATCH_SIZE=50  # Size of each batch (i.e., 0-999 for the first job, 1000-1999 for the second job, etc.)
 
 # Loop to create and submit jobs
-for ((i=2; i<NUM_JOBS; i++)); do
+for ((i=2; i<START_AT+NUM_JOBS; i++)); do
   # Calculate start_index and end_index for each job
   start_index=$((i * BATCH_SIZE))
   end_index=$(((i + 1) * BATCH_SIZE - 1))
