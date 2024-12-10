@@ -45,7 +45,7 @@ START_AT=0
 NUM_JOBS=50  # Change this to the desired number of jobs
 BATCH_SIZE=30  # Size of each batch (i.e., 0-999 for the first job, 1000-1999 for the second job, etc.)
 
-JOB_INDEX=0
+JOB_INDEX=$SLURM_ARRAY_TASK_ID
 # Loop to create and submit jobs
 for ((i=START_AT; i<START_AT+NUM_JOBS; i++)); do
   # Calculate start_index and end_index for each job
