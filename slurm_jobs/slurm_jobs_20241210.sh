@@ -42,7 +42,7 @@ fi
 
 # Set the number of jobs to submit
 START_AT=0
-NUM_JOBS=70  # Change this to the desired number of jobs
+NUM_JOBS=50  # Change this to the desired number of jobs
 BATCH_SIZE=30  # Size of each batch (i.e., 0-999 for the first job, 1000-1999 for the second job, etc.)
 
 JOB_INDEX=0
