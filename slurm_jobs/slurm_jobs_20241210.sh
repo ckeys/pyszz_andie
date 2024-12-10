@@ -41,21 +41,21 @@ if [[ -f "$LAST_ERR_FILE" ]]; then
 fi
 
 # Set the number of jobs to submit
-START_AT=2
+START_AT=12
 NUM_JOBS=10  # Change this to the desired number of jobs
 BATCH_SIZE=50  # Size of each batch (i.e., 0-999 for the first job, 1000-1999 for the second job, etc.)
 
 JOB_INDEX=0
 # Loop to create and submit jobs
-for ((i=2; i<START_AT+NUM_JOBS; i++)); do
+for ((i=START_AT; i<START_AT+NUM_JOBS; i++)); do
   # Calculate start_index and end_index for each job
   start_index=$((i * BATCH_SIZE))
   end_index=$(((i + 1) * BATCH_SIZE - 1))
 
   # Set job name, log file names, and error file names with the incremented index
   JOB_NAME="mlszz_p${JOB_INDEX}"
-  LOG_FILE="$LOG_DIR/mlszz_p${JOB_INDEX}.log"
-  ERR_FILE="$LOG_DIR/mlszz_p${JOB_INDEX}.err"
+  LOG_FILE="$LOG_DIR/mlszz_p${start_index}_${end_index}.log"
+  ERR_FILE="$LOG_DIR/mlszz_p${start_index}_${end_index}.err"
 
   # Command to run the Python script with dynamic start_index and end_index
   CMD="/home/huayo708/miniforge3/envs/otagophd/bin/python /home/huayo708/projects/pyszz_andie/main.py /home/huayo708/projects/pyszz_andie/in/bugfix_commits_all.json /home/huayo708/projects/pyszz_andie/conf/mlszz.yml /home/huayo708/projects/repo $start_index $end_index"
