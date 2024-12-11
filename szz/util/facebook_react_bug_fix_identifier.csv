@@ -1,0 +1,10 @@
+author_name,date_time,commit_hash,commit_message,is_bug_fixing
+Paul O’Shannessy,2013-05-29 12:46:11,75897c2dcd1dd3a6ca46284dd37e13d22b4b16b4,Initial public release,False
+Paul O’Shannessy,2013-05-29 13:04:54,0ea0d2f76bd13a5fc6feb5e7e2e0564b1fa65bb8,Update release task to keep correct filename case,True
+petehunt,2013-05-29 13:11:15,6fc478516b489ac5c41939777fa6f13e305dcb6e,Fix some URLs,True
+petehunt,2013-05-29 13:24:51,e20747ef9bd206df6d03cc4c2ccb074eadf4a8df,Fix live editor on mobile devices,True
+Paul Shen,2013-05-29 13:30:50,c5b4fe9e88a9a3b43cfd9b7e5383096bd9e213ef,[docs] Fix button links on bottom of home,True
+Timothy Yung,2013-05-29 13:32:22,5ec4542dfbaacacaa672dd31b153ef3fedc0ddd8,"Merge pull request #2 from paulshen/homebuttons
+
+[docs] Fix button links on bottom of home",True
+Paul Shen,2013-05-29 13:37:07,ef6754bce52fd12759f9a8c3c09a9003a4e5f49a,[docs] Fix couple minor typos/spelling,True
