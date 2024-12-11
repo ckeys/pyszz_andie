@@ -4,6 +4,11 @@ if [ -z "$MLSZZ_PATH" ]; then
   exit 1
 fi
 
+if [ -z "$SZZ_V" ]; then
+  echo "SZZ_V environment variable is not set"
+  exit 1
+fi
+
 # Ensure the logs directory exists
 logs_dir="logs"
 if [ ! -d "$logs_dir" ]; then
@@ -12,12 +17,13 @@ if [ ! -d "$logs_dir" ]; then
 fi
 
 # Base command
-base_command="nohup python $MLSZZ_PATH/main.py $MLSZZ_PATH/in/valid_project.json $MLSZZ_PATH/conf/mlszz.yml None"
+base_command="nohup python $MLSZZ_PATH/main.py $MLSZZ_PATH/in/valid_project.json $MLSZZ_PATH/conf/$SZZ_V.yml None"
 
 # Job parameters
 start=0
-increment=100
-num_jobs=20  # Total number of jobs
+increment=2000
+num_jobs=2  # Total number of jobs
+method="$SZZ_V"
 
 # Create jobs
 for ((i=0; i<num_jobs; i++)); do
@@ -25,7 +31,7 @@ for ((i=0; i<num_jobs; i++)); do
   end=$((start + increment - 1))
 
   # Log file name inside the logs directory
-  log_file="$logs_dir/output_${start}_${end}.log"
+  log_file="$logs_dir/${method}_output_${start}_${end}.log"
 
   # Construct the command
   full_command="$base_command $start $end > $log_file 2>&1 &"
