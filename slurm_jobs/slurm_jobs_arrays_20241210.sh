@@ -8,6 +8,7 @@
 #SBATCH --array=0-200                    # Define an array with 50 tasks (adjust as needed)
 #SBATCH --nodes=1                       # Require exactly 1 node per task
 #SBATCH --ntasks=1                      # One task per job
+#SBATCH --time=1-12:00:00               # 1 day, 12 hours
 
 # Check if the $HOME directory is available and writable
 while [ ! -d "$HOME" ] || [ ! -w "$HOME" ]; do
