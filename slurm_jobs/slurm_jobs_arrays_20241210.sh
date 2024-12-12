@@ -5,7 +5,7 @@
 #SBATCH --error=./slurmlogs/srcml_error.%A_%a.log   # Error log file name with job array ID
 #SBATCH --partition=aoraki              # Partition name (adjust as needed)
 #SBATCH --time=5:00:00                 # Maximum time allocation
-#SBATCH --array=0-200                    # Define an array with 50 tasks (adjust as needed)
+#SBATCH --array=17-107                    # Define an array with 50 tasks (adjust as needed)
 #SBATCH --nodes=1                       # Require exactly 1 node per task
 #SBATCH --ntasks=1                      # One task per job
 #SBATCH --time=1-12:00:00               # 1 day, 12 hours
