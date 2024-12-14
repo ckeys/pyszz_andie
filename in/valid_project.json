@@ -2231,18 +2231,6 @@
         ]
     },
     {
-        "id": 583,
-        "repo_name": "teknoraver/ppp",
-        "fix_commit_hash": "44012ae879e809ad1f75e6c69712619cefaa4add",
-        "bug_commit_hash": [
-            "fcb076c2b24bd8dd73f4be7a9e1712d3a352a376"
-        ],
-        "best_scenario_issue_date": "2019-05-05T22:47:02",
-        "language": [
-            "h"
-        ]
-    },
-    {
         "id": 588,
         "repo_name": "ssilverman/arduino-esp32",
         "fix_commit_hash": "dac493fb92807e96db54d47edb2dd88b6ec182e4",
