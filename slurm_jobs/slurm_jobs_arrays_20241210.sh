@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=srcml_job            # Base job name
-#SBATCH --mem=32G                        # Memory allocation
+#SBATCH --mem=64G                        # Memory allocation
 #SBATCH --output=./slurmlogs/srcml_output.%A_%a.log # Output log file name with job array ID
 #SBATCH --error=./slurmlogs/srcml_error.%A_%a.log   # Error log file name with job array ID
 #SBATCH --partition=aoraki              # Partition name (adjust as needed)
