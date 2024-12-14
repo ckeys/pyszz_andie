@@ -1,10 +1,9 @@
 #!/bin/bash
 #SBATCH --job-name=srcml_job            # Base job name
-#SBATCH --mem=8G                        # Memory allocation
+#SBATCH --mem=32G                        # Memory allocation
 #SBATCH --output=./slurmlogs/srcml_output.%A_%a.log # Output log file name with job array ID
 #SBATCH --error=./slurmlogs/srcml_error.%A_%a.log   # Error log file name with job array ID
 #SBATCH --partition=aoraki              # Partition name (adjust as needed)
-#SBATCH --time=5:00:00                 # Maximum time allocation
 #SBATCH --array=18-37                    # Define an array with 50 tasks (adjust as needed)
 #SBATCH --nodes=1                       # Require exactly 1 node per task
 #SBATCH --ntasks=1                      # One task per job
