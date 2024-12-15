@@ -446,8 +446,13 @@ class AbstractSZZ(ABC):
     def _set_working_tree_to_commit(self, commit: str):
         # self.repository.head.reference = self.repository.commit(fix_commit_hash)
         # reset the index and working tree to match the pointed-to commit
-        self.repository.head.reset(commit=commit, index=True, working_tree=True)
-        assert not self.repository.head.is_detached
+        try:
+            # Reset the index and working tree to match the pointed-to commit
+            self.repository.head.reset(commit=commit, index=True, working_tree=True)
+            assert not self.repository.head.is_detached
+        except Exception as e:
+            # Log the error and skip processing for this commit
+            print(f"Error resetting to commit {commit}: {e}")
 
     def _get_impacted_file_content(self, fix_commit_hash: str, impacted_file: 'ImpactedFile') -> str:
         return self.repository.git.show(f"{fix_commit_hash}:{impacted_file.file_path}")
