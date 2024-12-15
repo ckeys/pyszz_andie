@@ -167,9 +167,8 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
                 exit(-3)
 
             log.info(f"result: {bug_introducing_commits}")
-            bugfix_commits[i]["inducing_commit_hash"] = [bic.hexsha for bic in bug_introducing_commits if bic]
-            if bic_dict is not None:
-                bugfix_commits[i]["candidate_features"] = bic_dict
+            bugfix_commits[i]["inducing_commit_hash"] = [bic.hexsha for bic in bug_introducing_commits if bic] if bug_introducing_commits else []
+            bugfix_commits[i]["candidate_features"] = bic_dict if bic_dict else []
             w_file.write(f'''Write {i}, {bugfix_commits[i]['id']}: {bugfix_commits[i]} \n''')
             file.write(json.dumps(bugfix_commits[i]) + '\n')
     df = process_data(bugfix_commits[start_index:end_index])
