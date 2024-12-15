@@ -113,6 +113,10 @@ class MASZZ(AGSZZ):
         commits_to_ignore = set()
         commits_to_ignore_current_file = set()
         bic = set()
+
+        if impacted_files is None:
+            return bic
+
         for imp_file in impacted_files:
             commits_to_ignore_current_file = commits_to_ignore.copy()
 
