@@ -40,8 +40,6 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
             pass  # This clears the content of the file
 
     w_file = open(write_file_name, 'a')
-    # TODO: REMOVE
-    signal_label = start_index
     with open(out_json, 'w') as file:
         log.info(
             f'''Start at : {start_index} and end at : {end_index}, total length : {len(bugfix_commits[start_index:end_index + 1])}''')
@@ -51,16 +49,7 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
             start=start_index):
             log.info(f'''Repo Directory is {repos_dir} and Repo Name is {commit['repo_name']}''')
 
-            # if not os.path.exists(f'''{repos_dir}/{commit['repo_name']}'''):
-            #     log.info(f'''The path is not existing {repos_dir}/{commit['repo_name']}''')
-            #     log.info(f'Skipping {commit["repo_name"]}')
-            #     continue
-
-            bug_introducing_commits = set()
             repo_name = commit['repo_name']
-            # repo_url = f'https://test:test@github.com/{repo_name}.git'  # using test:test as git login to skip private repos during clone
-            # repo_url = f'''https://{username}:{st}@github.com/{repo_name}.git'''
-            # repo_url = f'''https://{st}@github.com/{repo_name}.git'''
             repo_url = f'''git@github.com:{repo_name}.git'''
             fix_commit = commit['fix_commit_hash']
 
