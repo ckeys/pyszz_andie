@@ -187,7 +187,6 @@ if __name__ == "__main__":
     input_json = sys.argv[1]
     conf_file = sys.argv[2]
     repos_dir = sys.argv[3] if len(sys.argv) > 3 else None
-    repos_dir = None
     start_index = int(sys.argv[4]) if len(sys.argv) > 4 else 0
     end_index = int(sys.argv[5]) if len(sys.argv) > 5 else None
 
