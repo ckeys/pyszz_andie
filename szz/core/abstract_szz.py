@@ -17,6 +17,7 @@ from options import Options
 from szz.core.comment_parser import parse_comments
 from datetime import datetime, timedelta
 
+
 class AbstractSZZ(ABC):
     """
     AbstractSZZ is the base class for SZZ implementations. It has core methods for SZZ
@@ -43,6 +44,7 @@ class AbstractSZZ(ABC):
         self._repository_path = os.path.join(self.__temp_dir, repo_full_name.replace('/', '_'))
         if not os.path.isdir(self._repository_path):
             if repos_dir:
+                log.info(f'''[Repo Directory]: {repo_full_name} exists in {repos_dir}''')
                 repo_dir = os.path.join(repos_dir, repo_full_name)
                 if os.path.isdir(repo_dir):
                     copytree(repo_dir, self._repository_path, symlinks=True)
@@ -251,6 +253,7 @@ class AbstractSZZ(ABC):
             if comment_range.start <= line_num <= comment_range.end:
                 return True
         return False
+
     def _calculate_metrics(self, commit):
         modified_directories = set()
         subsystems = set()
@@ -332,6 +335,7 @@ class AbstractSZZ(ABC):
                 except KeyError:
                     continue
         return len(developers)
+
     def _calculate_REXP(self, developer_changes, commit):
         total_weighted_changes = 0
         total_weight = 0
@@ -364,6 +368,7 @@ class AbstractSZZ(ABC):
         # Calculate SEXP
         SEXP = total_changes_to_subsystems
         return SEXP
+
     def _calculate_entropy(self, commit):
         modified_lines = []
 
@@ -380,6 +385,7 @@ class AbstractSZZ(ABC):
                 entropy -= lines / total_modified_lines * math.log2(lines / total_modified_lines)
 
         return entropy
+
     def _calculate_author_metrics_optimized(self, commit):
         author_name = commit.author.name
         author_email = commit.author.email
