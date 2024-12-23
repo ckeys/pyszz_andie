@@ -21,7 +21,7 @@ if [ ! -d "$logs_dir" ]; then
 fi
 
 # Base command
-base_command="nohup python $MLSZZ_PATH/main.py $MLSZZ_PATH/in/valid_project.json $MLSZZ_PATH/conf/$SZZ_V.yml $HOME/andie/repo"
+base_command="nohup python $MLSZZ_PATH/main.py $MLSZZ_PATH/in/react_szz_input.json $MLSZZ_PATH/conf/$SZZ_V.yml $HOME/andie/repo"
 
 # Job parameters
 start=0
