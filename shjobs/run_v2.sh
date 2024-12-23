@@ -17,12 +17,12 @@ if [ ! -d "$logs_dir" ]; then
 fi
 
 # Base command
-base_command="nohup python $MLSZZ_PATH/main.py $MLSZZ_PATH/in/valid_project.json $MLSZZ_PATH/conf/$SZZ_V.yml None"
+base_command="nohup python $MLSZZ_PATH/main.py $MLSZZ_PATH/in/valid_project.json $MLSZZ_PATH/conf/$SZZ_V.yml $HOME/andie/repo"
 
 # Job parameters
 start=0
-increment=2000
-num_jobs=2  # Total number of jobs
+increment=5000
+num_jobs=1  # Total number of jobs
 method="$SZZ_V"
 
 # Create jobs
