@@ -1,3 +1,7 @@
+# Step 1: setup MLSZZ_PATH
+# Step 2: Setup SZZ_V
+# Step 3: Setup input.json
+# Step 4: Setup repo directory
 # Check if MLSZZ_PATH is set
 if [ -z "$MLSZZ_PATH" ]; then
   echo "MLSZZ_PATH environment variable is not set"
