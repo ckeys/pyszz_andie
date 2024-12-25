@@ -4,7 +4,7 @@
 #SBATCH --output=./slurmlogs/srcml_output.%A_%a.log # Output log file name with job array ID
 #SBATCH --error=./slurmlogs/srcml_error.%A_%a.log   # Error log file name with job array ID
 #SBATCH --partition=aoraki              # Partition name (adjust as needed)
-#SBATCH --array=0-100                   # Specify individual indices and ranges
+#SBATCH --array=29,35,38-100       # Retry only the failed jobs
 #SBATCH --nodes=1                       # Require exactly 1 node per task
 #SBATCH --ntasks=1                      # One task per job
 #SBATCH --time=1-12:00:00               # 1 day, 12 hours
