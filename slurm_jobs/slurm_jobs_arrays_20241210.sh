@@ -1,13 +1,13 @@
 #!/bin/bash
 #SBATCH --job-name=srcml_job            # Base job name
-#SBATCH --mem=64G                        # Memory allocation
+#SBATCH --mem=128G                        # Memory allocation
 #SBATCH --output=./slurmlogs/srcml_output.%A_%a.log # Output log file name with job array ID
 #SBATCH --error=./slurmlogs/srcml_error.%A_%a.log   # Error log file name with job array ID
 #SBATCH --partition=aoraki              # Partition name (adjust as needed)
-#SBATCH --array=29,35,38-100       # Retry only the failed jobs
+  #SBATCH --array=41-86       # Retry only the failed jobs
 #SBATCH --nodes=1                       # Require exactly 1 node per task
 #SBATCH --ntasks=1                      # One task per job
-#SBATCH --time=1-12:00:00               # 1 day, 12 hours
+#SBATCH --time=2-12:00:00               # 1 day, 12 hours
 
 # Check if the $HOME directory is available and writable
 while [ ! -d "$HOME" ] || [ ! -w "$HOME" ]; do
