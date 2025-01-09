@@ -31,20 +31,20 @@ def plot_class_distribution(distribution, label_name, fold_number):
 
 
 if __name__ == '__main__':
-    project_name = "react"
-    input_file_dir = '/Users/andie/PycharmProjects/pyszz_andie/defect_prediction/data'  # Replace with your actual file path
+    project_name = "bitcoin"
+    input_file_dir = f'/Users/andie/PycharmProjects/pyszz_andie/defect_prediction/data/{project_name}'  # Replace with your actual file path
     # output_file = '/path/to/your/react_predictions.csv'  # Replace with your desired output path
     lszz_buggy_commit = read_szz_output(f'''{input_file_dir}/{project_name}_bic_l.json''')
     rszz_buggy_commit = read_szz_output(f'''{input_file_dir}/{project_name}_bic_r.json''')
     maszz_buggy_commit = read_szz_output(f'''{input_file_dir}/{project_name}_bic_ma.json''')
-    mlszz_output_file = '/Users/andie/PycharmProjects/pyszz_andie/mlszz_model/data/react/react_mlszz_output_predictions.csv'
+    mlszz_output_file = f'/Users/andie/PycharmProjects/pyszz_andie/mlszz_model/data/{project_name}/{project_name}_mlszz_output_predictions.csv'
     mlszz_buggy_commit = read_mlszz_output(mlszz_output_file)
     # Create sets for faster lookup
     lszz_set = set(lszz_buggy_commit['inducing_commit_hash'])
     rszz_set = set(rszz_buggy_commit['inducing_commit_hash'])
     maszz_set = set(maszz_buggy_commit['inducing_commit_hash'])
     mlszz_set = set(mlszz_buggy_commit['inducing_commit_hash'])
-
+    # /Users/andie/PycharmProjects/pyszz_andie/defect_prediction/data/bitcoin/bitcoin_bic_l.json
 
     # Alternatively, if 'inducing_commit_hash' contains lists, flatten them first
     def flatten_list_column(df, column):
@@ -102,7 +102,7 @@ if __name__ == '__main__':
         'roc_auc': make_scorer(roc_auc_score)
     }
     # Define cross-validation strategy
-    cv = StratifiedKFold(n_splits=10, shuffle=True, random_state=42)
+    cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
     # Define the machine learning pipeline
     pipeline = ImbPipeline([
         ('scaler', StandardScaler()),

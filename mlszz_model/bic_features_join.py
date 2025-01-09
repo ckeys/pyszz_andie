@@ -1,8 +1,9 @@
 import pandas as pd
 
+project = 'bitcoin'
 # File paths
-react_git_features_path = "/Users/andie/PycharmProjects/pyszz_andie/mlszz_model/data/react/react_git_features.csv"
-facebook_react_inducing_commits_features_path = "/Users/andie/PycharmProjects/pyszz_andie/mlszz_model/data/react/facebook_react_bszz_inducing_commits_features.csv"
+react_git_features_path = f"/Users/andie/PycharmProjects/pyszz_andie/mlszz_model/data/{project}/{project}_git_features.csv"
+facebook_react_inducing_commits_features_path = f"/Users/andie/PycharmProjects/pyszz_andie/mlszz_model/data/{project}/{project}_bszz_inducing_commits_features.csv"
 
 # Read the CSV files
 git_features = pd.read_csv(react_git_features_path)
@@ -23,4 +24,4 @@ merged_data = merged_data.drop(columns=["commit_id"])
 print(merged_data)
 
 # Optionally save the result to a new CSV file
-merged_data.to_csv("/Users/andie/PycharmProjects/pyszz_andie/mlszz_model/data/react/bszz_merged_react_features.csv", index=False)
+merged_data.to_csv(f"/Users/andie/PycharmProjects/pyszz_andie/mlszz_model/data/{project}/bszz_merged_{project}_features.csv", index=False)
