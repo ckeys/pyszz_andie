@@ -32,7 +32,7 @@ INPUT_FILE="/home/$(whoami)/andie/pyszz_andie/shjobs/out/bic_b_$(LOCAL_PROJECT_N
 REPO_PATH="/home/$(whoami)/andie/repo/$(LOCAL_PROJECT_NAME)"
 
 # Directory to save the output CSV file
-OUTPUT_DIR="/home/$(whoami)/andie/features"
+OUTPUT_DIR="$(cd "$(dirname "$0")" && pwd)/output/features"
 
 # Name of the output CSV file
 OUTPUT_FILE="$(LOCAL_PROJECT_NAME)_inducing_commits_features.csv"
