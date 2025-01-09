@@ -28,6 +28,10 @@ class MLSZZ(AGSZZ):
         author_name = commit.author.name
         author_email = commit.author.email
         commit_date = commit.authored_datetime
+<<<<<<< HEAD
+=======
+        commit_num = commit.hexsha
+>>>>>>> 29ec448ac4fac8e7d74fce07bdd122c33e454b8a
         current_year = commit_date.year
         rev_list_command = [
             'git',
@@ -64,6 +68,23 @@ class MLSZZ(AGSZZ):
 
         return commit_time
 
+<<<<<<< HEAD
+=======
+    def calculate_SEXP_old(self, developer_changes, subsystem_changes):
+        total_changes_to_subsystems = 0
+
+        # Iterate over developer's changes
+        for change in developer_changes:
+            # Check if the change modified any subsystems
+            for subsystem in subsystem_changes:
+                if subsystem in change['files']:
+                    total_changes_to_subsystems += 1
+
+        # Calculate SEXP
+        SEXP = total_changes_to_subsystems
+        return SEXP
+
+>>>>>>> 29ec448ac4fac8e7d74fce07bdd122c33e454b8a
     def calculate_SEXP(self, commit: Commit):
         author_name = commit.author.name
         author_email = commit.author.email
@@ -594,6 +615,7 @@ class MLSZZ(AGSZZ):
             for commit in bug_introd_commits:
                 res_dic = dict()
                 num_subsystems, num_modified_directories, entropy = self.calculate_diffusion_metrics(commit)
+<<<<<<< HEAD
                 res_dic['num_subsystems'] = num_subsystems # SCRIPT
                 res_dic['num_modified_directories'] = num_modified_directories # SCRIPT
                 res_dic['entropy'] = entropy # SCRIPT
@@ -604,11 +626,27 @@ class MLSZZ(AGSZZ):
                 ndev = self.calcualte_ndev(commit) # SCRIPT
                 res_dic['ndev'] = ndev # SCRIPT
                 res_dic['nuc'] = self.calculate_nuc(commit) # SCRIPT
+=======
+                res_dic['num_subsystems'] = num_subsystems
+                res_dic['num_modified_directories'] = num_modified_directories
+                res_dic['entropy'] = entropy
+                res_dic['LT'] = self.get_lines_of_code_before_change(commit)
+                res_dic['FIX'] = self.purpose_of_change(commit)
+                age = self.calculate_age(commit)
+                res_dic['age'] = age
+                ndev = self.calcualte_ndev(commit)
+                res_dic['ndev'] = ndev
+                res_dic['nuc'] = self.calculate_nuc(commit)
+>>>>>>> 29ec448ac4fac8e7d74fce07bdd122c33e454b8a
                 add = commit.stats.total['insertions']
                 deleted = commit.stats.total['deletions']
                 num_files = commit.stats.total['files']
                 lines = commit.stats.total['lines']
+<<<<<<< HEAD
                 experience_dict = self.calculate_author_metrics_optimized(commit) #exp, rexp, sexp
+=======
+                experience_dict = self.calculate_author_metrics_optimized(commit)
+>>>>>>> 29ec448ac4fac8e7d74fce07bdd122c33e454b8a
                 # This creates a new dictionary
                 res_dic.update(experience_dict)
                 commit_modified_files = list(commit.stats.files.keys())
