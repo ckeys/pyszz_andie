@@ -5,7 +5,7 @@ from sklearn.metrics import roc_auc_score, precision_score, recall_score, f1_sco
 import matplotlib.pyplot as plt
 
 # File path
-input_file = '/Users/andie/PycharmProjects/pyszz_andie/mlszz_model/data/preprocessed_total.csv'
+input_file = '/mlszz_model/data/benchmark/preprocessed_total.csv'
 
 # Load the preprocessed data
 df = pd.read_csv(input_file)
@@ -69,11 +69,11 @@ print(f"F1-Score: {sum(f1_scores) / len(f1_scores):.4f}")
 print("\nFeature Importance:")
 print(avg_feature_importance.sort_values(ascending=False))
 
-# Step 7: Plot feature importance
-plt.figure(figsize=(10, 6))
-avg_feature_importance.sort_values(ascending=False).plot(kind='bar')
-plt.title('Feature Importance')
-plt.ylabel('Importance Score')
-plt.xlabel('Features')
-plt.tight_layout()
-plt.show()
+# # Step 7: Plot feature importance
+# plt.figure(figsize=(10, 6))
+# avg_feature_importance.sort_values(ascending=False).plot(kind='bar')
+# plt.title('Feature Importance')
+# plt.ylabel('Importance Score')
+# plt.xlabel('Features')
+# plt.tight_layout()
+# plt.show()

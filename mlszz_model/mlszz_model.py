@@ -8,7 +8,7 @@ import pickle
 import joblib
 
 # File path
-input_file = '/Users/andie/PycharmProjects/pyszz_andie/mlszz_model/data/preprocessed_total.csv'
+input_file = '/mlszz_model/data/benchmark/preprocessed_total.csv'
 
 # Load the preprocessed data
 df = pd.read_csv(input_file)

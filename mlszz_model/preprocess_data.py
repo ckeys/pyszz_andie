@@ -1,8 +1,8 @@
 import pandas as pd
 
 # Input and output file paths
-input_file = '/Users/andie/PycharmProjects/pyszz_andie/mlszz_model/data/total.csv'
-output_file = '/Users/andie/PycharmProjects/pyszz_andie/mlszz_model/data/preprocessed_total.csv'
+input_file = '/mlszz_model/data/benchmark/total.csv'
+output_file = '/mlszz_model/data/benchmark/preprocessed_total.csv'
 
 # Step 1: Load the CSV file
 df = pd.read_csv(input_file)
