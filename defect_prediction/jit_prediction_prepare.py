@@ -31,11 +31,12 @@ def plot_class_distribution(distribution, label_name, fold_number):
 
 
 if __name__ == '__main__':
+    project_name = "react"
     input_file_dir = '/Users/andie/PycharmProjects/pyszz_andie/defect_prediction/data'  # Replace with your actual file path
     # output_file = '/path/to/your/react_predictions.csv'  # Replace with your desired output path
-    lszz_buggy_commit = read_szz_output(f'''{input_file_dir}/react_bic_l.json''')
-    rszz_buggy_commit = read_szz_output(f'''{input_file_dir}/react_bic_r.json''')
-    maszz_buggy_commit = read_szz_output(f'''{input_file_dir}/react_bic_ma.json''')
+    lszz_buggy_commit = read_szz_output(f'''{input_file_dir}/{project_name}_bic_l.json''')
+    rszz_buggy_commit = read_szz_output(f'''{input_file_dir}/{project_name}_bic_r.json''')
+    maszz_buggy_commit = read_szz_output(f'''{input_file_dir}/{project_name}_bic_ma.json''')
     mlszz_output_file = '/Users/andie/PycharmProjects/pyszz_andie/mlszz_model/data/react/react_mlszz_output_predictions.csv'
     mlszz_buggy_commit = read_mlszz_output(mlszz_output_file)
     # Create sets for faster lookup
@@ -50,7 +51,7 @@ if __name__ == '__main__':
         return set([item for sublist in df[column] for item in sublist])
 
     # Define the path to the main features CSV
-    features_file = '/Users/andie/PycharmProjects/pyszz_andie/mlszz_model/data/react/react_git_features.csv'
+    features_file = f'/Users/andie/PycharmProjects/pyszz_andie/mlszz_model/data/{project_name}/{project_name}_git_features.csv'
 
     # Read the main features DataFrame
     df_features = pd.read_csv(features_file)
