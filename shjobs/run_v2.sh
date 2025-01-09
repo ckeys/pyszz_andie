@@ -92,7 +92,7 @@ if [ "$SZZ_V" == "all" ]; then
   for method in "${methods[@]}"; do
     end=$((start + increment - 1))
     # Log file name inside the logs directory
-    log_file="$logs_dir/${method}_output_${start}_${end}.log"
+    log_file="$logs_dir/${PROJECT_NAME}_${method}_output_${start}_${end}.log"
 
     # Run the job for each method in the background
     run_job $method $start $end $log_file
@@ -112,7 +112,7 @@ else
     end=$((start + increment - 1))
 
     # Log file name inside the logs directory
-    log_file="$logs_dir/${method}_output_${start}_${end}.log"
+    log_file="$logs_dir/${PROJECT_NAME}_${method}_output_${start}_${end}.log"
 
     # Run the job for the specified method in the background
     run_job $method $start $end $log_file

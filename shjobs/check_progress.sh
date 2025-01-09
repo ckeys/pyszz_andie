@@ -9,12 +9,35 @@ get_progress() {
 }
 
 # Example usage: update paths according to your environment
-BSZZ_PROGRESS=$(get_progress "logs/bszz_output_0_36757.log")
-MASZZ_PROGRESS=$(get_progress "logs/maszz_output_0_36757.log")
-RSZZ_PROGRESS=$(get_progress "logs/rszz_output_0_36757.log")
-LSZZ_PROGRESS=$(get_progress "logs/lszz_output_0_36757.log")
+BSZZ_PROGRESS=$(get_progress "logs/bszz_output_0_4912.log")
+MASZZ_PROGRESS=$(get_progress "logs/maszz_output_0_4912.log")
+RSZZ_PROGRESS=$(get_progress "logs/rszz_output_0_4912.log")
+LSZZ_PROGRESS=$(get_progress "logs/lszz_output_0_4912.log")
 
-echo "BSZZ progress: ${BSZZ_PROGRESS}"
-echo "MASZZ progress: ${MASZZ_PROGRESS}"
-echo "RSZZ progress: ${RSZZ_PROGRESS}"
-echo "LSZZ progress: ${LSZZ_PROGRESS}"
+echo "bitcoin BSZZ progress: ${BSZZ_PROGRESS}"
+echo "bitcoin MASZZ progress: ${MASZZ_PROGRESS}"
+echo "bitcoin RSZZ progress: ${RSZZ_PROGRESS}"
+echo "bitcoin LSZZ progress: ${LSZZ_PROGRESS}"
+
+
+PROJECT_NAME="spring-boot"
+BSZZ_PROGRESS=$(get_progress "logs/${PROJECT_NAME}_bszz_output_0_4033.log")
+MASZZ_PROGRESS=$(get_progress "logs/${PROJECT_NAME}_maszz_output_0_4033.log")
+RSZZ_PROGRESS=$(get_progress "logs/${PROJECT_NAME}_rszz_output_0_4033.log")
+LSZZ_PROGRESS=$(get_progress "logs/${PROJECT_NAME}_lszz_output_0_4033.log")
+
+echo "${PROJECT_NAME} BSZZ progress: ${BSZZ_PROGRESS}"
+echo "${PROJECT_NAME} MASZZ progress: ${MASZZ_PROGRESS}"
+echo "${PROJECT_NAME} RSZZ progress: ${RSZZ_PROGRESS}"
+echo "${PROJECT_NAME} LSZZ progress: ${LSZZ_PROGRESS}"
+
+PROJECT_NAME="spring-framework"
+BSZZ_PROGRESS=$(get_progress "logs/${PROJECT_NAME}_bszz_output_0_3158.log")
+MASZZ_PROGRESS=$(get_progress "logs/${PROJECT_NAME}_maszz_output_0_3158.log")
+RSZZ_PROGRESS=$(get_progress "logs/${PROJECT_NAME}_rszz_output_0_3158.log")
+LSZZ_PROGRESS=$(get_progress "logs/${PROJECT_NAME}_lszz_output_0_3158.log")
+
+echo "${PROJECT_NAME} BSZZ progress: ${BSZZ_PROGRESS}"
+echo "${PROJECT_NAME} MASZZ progress: ${MASZZ_PROGRESS}"
+echo "${PROJECT_NAME} RSZZ progress: ${RSZZ_PROGRESS}"
+echo "${PROJECT_NAME} LSZZ progress: ${LSZZ_PROGRESS}"
