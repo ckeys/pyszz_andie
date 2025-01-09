@@ -24,18 +24,18 @@
 
 # ----------------------------- Configuration ------------------------------
 
-PROJECT_NAME="bitcoin"
+LOCAL_PROJECT_NAME="bitcoin"
 # Path to the input JSON lines file
-INPUT_FILE="/home/$(whoami)/andie/pyszz_andie/shjobs/out/bic_b_$(PROJECT_NAME).json"
+INPUT_FILE="/home/$(whoami)/andie/pyszz_andie/shjobs/out/bic_b_$(LOCAL_PROJECT_NAME).json"
 
 # Path to the Git repository
-REPO_PATH="/home/$(whoami)/andie/repo/$(PROJECT_NAME)"
+REPO_PATH="/home/$(whoami)/andie/repo/$(LOCAL_PROJECT_NAME)"
 
 # Directory to save the output CSV file
 OUTPUT_DIR="/home/$(whoami)/andie/features"
 
 # Name of the output CSV file
-OUTPUT_FILE="$(PROJECT_NAME)_inducing_commits_features.csv"
+OUTPUT_FILE="$(LOCAL_PROJECT_NAME)_inducing_commits_features.csv"
 
 # ---------------------------- Helper Functions ----------------------------
 
