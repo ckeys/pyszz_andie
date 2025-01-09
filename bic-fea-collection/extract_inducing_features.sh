@@ -26,7 +26,7 @@
 
 LOCAL_PROJECT_NAME="bitcoin"
 # Path to the input JSON lines file
-INPUT_FILE="/home/$(whoami)/andie/pyszz_andie/shjobs/out/bic_b_${LOCAL_PROJECT_NAME}.json"
+INPUT_FILE="/home/$(whoami)/andie/pyszz_andie/shjobs/out/${LOCAL_PROJECT_NAME}_bic_b.json"
 
 # Path to the Git repository
 REPO_PATH="/home/$(whoami)/andie/repo/${LOCAL_PROJECT_NAME}"
