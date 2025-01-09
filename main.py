@@ -67,12 +67,12 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
                     imp_files = b_szz.get_impacted_files(fix_commit_hash=fix_commit,
                                                          file_ext_to_parse=conf.get('file_ext_to_parse'),
                                                          only_deleted_lines=conf.get('only_deleted_lines', True))
-                    (bug_introducing_commits, bic_dict) = b_szz.find_bic_v2(fix_commit_hash=fix_commit,
-                                                                            impacted_files=imp_files,
-                                                                            ignore_revs_file_path=conf.get(
-                                                                                'ignore_revs_file_path'),
-                                                                            issue_date_filter=conf.get('issue_date_filter'),
-                                                                            issue_date=commit_issue_date)
+                    bug_introducing_commits = b_szz.find_bic(fix_commit_hash=fix_commit,
+                                                             impacted_files=imp_files,
+                                                             ignore_revs_file_path=conf.get(
+                                                                 'ignore_revs_file_path'),
+                                                             issue_date_filter=conf.get('issue_date_filter'),
+                                                             issue_date=commit_issue_date)
                     # print(bic_dict)
                 elif szz_name == 'ag':
                     ag_szz = AGSZZ(repo_full_name=repo_name, repo_url=repo_url, repos_dir=repos_dir)
@@ -164,7 +164,8 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
                 continue
 
             log.info(f"result: {bug_introducing_commits}")
-            bugfix_commits[i]["inducing_commit_hash"] = [bic.hexsha for bic in bug_introducing_commits if bic] if bug_introducing_commits else []
+            bugfix_commits[i]["inducing_commit_hash"] = [bic.hexsha for bic in bug_introducing_commits if
+                                                         bic] if bug_introducing_commits else []
             bugfix_commits[i]["candidate_features"] = bic_dict if bic_dict else []
             w_file.write(f'''Write {i}, {bugfix_commits[i]['id']}: {bugfix_commits[i]} \n''')
             log.info(f'''Write {i}, {bugfix_commits[i]['id']}: {bugfix_commits[i]} \n''')

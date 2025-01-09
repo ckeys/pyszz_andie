@@ -45,6 +45,6 @@ if __name__ == "__main__":
     pd.set_option('display.max_columns', None)  # Show all columns
     # Display the sorted DataFrame or save it
     if sorted_repos is not None:
-        print(sorted_repos.head())  # Display the first few rows
+        print(sorted_repos.head(n=10))  # Display the first few rows
         # Optionally save the sorted DataFrame
         # sorted_repos.to_csv("sorted_repo_metadata.csv", index=False)

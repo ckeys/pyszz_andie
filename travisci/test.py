@@ -14,10 +14,10 @@ file_path = "/Users/andie/PycharmProjects/pyszz_andie/travisci/data/build_level_
 df = pd.read_csv(file_path)
 
 # Filter the data for build_status == "failed" and create a copy
-filtered_df = df[df['build_status'] == 'failed'].copy()
-
+# filtered_df = df[df['build_status'] == 'failed'].copy()
+filtered_df = df.copy()
 # Label the data based on 'build_quadrant'
-filtered_df['label'] = filtered_df['build_quadrant'].apply(lambda x: 1 if x == 'long_broken' else 0)
+filtered_df['label'] = filtered_df['retry'].apply(lambda x: 1 if x > 0 else 0)
 
 # Encode 'commit_day_night' and 'build_day_night' into numerical values
 filtered_df['commit_day_night'] = filtered_df['commit_day_night'].map({'day': 0, 'night': 1})
@@ -27,7 +27,7 @@ filtered_df['build_day_night'] = filtered_df['build_day_night'].map({'day': 0, '
 columns_to_drop = [
     'build_status', 'build_quadrant', 'tr_build_id',
     'gh_repository_name', 'gh_lang', 'gh_build_started_at',
-    'git_trigger_commit'
+    'git_trigger_commit', 'build_duration_seconds', 'retry'
 ]
 X = filtered_df.drop(columns=columns_to_drop + ['label'])
 y = filtered_df['label']

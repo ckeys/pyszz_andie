@@ -9,15 +9,15 @@
 # ----------------------------- Configuration ------------------------------
 
 # Base directories
-BASE_PROJECT_DIR="/home/otagouni/andie/repo"                  # Directory containing Git repositories
-FEATURES_DIR="/home/otagouni/andie/features"                 # Directory to store feature CSV and JSON files
+BASE_PROJECT_DIR="/Users/andie/PycharmProjects"                  # Directory containing Git repositories
+FEATURES_DIR="/Users/andie/features"                 # Directory to store feature CSV and JSON files
 
 # Ensure the FEATURES_DIR exists
 mkdir -p "$FEATURES_DIR"
 
 # List of project names (repositories)
-PROJECTS=("react" "spring-boot" "spring-framework" "cpython" "bitcoin")  # Add your project names here
-
+# PROJECTS=("react" "spring-boot" "spring-framework" "cpython" "bitcoin")  # Add your project names here
+PROJECTS=("pig")
 # Define required file extensions for nf (Number of Files)
 REQUIRED_EXTENSIONS=("py" "java" "c" "cpp" "js" "cxx" "hpp" "h" "sh" "bash" "kt" "kts")  # Modify as needed
 
