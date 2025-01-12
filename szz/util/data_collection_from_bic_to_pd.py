@@ -7,7 +7,7 @@ def process_data(data):
 
     # Iterate through each entry in the data
     for entry in data:
-        print(f'''[DEBUG]: {entry}''')
+        # print(f'''[DEBUG]: {entry}''')
         # Extract metadata
         id_ = entry['id']
         repo_name = entry['repo_name']

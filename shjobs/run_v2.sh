@@ -19,7 +19,7 @@ if [ -z "$PROJECT_NAME" ]; then
 fi
 
 # Ensure the logs directory exists
-logs_dir="logs"
+logs_dir="logs/$PROJECT_NAME"
 if [ ! -d "$logs_dir" ]; then
   echo "Creating logs directory..."
   mkdir -p "$logs_dir"

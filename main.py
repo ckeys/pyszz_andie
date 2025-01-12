@@ -24,6 +24,7 @@ log.getLogger('pydriller').setLevel(log.WARNING)
 
 def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_index: int, end_index: int = None):
     szz_name = conf['szz_name']
+    env_project_name = os.getenv('PROJECT_NAME')
     with open(input_json, 'r') as in_file:
         bugfix_commits = json.loads(in_file.read())
     tot = len(bugfix_commits)
@@ -171,13 +172,16 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
             log.info(f'''Write {i}, {bugfix_commits[i]['id']}: {bugfix_commits[i]} \n''')
             file.write(json.dumps(bugfix_commits[i]) + '\n')
     df = process_data(bugfix_commits[start_index:end_index])
-    out2_json = os.path.join('out', f'bic_{szz_name}_{int(ts())}_{start_index}_{end_index}.json')
-    out2_df = os.path.join('out', f'bic_{szz_name}_{int(ts())}_{start_index}_{end_index}.csv')
+    out_base_dir = f'''out/{env_project_name}''' if env_project_name is not None else 'out'
+    os.makedirs(out_base_dir, exist_ok=True)
+    out2_json = os.path.join(out_base_dir, f'bic_{szz_name}_{int(ts())}_{start_index}_{end_index}.json')
+    out2_df = os.path.join(out_base_dir, f'bic_{szz_name}_{int(ts())}_{start_index}_{end_index}.csv')
     df.to_csv(out2_df, index=False)
     with open(out2_json, 'w') as out:
         log.info(f'''Writing Results to {out2_json}!''')
         json.dump(bugfix_commits, out)
     w_file.close()
+    log.info(f'''+++ The results are sotred in {out2_json}''')
     log.info(f"+++ DONE +++")
 
 

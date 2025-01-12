@@ -77,8 +77,7 @@ class MLSZZ(AGSZZ):
         # Calculate SEXP
         SEXP = total_changes_to_subsystems
         return SEXP
-
->>>>>>> 29ec448ac4fac8e7d74fce07bdd122c33e454b8a
+    
     def calculate_SEXP(self, commit: Commit):
         author_name = commit.author.name
         author_email = commit.author.email
