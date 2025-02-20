@@ -3,7 +3,7 @@ import pickle  # or import joblib
 import numpy as np
 # import joblib
 
-project = 'bitcoin'
+project = 'innoldb'
 # Load the saved model
 with open('final_random_forest_model.pkl', 'rb') as file:
     loaded_model = pickle.load(file)

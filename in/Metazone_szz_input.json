@@ -1,0 +1,62 @@
+[
+    {
+        "id": 1,
+        "repo_name": "Metazone",
+        "fix_commit_hash": "7250ab42b0a0f38fd5e142ddcd007ff10216ed0c"
+    },
+    {
+        "id": 2,
+        "repo_name": "Metazone",
+        "fix_commit_hash": "07551e67040895e7fda3b5af0ee90a6f7a20f0bd"
+    },
+    {
+        "id": 3,
+        "repo_name": "Metazone",
+        "fix_commit_hash": "a06ec3b1b924aaf0613367ebaa56330e6054cac2"
+    },
+    {
+        "id": 4,
+        "repo_name": "Metazone",
+        "fix_commit_hash": "267f28cf5209e2e43ae46237152c1461edb5af08"
+    },
+    {
+        "id": 5,
+        "repo_name": "Metazone",
+        "fix_commit_hash": "35426ffc2031fb634c094457c81ea68b94954e13"
+    },
+    {
+        "id": 6,
+        "repo_name": "Metazone",
+        "fix_commit_hash": "4d097df0748159e8ce0bdcf4f994f491e523fc64"
+    },
+    {
+        "id": 7,
+        "repo_name": "Metazone",
+        "fix_commit_hash": "46007f46140b010e1a1db17e2c46423d66d76261"
+    },
+    {
+        "id": 8,
+        "repo_name": "Metazone",
+        "fix_commit_hash": "198e1a75ab39bb79274b200f0e7ef9b86ab1b994"
+    },
+    {
+        "id": 9,
+        "repo_name": "Metazone",
+        "fix_commit_hash": "24edc5265a4f5aea587c110b2ebed02d13067647"
+    },
+    {
+        "id": 10,
+        "repo_name": "Metazone",
+        "fix_commit_hash": "1f51ce879ac73524ebf49a2752aedc235138553c"
+    },
+    {
+        "id": 11,
+        "repo_name": "Metazone",
+        "fix_commit_hash": "141f1087628a5b9be937af55e798938e1d47abd1"
+    },
+    {
+        "id": 12,
+        "repo_name": "Metazone",
+        "fix_commit_hash": "fbb91ca5bb5082988cb3eb1d02097cfe7bb77bb0"
+    }
+]

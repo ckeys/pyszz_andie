@@ -1,13 +1,12 @@
 import pandas as pd
 
-project = 'pig'
+project = 'innoldb'
 # File paths
-react_git_features_path = f"/home/huayo708/andie/pyszz_andie/mlszz_model/data/{project}/{project}_git_features.csv"
-facebook_react_inducing_commits_features_path = f"/home/huayo708/andie/pyszz_andie/mlszz_model/data/{project}/{project}_bszz_inducing_commits_features.csv"
-
+git_features_path = f"/home/huayo708/andie/pyszz_andie/mlszz_model/data/{project}/{project}_jit_features.csv"
+bug_inducing_commits_features_path = f'''/home/huayo708/andie/pyszz_andie/bic-fea-collection/output/features/{project}_inducing_commits_features.csv'''
 # Read the CSV files
-git_features = pd.read_csv(react_git_features_path)
-bic_features = pd.read_csv(facebook_react_inducing_commits_features_path)
+git_features = pd.read_csv(git_features_path)
+bic_features = pd.read_csv(bug_inducing_commits_features_path)
 
 # Perform a left join
 merged_data = bic_features.merge(
