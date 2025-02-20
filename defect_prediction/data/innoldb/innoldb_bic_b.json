@@ -1,0 +1,158 @@
+[
+    {
+        "id": 1,
+        "repo_name": "innoldb",
+        "fix_commit_hash": "ede2b9f43709f4dfe29bac34a2f29d4fcbe43ea2",
+        "inducing_commit_hash": [
+            "65cbd53dcd43e7cb7bbc3ff2f1519d810ca0e29b",
+            "de77f3753deca0af61510c40298f4ca3bbcbdd30",
+            "fe0876196d0a93171c3e8276394b38796ea9c4a0",
+            "2592e15361fd04bb83caa9e7437699b8b6ccab28",
+            "741761e8218cdc3e95ef2e771ffdca20b3d6456d",
+            "b9d7da11f34581f7018ed172fc159ef83991adef",
+            "de3246b1ca7a36e903a72af934b8efd5259da9aa",
+            "cd801e61d6f63af90c30306697c69be18f1745b0",
+            "d72fd08f86435ddda8c83fd0dcbb7e1b3daa8e70",
+            "3fe1cea556318309fd989f9a1853c9269ad0a326",
+            "c7a92cbb1b252d1369234c97035cdbd602a97193",
+            "eddd37bcc9ce2870e4ef85f1d2195dc6538031b2",
+            "f4c9ca82dce868ae262eb0285a8a0f5946addd46",
+            "c7c76afd33bbbfe8731cb6aa16ffadcb6036deca",
+            "28b065ca205f9b26ed06e4b0a30a5913980fa7ed",
+            "be4855c636939a8ee4c11dbbc6ffc99b36d104a1",
+            "6798b72f8fce7e176a1ec474837c2135fe70c109",
+            "ce3197e01fe6188d4bb8b944eebb70333a93d6df",
+            "87e62f38f13108737b3d21ed2fd1dc62f08ddade",
+            "5c8567a3989d8351ed4b88dc843fdb3febc4cdde",
+            "9076cf6849a481c43844268191635da47124854d",
+            "6d66b1b7996f2a0cef59daabef0286fc0626a4af",
+            "8fdb654b82ee68dc35e05731ff17c244fa5bf22a",
+            "cfe2639f51664945cf3d8e14f424caad4336c59d",
+            "db40831276b495e0d55b01d358f4c4540d889524",
+            "bf2f3a3dee5706856f859a302fa4f5597aad0908",
+            "dd817a637366ba4189f907ea7b34e537c6a53142",
+            "7b0e01897a69b4e06465e038ca78d01f6c649b27",
+            "48d733b832a56ffae9285e95846d9fcf77bc7edd",
+            "a22e3c103d6d894c9561bd1811738f97e69ef77b",
+            "6a220d3c9b920a6eb26f7413f19358e740fb051f",
+            "3553b8b8945a04917b4101a61606f20fe9f1f560",
+            "6075fb8a1954a2664adae6f192b83c0e9f3c074a",
+            "3c79da96f8936982cadf92bdfddd4a9021b8a1dd",
+            "598e1347ec0dbea1f20a1700d22ede02c8c2f34e",
+            "cf62de7b4abf86f434b666361ae62016a7cc5ca9",
+            "e4f63a502654d8b5f7cd94035b6e2bc67fd9c307"
+        ],
+        "candidate_features": []
+    },
+    {
+        "id": 2,
+        "repo_name": "innoldb",
+        "fix_commit_hash": "3541598fb4bea4b2c0cf0044d829a19abdd9ab4c",
+        "inducing_commit_hash": [
+            "bbc023b0a718b6ae7f7075316a79a74432d1dbe2"
+        ],
+        "candidate_features": []
+    },
+    {
+        "id": 3,
+        "repo_name": "innoldb",
+        "fix_commit_hash": "c4ce0f328077a96205089e5e3f9451df2002f960",
+        "inducing_commit_hash": [
+            "2ff93af99fb8da8b8d5e5ffcaea156f9ed62b8d3",
+            "ede2b9f43709f4dfe29bac34a2f29d4fcbe43ea2"
+        ],
+        "candidate_features": []
+    },
+    {
+        "id": 4,
+        "repo_name": "innoldb",
+        "fix_commit_hash": "af5a26d30a63d058927c0a7d2b9dcebc8a5dd037",
+        "inducing_commit_hash": [
+            "966113a15779f8d6edc3d066e5fe6667ca4028f5"
+        ],
+        "candidate_features": []
+    },
+    {
+        "id": 5,
+        "repo_name": "innoldb",
+        "fix_commit_hash": "7cd7f75676e07589f0bb6bfc32f6e2aadc7c139b",
+        "inducing_commit_hash": [
+            "fec98e2caf3f8a35f495ab32e7dec97f8b5e2e5a",
+            "148db039ab59ab8ba1ce3bffb3203c13341c8d94",
+            "59d6e450a9d319e0cce5f55b8c570190fb3c020e"
+        ],
+        "candidate_features": []
+    },
+    {
+        "id": 6,
+        "repo_name": "innoldb",
+        "fix_commit_hash": "65b8a95da9bfd4bd9f79142c9f96b37811866a07",
+        "inducing_commit_hash": [
+            "10b4ea2d63a622fa4c7d072453195672674ce9c4",
+            "148db039ab59ab8ba1ce3bffb3203c13341c8d94",
+            "59d6e450a9d319e0cce5f55b8c570190fb3c020e"
+        ],
+        "candidate_features": []
+    },
+    {
+        "id": 7,
+        "repo_name": "innoldb",
+        "fix_commit_hash": "7a8a544d931870aebe05cbea5007ae31af16413b",
+        "inducing_commit_hash": [
+            "10b4ea2d63a622fa4c7d072453195672674ce9c4",
+            "148db039ab59ab8ba1ce3bffb3203c13341c8d94",
+            "9add99c7489555cee6444929d8b33f20a4b98853",
+            "59d6e450a9d319e0cce5f55b8c570190fb3c020e"
+        ],
+        "candidate_features": []
+    },
+    {
+        "id": 8,
+        "repo_name": "innoldb",
+        "fix_commit_hash": "c4df35e8278df762488adc93d06a2e66a114ed11",
+        "inducing_commit_hash": [
+            "10b4ea2d63a622fa4c7d072453195672674ce9c4",
+            "148db039ab59ab8ba1ce3bffb3203c13341c8d94",
+            "9add99c7489555cee6444929d8b33f20a4b98853"
+        ],
+        "candidate_features": []
+    },
+    {
+        "id": 9,
+        "repo_name": "innoldb",
+        "fix_commit_hash": "c1d658b53009982fb6263dea985b4068e2f810a7",
+        "inducing_commit_hash": [
+            "10b4ea2d63a622fa4c7d072453195672674ce9c4",
+            "2c7709d683689417b53e3c375a765e144d10cff7"
+        ],
+        "candidate_features": []
+    },
+    {
+        "id": 10,
+        "repo_name": "innoldb",
+        "fix_commit_hash": "bea424bf3b3404417d6a23c701f97dc9963cc9fb",
+        "inducing_commit_hash": [
+            "10b4ea2d63a622fa4c7d072453195672674ce9c4",
+            "2c7709d683689417b53e3c375a765e144d10cff7"
+        ],
+        "candidate_features": []
+    },
+    {
+        "id": 11,
+        "repo_name": "innoldb",
+        "fix_commit_hash": "9899ea60b4903456be4eef3b557edc8fe4f0027a",
+        "inducing_commit_hash": [
+            "bb292b53dde8444cc13472f44cb38f4a6face5aa"
+        ],
+        "candidate_features": []
+    },
+    {
+        "id": 12,
+        "repo_name": "innoldb",
+        "fix_commit_hash": "f04c07ae9ba95ca4eeae5e41dab2fd154b16af27",
+        "inducing_commit_hash": [
+            "b94cc8d3493dd38b47078e53837a2fe6c8ecdf52"
+        ],
+        "candidate_features": []
+    }
+]
