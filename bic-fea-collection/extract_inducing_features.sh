@@ -24,7 +24,7 @@
 
 # ----------------------------- Configuration ------------------------------
 
-LOCAL_PROJECT_NAME="systemd"
+LOCAL_PROJECT_NAME="tor_1"
 # Path to the input JSON lines file
 INPUT_FILE="/home/$(whoami)/andie/pyszz_andie/shjobs/out/${LOCAL_PROJECT_NAME}/${LOCAL_PROJECT_NAME}_bic_b.json"
 
