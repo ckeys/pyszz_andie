@@ -23,7 +23,7 @@ predictions = loaded_model.predict(new_data_features)
 prediction_probabilities = loaded_model.predict_proba(new_data_features)[:, 1]  # Probability for class '1'
 # react = 0.1
 # bitcoin = 0.1
-predictions = (prediction_probabilities >= 0.05).astype(int)
+predictions = (prediction_probabilities >= 0.5).astype(int)
 
 # Merge predictions with the original new_data
 # Option 1: Add predictions as new columns to new_data

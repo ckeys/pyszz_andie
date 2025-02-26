@@ -1,6 +1,6 @@
 
 import pandas as pd
-from defect_prediction.szz_json_data_conversion import read_szz_output, read_mlszz_output
+from defect_prediction.szz_json_data_conversion import read_szz_output, read_mlszz_output, read_bug_commits
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -31,7 +31,7 @@ def plot_class_distribution(distribution, label_name, fold_number):
 
 
 if __name__ == '__main__':
-    project_name = "bitcoin"
+    project_name = "innoldb"
     input_file_dir = f'/Users/andie/PycharmProjects/pyszz_andie/defect_prediction/data/{project_name}'  # Replace with your actual file path
     # output_file = '/path/to/your/react_predictions.csv'  # Replace with your desired output path
     lszz_buggy_commit = read_szz_output(f'''{input_file_dir}/{project_name}_bic_l.json''')
@@ -39,11 +39,15 @@ if __name__ == '__main__':
     maszz_buggy_commit = read_szz_output(f'''{input_file_dir}/{project_name}_bic_ma.json''')
     mlszz_output_file = f'/Users/andie/PycharmProjects/pyszz_andie/mlszz_model/data/{project_name}/{project_name}_mlszz_output_predictions.csv'
     mlszz_buggy_commit = read_mlszz_output(mlszz_output_file)
+    bug_commits_file = f'/Users/andie/PycharmProjects/pyszz_andie/defect_prediction/data/{project_name}/{project_name}_bug_commit.csv'
+    bug_commit_df = read_bug_commits(bug_commits_file)
+
     # Create sets for faster lookup
     lszz_set = set(lszz_buggy_commit['inducing_commit_hash'])
     rszz_set = set(rszz_buggy_commit['inducing_commit_hash'])
     maszz_set = set(maszz_buggy_commit['inducing_commit_hash'])
     mlszz_set = set(mlszz_buggy_commit['inducing_commit_hash'])
+    bug_commits_set = set(bug_commit_df['hash'])
     # /Users/andie/PycharmProjects/pyszz_andie/defect_prediction/data/bitcoin/bitcoin_bic_l.json
 
     # Alternatively, if 'inducing_commit_hash' contains lists, flatten them first
@@ -51,7 +55,7 @@ if __name__ == '__main__':
         return set([item for sublist in df[column] for item in sublist])
 
     # Define the path to the main features CSV
-    features_file = f'/Users/andie/PycharmProjects/pyszz_andie/mlszz_model/data/{project_name}/{project_name}_git_features.csv'
+    features_file = f'/Users/andie/PycharmProjects/pyszz_andie/mlszz_model/data/{project_name}/{project_name}_jit_features.csv'
 
     # Read the main features DataFrame
     df_features = pd.read_csv(features_file)
@@ -60,12 +64,14 @@ if __name__ == '__main__':
     df_features['RSZZ_BUGGY'] = df_features['commit_id'].isin(rszz_set)
     df_features['MASZZ_BUGGY'] = df_features['commit_id'].isin(maszz_set)
     df_features['MLSZZ_BUGGY'] = df_features['commit_id'].isin(mlszz_set)
+    df_features['BUGGY'] = df_features['commit_id'].isin(bug_commits_set)
 
     # Convert boolean flags to True/False (optional, as they are already boolean)
     df_features['LSZZ_BUGGY'] = df_features['LSZZ_BUGGY'].astype(bool)
     df_features['RSZZ_BUGGY'] = df_features['RSZZ_BUGGY'].astype(bool)
     df_features['MASZZ_BUGGY'] = df_features['MASZZ_BUGGY'].astype(bool)
     df_features['MLSZZ_BUGGY'] = df_features['MLSZZ_BUGGY'].astype(bool)
+    df_features['BUGGY'] = df_features['BUGGY'].astype(bool)
     df_features.to_csv('test_data.csv', index=False)
     # Display the first few rows to verify
     print("Main Features DataFrame:")
@@ -74,12 +80,15 @@ if __name__ == '__main__':
     df = df_features
     # Define feature columns and label columns
     feature_cols = ['ns', 'nd', 'nf', 'entropy', 'exp', 'rexp', 'sexp', 'ndev', 'age', 'nuc', 'fix', 'la', 'ld', 'lt']
-    label_cols = ['RSZZ_BUGGY', 'MASZZ_BUGGY', 'MLSZZ_BUGGY']
-    label_cols = ['MASZZ_BUGGY','MLSZZ_BUGGY']
+    # Define training labels and evaluation label
+    train_labels = ['RSZZ_BUGGY', 'MASZZ_BUGGY', 'MLSZZ_BUGGY']
+    eval_label = 'BUGGY'    # label_cols = ['MASZZ_BUGGY','MLSZZ_BUGGY']
 
     # Select features and labels
     X = df[feature_cols]
-    y_labels = df[label_cols]
+    # y_labels = df[label_cols]
+    # We will use the evaluation label for test set ground truth
+    y_eval_full = df[eval_label]
 
     # Check for missing values
     print("\nMissing values in features:")
@@ -101,18 +110,27 @@ if __name__ == '__main__':
         'f1': make_scorer(f1_score),
         'roc_auc': make_scorer(roc_auc_score)
     }
+
     # Define cross-validation strategy
-    cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+    cv = StratifiedKFold(n_splits=10, shuffle=True, random_state=42)
+    from sklearn.model_selection import StratifiedShuffleSplit
+    # This configuration creates 10 random splits with 30% of the data as the test set.
+    cv = StratifiedShuffleSplit(n_splits=10, test_size=0.6, random_state=42)
     # Define the machine learning pipeline
+    from imblearn.under_sampling import ClusterCentroids
+    from sklearn.cluster import KMeans
+
     pipeline = ImbPipeline([
-        ('scaler', StandardScaler()),
-        ('over', BorderlineSMOTE(sampling_strategy='auto', random_state=42)),
-        # ('under', RandomUnderSampler(sampling_strategy='auto', random_state=42)),
+        # ('scaler', StandardScaler()),
+        # ('over', BorderlineSMOTE(sampling_strategy='auto', random_state=42)),
+        ('under', RandomUnderSampler(sampling_strategy='auto', random_state=42)),
+        # ('under', ClusterCentroids(estimator=KMeans(n_init=10, random_state=42), random_state=42)),
+        # ("under", AllKNN()),
         ('rf', RandomForestClassifier(n_estimators=100, random_state=42))
     ])
 
     # 7. Dictionary to Store Class Distributions
-    class_distributions = {label: [] for label in label_cols}
+    class_distributions = {label: [] for label in train_labels}
 
     # Dictionary to store results
     # 6. Define Evaluation Metrics
@@ -126,82 +144,95 @@ if __name__ == '__main__':
     }
 
     # 8. Custom Cross-Validation Loop
-    for label in label_cols:
-        print(f"\n{'=' * 50}\nProcessing label: {label}\n{'=' * 50}")
-        y = y_labels[label]
-
-        # Check if label is binary
-        if y.nunique() != 2:
-            print(f"Label '{label}' is not binary. Skipping.")
-            continue
+    for train_label in train_labels:
+        print(f"\n{'=' * 50}\nProcessing label: {train_label}\n{'=' * 50}")
+        y_train_full = df[train_label]
 
         fold_number = 1
-        for train_idx, test_idx in cv.split(X, y):
-            print(f"\nFold {fold_number}:")
-            X_train, X_test = X.iloc[train_idx], X.iloc[test_idx]
-            y_train, y_test = y.iloc[train_idx], y.iloc[test_idx]
+        for train_idx, test_idx in cv.split(X, y_eval_full):
+            for i in range(10):
+                print(f"\nFold {fold_number}:")
+                X_train, X_test = X.iloc[train_idx], X.iloc[test_idx]
+                # Training target is based on the current training label
+                y_train = y_train_full.iloc[train_idx]
+                # Evaluation ground truth is taken from the BUGGY column
+                y_true_eval = y_eval_full.iloc[test_idx]
+                # Using pandas value_counts()
+                print("Distribution of BUGGY:")
+                print(y_true_eval.value_counts())
 
-            # Fit the pipeline on the training data
-            pipeline.fit(X_train, y_train)
+                # Fit the pipeline on the training data
+                pipeline.fit(X_train, y_train)
 
-            # Access the resampled training data
-            smote = pipeline.named_steps['over']
-            # under = pipeline.named_steps['under']
-            X_smote, y_smote = smote.fit_resample(X_train, y_train)
-            # X_smote, y_smote = X_train, y_train
-            # X_resampled, y_resampled = under.fit_resample(X_smote, y_smote)
-            X_resampled, y_resampled =  X_smote, y_smote
+                # Access the resampled training data
+                # smote = pipeline.named_steps['over']
+                under = pipeline.named_steps['under']
+                # X_smote, y_smote = smote.fit_resample(X_train, y_eval_full.iloc[train_idx])
+                X_smote, y_smote = X_train, y_eval_full.iloc[train_idx]
+                X_resampled, y_resampled = under.fit_resample(X_smote, y_smote)
+                # X_resampled, y_resampled = X_smote, y_smote
 
-            # Record class distribution after resampling
-            distribution = Counter(y_resampled)
-            class_distributions[label].append(distribution)
-            print(f"Resampled class distribution: {distribution}")
-            # plot_class_distribution(distribution, label, fold_number)
+                # Record class distribution after resampling
+                distribution = Counter(y_resampled)
+                class_distributions[train_label].append(distribution)
+                print(f"Resampled class distribution: {distribution}")
+                # plot_class_distribution(distribution, label, fold_number)
 
-            # Predict on the test set
-            y_pred = pipeline.predict(X_test)
-            y_proba = pipeline.predict_proba(X_test)[:, 1]
+                # Predict on the test set
+                y_pred = pipeline.predict(X_test)
+                y_proba = pipeline.predict_proba(X_test)[:, 1]
 
-            # Calculate metrics
-            acc = accuracy_score(y_test, y_pred)
-            prec = precision_score(y_test, y_pred, zero_division=0)
-            rec = recall_score(y_test, y_pred, zero_division=0)
-            f1 = f1_score(y_test, y_pred, zero_division=0)
-            roc = roc_auc_score(y_test, y_proba)
+                # Calculate metrics
+                acc = accuracy_score(y_true_eval, y_pred)
+                prec = precision_score(y_true_eval, y_pred, zero_division=0)
+                rec = recall_score(y_true_eval, y_pred, zero_division=0)
+                f1 = f1_score(y_true_eval, y_pred, zero_division=0)
+                roc = roc_auc_score(y_true_eval, y_proba)
 
-            # Store metrics
-            metrics['Label'].append(label)
-            metrics['Accuracy'].append(acc)
-            metrics['Precision'].append(prec)
-            metrics['Recall'].append(rec)
-            metrics['F1-Score'].append(f1)
-            metrics['ROC AUC'].append(roc)
+                # Store metrics
+                metrics['Label'].append(train_label)
+                metrics['Accuracy'].append(acc)
+                metrics['Precision'].append(prec)
+                metrics['Recall'].append(rec)
+                metrics['F1-Score'].append(f1)
+                metrics['ROC AUC'].append(roc)
 
-            print(f"Accuracy: {acc:.4f}")
-            print(f"Precision: {prec:.4f}")
-            print(f"Recall: {rec:.4f}")
-            print(f"F1-Score: {f1:.4f}")
-            print(f"ROC AUC: {roc:.4f}")
+                print(f"Accuracy: {acc:.4f}")
+                print(f"Precision: {prec:.4f}")
+                print(f"Recall: {rec:.4f}")
+                print(f"F1-Score: {f1:.4f}")
+                print(f"ROC AUC: {roc:.4f}")
 
             fold_number += 1
 
     # 9. Aggregate Results into DataFrame
     results = pd.DataFrame(metrics)
+    pd.set_option('display.max_rows', None)  # Show all rows
+    pd.set_option('display.max_columns', None)  # Show all columns
+    pd.set_option('display.width', None)  # Auto-adjust display width
+    pd.set_option('display.max_colwidth', None)  # Show full content of each column
     print("\nFinal Cross-Validation Performance Metrics:")
     print(results.groupby('Label').describe())
 
     # 10. Visualization: Boxplots for Different Labels
     plt.figure(figsize=(16, 10))
-
+    plt.rcParams.update({
+        'font.size': 14,  # default text size
+        'axes.titlesize': 16,  # title font size
+        'axes.labelsize': 14,  # x and y labels
+        'xtick.labelsize': 12,  # x tick labels
+        'ytick.labelsize': 12,  # y tick labels
+        'legend.fontsize': 12  # legend font size
+    })
+    sns.set_context("talk", font_scale=1.2)  # "talk" increases font sizes, adjust font_scale as needed
     # Grouped Boxplots by Label
-    sns.boxplot(data=results.melt(id_vars='Label', var_name='Metric', value_name='Score'),
-                x='Metric', y='Score', hue='Label', palette='Set2')
-
-    plt.title('Performance Metrics by Label')
-    plt.xlabel('Metric')
-    plt.ylabel('Score')
+    ax = sns.boxplot(data=results.melt(id_vars='Label', var_name='Metric', value_name='Score'),
+                     x='Metric', y='Score', hue='Label', palette='Set2')
+    ax.set_title('Performance Metrics by Label', fontsize=18)
+    ax.set_xlabel('Metric', fontsize=16)
+    ax.set_ylabel('Score', fontsize=16)
     plt.ylim(0, 1)
-    plt.legend(title='Label', loc='upper right')
+    plt.legend(title='Label', loc='upper right', fontsize=14, title_fontsize=16)
     plt.tight_layout()
     plt.show()
 

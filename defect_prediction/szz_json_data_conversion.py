@@ -27,14 +27,19 @@ def read_mlszz_output(input_file):
     mlszz_buggy_commit = mlszz_buggy_commit[mlszz_buggy_commit['MLSZZ_BUGGY'] == 1]
     return mlszz_buggy_commit
 
+def read_bug_commits(input_file):
+    bug_commits_df = pd.read_csv(input_file, delimiter="\t")
+    return bug_commits_df
+
 if __name__ == '__main__':
+    project_name = 'innoldb'
     # Define the input and output file paths
     input_file_dir = '/Users/andie/PycharmProjects/pyszz_andie/defect_prediction/data'  # Replace with your actual file path
     # output_file = '/path/to/your/react_predictions.csv'  # Replace with your desired output path
     lszz_buggy_commit = read_szz_output(f'''{input_file_dir}/react_bic_l.json''')
     rszz_buggy_commit = read_szz_output(f'''{input_file_dir}/react_bic_r.json''')
     maszz_buggy_commit = read_szz_output(f'''{input_file_dir}/react_bic_ma.json''')
-    mlszz_output_file = '/Users/andie/PycharmProjects/pyszz_andie/mlszz_model/data/react/react_mlszz_output_predictions.csv'
+    mlszz_output_file = f'/Users/andie/PycharmProjects/pyszz_andie/mlszz_model/data/{project_name}/{project_name}_mlszz_output_predictions.csv'
     mlszz_output_df = pd.read_csv(mlszz_output_file)
     mlszz_buggy_commit = mlszz_output_df[['inducing_commit_hash', 'MLSZZ_BUGGY']]
 
