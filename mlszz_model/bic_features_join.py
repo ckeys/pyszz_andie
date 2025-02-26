@@ -1,9 +1,16 @@
 import pandas as pd
+from pathlib import Path
+import os
+# Get the directory of the current file
+current_folder = Path(__file__).parent
+# Get the upper-level folder
+upper_folder = current_folder.parent
 
-project = 'innoldb'
-# File paths
-git_features_path = f"/home/huayo708/andie/pyszz_andie/mlszz_model/data/{project}/{project}_jit_features.csv"
-bug_inducing_commits_features_path = f'''/home/huayo708/andie/pyszz_andie/bic-fea-collection/output/features/{project}_inducing_commits_features.csv'''
+#
+project = 'systemd'
+# # File paths
+git_features_path = f"{current_folder}/data/{project}/{project}_jit_features.csv"
+bug_inducing_commits_features_path = f'''{upper_folder}/bic-fea-collection/output/features/{project}_inducing_commits_features.csv'''
 # Read the CSV files
 git_features = pd.read_csv(git_features_path)
 bic_features = pd.read_csv(bug_inducing_commits_features_path)
@@ -23,4 +30,4 @@ merged_data = merged_data.drop(columns=["commit_id"])
 print(merged_data)
 
 # Optionally save the result to a new CSV file
-merged_data.to_csv(f"/home/huayo708/andie/pyszz_andie/mlszz_model/data/{project}/bszz_merged_{project}_features.csv", index=False)
+merged_data.to_csv(f"{current_folder}/data/{project}/bszz_merged_{project}_features.csv", index=False)
