@@ -43,8 +43,8 @@ ERR_FILE="$LOG_DIR/mlszz_p_${start_index}_${end_index}.err"
 
 # Command to run the Python script with dynamic start_index and end_index
 CMD="/home/huayo708/miniforge3/envs/otagophd/bin/python /home/huayo708/projects/pyszz_andie/main.py \
-     /home/huayo708/projects/pyszz_andie/in/react_szz_input.json \
-     /home/huayo708/projects/pyszz_andie/conf/mlszz.yml \
+     /home/huayo708/projects/pyszz_andie/in/linux_szz_input.json \
+     /home/huayo708/projects/pyszz_andie/conf/bszz.yml \
      /home/huayo708/projects/repo2 \
      $start_index $end_index"
 
