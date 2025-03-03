@@ -31,7 +31,7 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
     tot = len(bugfix_commits)
     if end_index is None:
         end_index = len(bugfix_commits)
-
+    bugfix_commits = bugfix_commits[start_index:end_index]
     write_file_index = end_index // (end_index - start_index)
     write_file_name = f"output_{szz_name}/output_write_{write_file_index}.log"
     if not os.path.exists(f'''output_{szz_name}'''):

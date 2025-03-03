@@ -1,13 +1,17 @@
 #!/bin/bash
 #SBATCH --job-name=srcml_job            # Base job name
 #SBATCH --mem=128G                        # Memory allocation
-#SBATCH --output=./slurmlogs/srcml_output.%A_%a.log # Output log file name with job array ID
-#SBATCH --error=./slurmlogs/srcml_error.%A_%a.log   # Error log file name with job array ID
+#SBATCH --output=./slurmlogs/%x_slurm_output.%A_%a.log  # Output log file with job name
+#SBATCH --error=./slurmlogs/%x_slurm_error.%A_%a.log    # Error log file with job name
 #SBATCH --partition=aoraki              # Partition name (adjust as needed)
 #SBATCH --array=0       # Retry only the failed jobs
 #SBATCH --nodes=1                       # Require exactly 1 node per task
 #SBATCH --ntasks=1                      # One task per job
 #SBATCH --time=2-12:00:00               # 1 day, 12 hours
+
+# Define project-specific variables
+PROJECT_NAME="linux"
+SZZ_VAR="bszz"
 
 # Check if the $HOME directory is available and writable
 while [ ! -d "$HOME" ] || [ ! -w "$HOME" ]; do
@@ -37,19 +41,20 @@ start_index=$((JOB_INDEX * BATCH_SIZE)) # Calculate start index
 end_index=$(((JOB_INDEX + 1) * BATCH_SIZE)) # Calculate end index
 
 # Job-specific log files
-JOB_NAME="mlszz_p_${JOB_INDEX}"
-LOG_FILE="$LOG_DIR/mlszz_p_${start_index}_${end_index}.log"
-ERR_FILE="$LOG_DIR/mlszz_p_${start_index}_${end_index}.err"
+JOB_NAME="${PROJECT_NAME}_${SZZ_VAR}_p_${JOB_INDEX}"
+LOG_FILE="$LOG_DIR/mlszz_${SZZ_VAR}_p_${start_index}_${end_index}.log"
+ERR_FILE="$LOG_DIR/mlszz_${SZZ_VAR}_p_${start_index}_${end_index}.err"
 
 # Command to run the Python script with dynamic start_index and end_index
 CMD="/home/huayo708/miniforge3/envs/otagophd/bin/python /home/huayo708/projects/pyszz_andie/main.py \
-     /home/huayo708/projects/pyszz_andie/in/linux_szz_input.json \
-     /home/huayo708/projects/pyszz_andie/conf/bszz.yml \
+     /home/huayo708/projects/pyszz_andie/in/${PROJECT_NAME}_szz_input.json \
+     /home/huayo708/projects/pyszz_andie/conf/${SZZ_VAR}.yml \
      /home/huayo708/projects/repo2 \
      $start_index $end_index"
 
 # Print job details (optional)
 echo "Starting job: $JOB_NAME"
+echo "Project: $PROJECT_NAME, SZZ Variant: $SZZ_VAR"
 echo "Indices: start_index=$start_index, end_index=$end_index"
 echo "Log: $LOG_FILE, Error log: $ERR_FILE"
 echo "Command: $CMD"
