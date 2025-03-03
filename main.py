@@ -4,6 +4,7 @@ import os
 import sys
 import dateparser
 from time import time as ts
+from datetime import datetime
 from tqdm import tqdm
 
 import yaml
@@ -46,7 +47,7 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
             f'''Start at : {start_index} and end at : {end_index}, total length : {len(bugfix_commits[start_index:end_index + 1])}''')
         bic_dict = None
         for i, commit in enumerate(
-            tqdm(bugfix_commits[start_index:end_index + 1], desc="Processing Commits"),
+            tqdm(bugfix_commits[start_index:end_index], desc="Processing Commits"),
             start=start_index):
             log.info(f'''Repo Directory is {repos_dir} and Repo Name is {commit['repo_name']}''')
 
@@ -210,9 +211,10 @@ if __name__ == "__main__":
     szz_name = conf['szz_name']
 
     out_dir = 'out'
+    date_time = datetime.now().strftime("%Y%m%d_%H%M%S")  # Format as YYYY-MM-DD_HH-MM-SS
     if not os.path.isdir(out_dir):
         os.makedirs(out_dir)
-    out_json = os.path.join(out_dir, f'bic_{szz_name}_{int(ts())}.json')
+    out_json = os.path.join(out_dir, f'bic_{szz_name}_{date_time}_{start_index}_{end_index}.json')
 
     if not szz_name:
         log.error('The configuration file does not define the SZZ name. Please, fix.')

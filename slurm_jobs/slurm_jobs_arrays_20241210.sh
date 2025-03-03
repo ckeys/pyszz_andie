@@ -4,7 +4,7 @@
 #SBATCH --output=./slurmlogs/srcml_output.%A_%a.log # Output log file name with job array ID
 #SBATCH --error=./slurmlogs/srcml_error.%A_%a.log   # Error log file name with job array ID
 #SBATCH --partition=aoraki              # Partition name (adjust as needed)
-#SBATCH --array=41-86       # Retry only the failed jobs
+#SBATCH --array=0       # Retry only the failed jobs
 #SBATCH --nodes=1                       # Require exactly 1 node per task
 #SBATCH --ntasks=1                      # One task per job
 #SBATCH --time=2-12:00:00               # 1 day, 12 hours
@@ -29,12 +29,12 @@ LOG_DIR="/home/huayo708/projects/pyszz_andie/slurm_jobs/logs"
 mkdir -p "$LOG_DIR"                     # Ensure the log directory exists
 
 # Batch configuration
-BATCH_SIZE=50                           # Size of each batch
+BATCH_SIZE=200                           # Size of each batch
 
 # Set job-specific parameters based on SLURM_ARRAY_TASK_ID
 JOB_INDEX=$SLURM_ARRAY_TASK_ID          # Use SLURM array ID for unique job indexing
 start_index=$((JOB_INDEX * BATCH_SIZE)) # Calculate start index
-end_index=$(((JOB_INDEX + 1) * BATCH_SIZE - 1)) # Calculate end index
+end_index=$(((JOB_INDEX + 1) * BATCH_SIZE)) # Calculate end index
 
 # Job-specific log files
 JOB_NAME="mlszz_p_${JOB_INDEX}"
