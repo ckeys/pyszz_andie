@@ -17,8 +17,8 @@ class BaseSZZ(AbstractSZZ):
     * ignore_revs_file_path
     """
 
-    def __init__(self, repo_full_name: str, repo_url: str, repos_dir: str = None):
-        super().__init__(repo_full_name, repo_url, repos_dir)
+    def __init__(self, repo_full_name: str, repo_url: str, repos_dir: str = None, auto_clean_repo: bool = True):
+        super().__init__(repo_full_name, repo_url, repos_dir, auto_clean_repo)
 
     def find_bic(self, fix_commit_hash: str, impacted_files: List['ImpactedFile'], **kwargs) -> Set[Commit]:
         """

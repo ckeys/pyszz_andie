@@ -22,8 +22,8 @@ class RASZZ(MASZZ):
     todo:
     """
 
-    def __init__(self, repo_full_name: str, repo_url: str, repos_dir: str = None):
-        super().__init__(repo_full_name, repo_url, repos_dir)
+    def __init__(self, repo_full_name: str, repo_url: str, repos_dir: str = None, auto_clean_repo: bool = True):
+        super().__init__(repo_full_name, repo_url, repos_dir, auto_clean_repo)
 
     def _extract_refactorings(self, commits):
         PATH_TO_REFMINER = os.path.join(Options.PYSZZ_HOME, 'tools/RefactoringMiner-2.0/bin/RefactoringMiner')

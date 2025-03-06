@@ -21,8 +21,8 @@ from operator import attrgetter
 
 class MLSZZ(AGSZZ):
 
-    def __init__(self, repo_full_name: str, repo_url: str, repos_dir: str = None):
-        super().__init__(repo_full_name, repo_url, repos_dir)
+    def __init__(self, repo_full_name: str, repo_url: str, repos_dir: str = None, auto_clean_repo: bool = True):
+        super().__init__(repo_full_name, repo_url, repos_dir, auto_clean_repo)
 
     def calculate_REXP(self, commit):
         author_name = commit.author.name

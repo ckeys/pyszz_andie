@@ -25,7 +25,7 @@ class AbstractSZZ(ABC):
     commands and PyDriller to parse commit modifications.
     """
 
-    def __init__(self, repo_full_name: str, repo_url: str, repos_dir: str = None):
+    def __init__(self, repo_full_name: str, repo_url: str, repos_dir: str = None, auto_clean_repo: bool = True):
         """
         Init an abstract SZZ to use as base class for SZZ implementations.
         AbstractSZZ uses a temp folder to clone and interact with the given git repo, where
@@ -37,9 +37,15 @@ class AbstractSZZ(ABC):
         :param str repos_dir: temp folder where to clone the given repo
         """
         self._repository = None
+        self.auto_clean_repo = auto_clean_repo
+        if self.auto_clean_repo:
+            os.makedirs(Options.TEMP_WORKING_DIR, exist_ok=True)
+            self.__temp_dir = mkdtemp(dir=os.path.join(os.getcwd(), Options.TEMP_WORKING_DIR))
+        else:
+            os.makedirs(Options.TEMP_WORKING_DIR, exist_ok=True)
+            temp_working_dir = os.path.join(os.getcwd(), Options.TEMP_WORKING_DIR)
+            self.__temp_dir = os.path.join(temp_working_dir,temp_working_dir)
 
-        os.makedirs(Options.TEMP_WORKING_DIR, exist_ok=True)
-        self.__temp_dir = mkdtemp(dir=os.path.join(os.getcwd(), Options.TEMP_WORKING_DIR))
         log.info(f"Create a temp directory : {self.__temp_dir}")
         self._repository_path = os.path.join(self.__temp_dir, repo_full_name.replace('/', '_'))
         if not os.path.isdir(self._repository_path):
@@ -58,9 +64,10 @@ class AbstractSZZ(ABC):
         self._repository = Repo(self._repository_path)
 
     def __del__(self):
-        log.info("cleanup objects...")
-        self.__cleanup_repo()
-        self.__clear_gitpython()
+        if self.auto_clean_repo:
+            log.info("cleanup objects...")
+            self.__cleanup_repo()
+            self.__clear_gitpython()
 
     @property
     def repository(self) -> Repo:

@@ -21,8 +21,8 @@ class MASZZ(AGSZZ):
 
     DEFAULT_MAX_CHANGE_SIZE = 20
 
-    def __init__(self, repo_full_name: str, repo_url: str, repos_dir: str = None):
-        super().__init__(repo_full_name, repo_url, repos_dir)
+    def __init__(self, repo_full_name: str, repo_url: str, repos_dir: str = None, auto_clean_repo: bool = True):
+        super().__init__(repo_full_name, repo_url, repos_dir, auto_clean_repo=auto_clean_repo)
         self.__changes_to_ignore = [
             ModificationType.RENAME,
             ModificationType.COPY
@@ -56,7 +56,8 @@ class MASZZ(AGSZZ):
             else:
                 try:
                     for m in commit.modifications:
-                        if (current_file == m.new_path or current_file == m.old_path) and (m.change_type in self.change_types_to_ignore):
+                        if (current_file == m.new_path or current_file == m.old_path) and (
+                            m.change_type in self.change_types_to_ignore):
                             log.info(f'exclude meta-change ({m.change_type}): {current_file} {commit.hash}')
                             meta_changes.add(commit.hash)
                 except Exception as e:
@@ -130,9 +131,11 @@ class MASZZ(AGSZZ):
                 for bd in blame_data:
                     if bd.commit.hexsha not in new_commits_to_ignore and bd.commit.hexsha not in new_commits_to_ignore_current_file:
                         if bd.commit.hexsha not in commits_to_ignore_current_file:
-                            new_commits_to_ignore.update(self._exclude_commits_by_change_size(bd.commit.hexsha, max_change_size=max_change_size))
+                            new_commits_to_ignore.update(
+                                self._exclude_commits_by_change_size(bd.commit.hexsha, max_change_size=max_change_size))
                             new_commits_to_ignore.update(self.get_merge_commits(bd.commit.hexsha))
-                            new_commits_to_ignore_current_file.update(self.select_meta_changes(bd.commit.hexsha, bd.file_path, filter_revert))
+                            new_commits_to_ignore_current_file.update(
+                                self.select_meta_changes(bd.commit.hexsha, bd.file_path, filter_revert))
 
                 if len(new_commits_to_ignore) == 0 and len(new_commits_to_ignore_current_file) == 0:
                     to_blame = False
@@ -145,7 +148,9 @@ class MASZZ(AGSZZ):
                 commits_to_ignore_current_file.update(new_commits_to_ignore_current_file)
                 params['ignore_revs_list'] = list(commits_to_ignore_current_file)
 
-            bic.update({bd.commit for bd in blame_data if bd.commit.hexsha not in self._exclude_commits_by_change_size(bd.commit.hexsha, max_change_size)})
+            bic.update({bd.commit for bd in blame_data if
+                        bd.commit.hexsha not in self._exclude_commits_by_change_size(bd.commit.hexsha,
+                                                                                     max_change_size)})
 
         if kwargs.get('issue_date_filter', False):
             bic = filter_by_date(bic, kwargs['issue_date'])

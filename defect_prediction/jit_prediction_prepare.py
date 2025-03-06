@@ -1,4 +1,3 @@
-
 import pandas as pd
 from defect_prediction.szz_json_data_conversion import read_szz_output, read_mlszz_output, read_bug_commits
 import pandas as pd
@@ -30,60 +29,116 @@ def plot_class_distribution(distribution, label_name, fold_number):
     plt.show()
 
 
-if __name__ == '__main__':
-    project_name = "innoldb"
-    input_file_dir = f'/Users/andie/PycharmProjects/pyszz_andie/defect_prediction/data/{project_name}'  # Replace with your actual file path
-    # output_file = '/path/to/your/react_predictions.csv'  # Replace with your desired output path
-    lszz_buggy_commit = read_szz_output(f'''{input_file_dir}/{project_name}_bic_l.json''')
-    rszz_buggy_commit = read_szz_output(f'''{input_file_dir}/{project_name}_bic_r.json''')
-    maszz_buggy_commit = read_szz_output(f'''{input_file_dir}/{project_name}_bic_ma.json''')
-    mlszz_output_file = f'/Users/andie/PycharmProjects/pyszz_andie/mlszz_model/data/{project_name}/{project_name}_mlszz_output_predictions.csv'
-    mlszz_buggy_commit = read_mlszz_output(mlszz_output_file)
-    bug_commits_file = f'/Users/andie/PycharmProjects/pyszz_andie/defect_prediction/data/{project_name}/{project_name}_bug_commit.csv'
-    bug_commit_df = read_bug_commits(bug_commits_file)
+# Function to read and process each project's data
+def process_project(project_name):
+    # Base directory paths
+    data_dir = '/Users/andie/PycharmProjects/pyszz_andie/defect_prediction/data'
+    mlszz_dir = '/Users/andie/PycharmProjects/pyszz_andie/mlszz_model/data'
 
-    # Create sets for faster lookup
+    input_file_dir = f"{data_dir}/{project_name}"
+
+    # Read buggy commit lists
+    lszz_buggy_commit = read_szz_output(f"{input_file_dir}/{project_name}_bic_l.json")
+    rszz_buggy_commit = read_szz_output(f"{input_file_dir}/{project_name}_bic_r.json")
+    maszz_buggy_commit = read_szz_output(f"{input_file_dir}/{project_name}_bic_ma.json")
+    mlszz_buggy_commit = read_mlszz_output(f"{mlszz_dir}/{project_name}/{project_name}_mlszz_output_predictions.csv")
+    bug_commit_df = read_bug_commits(f"{input_file_dir}/{project_name}_bug_commit.csv")
+
+    # Convert lists to sets for fast lookup
     lszz_set = set(lszz_buggy_commit['inducing_commit_hash'])
     rszz_set = set(rszz_buggy_commit['inducing_commit_hash'])
     maszz_set = set(maszz_buggy_commit['inducing_commit_hash'])
     mlszz_set = set(mlszz_buggy_commit['inducing_commit_hash'])
     bug_commits_set = set(bug_commit_df['hash'])
-    # /Users/andie/PycharmProjects/pyszz_andie/defect_prediction/data/bitcoin/bitcoin_bic_l.json
 
-    # Alternatively, if 'inducing_commit_hash' contains lists, flatten them first
-    def flatten_list_column(df, column):
-        return set([item for sublist in df[column] for item in sublist])
-
-    # Define the path to the main features CSV
-    features_file = f'/Users/andie/PycharmProjects/pyszz_andie/mlszz_model/data/{project_name}/{project_name}_jit_features.csv'
-
-    # Read the main features DataFrame
+    # Read JIT features
+    features_file = f"{mlszz_dir}/{project_name}/{project_name}_jit_features.csv"
     df_features = pd.read_csv(features_file)
-    # Now, create the boolean flags
+
+    # Create boolean flags
     df_features['LSZZ_BUGGY'] = df_features['commit_id'].isin(lszz_set)
     df_features['RSZZ_BUGGY'] = df_features['commit_id'].isin(rszz_set)
     df_features['MASZZ_BUGGY'] = df_features['commit_id'].isin(maszz_set)
     df_features['MLSZZ_BUGGY'] = df_features['commit_id'].isin(mlszz_set)
     df_features['BUGGY'] = df_features['commit_id'].isin(bug_commits_set)
 
-    # Convert boolean flags to True/False (optional, as they are already boolean)
-    df_features['LSZZ_BUGGY'] = df_features['LSZZ_BUGGY'].astype(bool)
-    df_features['RSZZ_BUGGY'] = df_features['RSZZ_BUGGY'].astype(bool)
-    df_features['MASZZ_BUGGY'] = df_features['MASZZ_BUGGY'].astype(bool)
-    df_features['MLSZZ_BUGGY'] = df_features['MLSZZ_BUGGY'].astype(bool)
-    df_features['BUGGY'] = df_features['BUGGY'].astype(bool)
-    df_features.to_csv('test_data.csv', index=False)
-    # Display the first few rows to verify
-    print("Main Features DataFrame:")
-    print(df_features)
+    # Ensure boolean data type
+    for col in ['LSZZ_BUGGY', 'RSZZ_BUGGY', 'MASZZ_BUGGY', 'MLSZZ_BUGGY', 'BUGGY']:
+        df_features[col] = df_features[col].astype(bool)
 
-    df = df_features
+    # Add project_name column for identification
+    df_features['project_name'] = project_name
+
+    return df_features
+
+
+if __name__ == '__main__':
+    project_name = "All"
+    # input_file_dir = f'/Users/andie/PycharmProjects/pyszz_andie/defect_prediction/data/{project_name}'  # Replace with your actual file path
+    # # output_file = '/path/to/your/react_predictions.csv'  # Replace with your desired output path
+    # lszz_buggy_commit = read_szz_output(f'''{input_file_dir}/{project_name}_bic_l.json''')
+    # rszz_buggy_commit = read_szz_output(f'''{input_file_dir}/{project_name}_bic_r.json''')
+    # maszz_buggy_commit = read_szz_output(f'''{input_file_dir}/{project_name}_bic_ma.json''')
+    # mlszz_output_file = f'/Users/andie/PycharmProjects/pyszz_andie/mlszz_model/data/{project_name}/{project_name}_mlszz_output_predictions.csv'
+    # mlszz_buggy_commit = read_mlszz_output(mlszz_output_file)
+    # bug_commits_file = f'/Users/andie/PycharmProjects/pyszz_andie/defect_prediction/data/{project_name}/{project_name}_bug_commit.csv'
+    # bug_commit_df = read_bug_commits(bug_commits_file)
+    #
+    # # Create sets for faster lookup
+    # lszz_set = set(lszz_buggy_commit['inducing_commit_hash'])
+    # rszz_set = set(rszz_buggy_commit['inducing_commit_hash'])
+    # maszz_set = set(maszz_buggy_commit['inducing_commit_hash'])
+    # mlszz_set = set(mlszz_buggy_commit['inducing_commit_hash'])
+    # bug_commits_set = set(bug_commit_df['hash'])
+    # # /Users/andie/PycharmProjects/pyszz_andie/defect_prediction/data/bitcoin/bitcoin_bic_l.json
+    #
+    # # Alternatively, if 'inducing_commit_hash' contains lists, flatten them first
+    # def flatten_list_column(df, column):
+    #     return set([item for sublist in df[column] for item in sublist])
+    #
+    # # Define the path to the main features CSV
+    # features_file = f'/Users/andie/PycharmProjects/pyszz_andie/mlszz_model/data/{project_name}/{project_name}_jit_features.csv'
+    #
+    # # Read the main features DataFrame
+    # df_features = pd.read_csv(features_file)
+    # # Now, create the boolean flags
+    # df_features['LSZZ_BUGGY'] = df_features['commit_id'].isin(lszz_set)
+    # df_features['RSZZ_BUGGY'] = df_features['commit_id'].isin(rszz_set)
+    # df_features['MASZZ_BUGGY'] = df_features['commit_id'].isin(maszz_set)
+    # df_features['MLSZZ_BUGGY'] = df_features['commit_id'].isin(mlszz_set)
+    # df_features['BUGGY'] = df_features['commit_id'].isin(bug_commits_set)
+    #
+    # # Convert boolean flags to True/False (optional, as they are already boolean)
+    # df_features['LSZZ_BUGGY'] = df_features['LSZZ_BUGGY'].astype(bool)
+    # df_features['RSZZ_BUGGY'] = df_features['RSZZ_BUGGY'].astype(bool)
+    # df_features['MASZZ_BUGGY'] = df_features['MASZZ_BUGGY'].astype(bool)
+    # df_features['MLSZZ_BUGGY'] = df_features['MLSZZ_BUGGY'].astype(bool)
+    # df_features['BUGGY'] = df_features['BUGGY'].astype(bool)
+    # df_features.to_csv('test_data.csv', index=False)
+    # # Display the first few rows to verify
+    # print("Main Features DataFrame:")
+    # print(df_features)
+    # Initialize an empty list to store DataFrames
+    all_features = []
+    project_names = ['innoldb', 'MCZbase', 'operations-puppet', 'Parrot', 'systemd', 'tor_1']
+    # Process each project and collect results
+    for project in project_names:
+        try:
+            df = process_project(project)
+            all_features.append(df)
+        except Exception as e:
+            print(f"Error processing {project}: {e}")
+    # Combine all project DataFrames into one
+    final_df = pd.concat(all_features, ignore_index=True)
+
+    # df = df_features
+    df = final_df
     # Define feature columns and label columns
     feature_cols = ['ns', 'nd', 'nf', 'entropy', 'exp', 'rexp', 'sexp', 'ndev', 'age', 'nuc', 'fix', 'la', 'ld', 'lt']
     # Define training labels and evaluation label
-    train_labels = ['RSZZ_BUGGY', 'MASZZ_BUGGY', 'MLSZZ_BUGGY']
-    eval_label = 'BUGGY'    # label_cols = ['MASZZ_BUGGY','MLSZZ_BUGGY']
-
+    train_labels = ['LSZZ_BUGGY','RSZZ_BUGGY', 'MASZZ_BUGGY', 'MLSZZ_BUGGY']
+    eval_label = 'BUGGY'  # label_cols = ['MASZZ_BUGGY','MLSZZ_BUGGY']
+    # eval_label = 'MASZZ_BUGGY'
     # Select features and labels
     X = df[feature_cols]
     # y_labels = df[label_cols]
@@ -114,6 +169,7 @@ if __name__ == '__main__':
     # Define cross-validation strategy
     cv = StratifiedKFold(n_splits=10, shuffle=True, random_state=42)
     from sklearn.model_selection import StratifiedShuffleSplit
+
     # This configuration creates 10 random splits with 30% of the data as the test set.
     cv = StratifiedShuffleSplit(n_splits=10, test_size=0.6, random_state=42)
     # Define the machine learning pipeline
@@ -150,7 +206,7 @@ if __name__ == '__main__':
 
         fold_number = 1
         for train_idx, test_idx in cv.split(X, y_eval_full):
-            for i in range(10):
+            for i in range(1):
                 print(f"\nFold {fold_number}:")
                 X_train, X_test = X.iloc[train_idx], X.iloc[test_idx]
                 # Training target is based on the current training label
@@ -215,7 +271,7 @@ if __name__ == '__main__':
     print(results.groupby('Label').describe())
 
     # 10. Visualization: Boxplots for Different Labels
-    plt.figure(figsize=(16, 10))
+    plt.figure(figsize=(18, 10))
     plt.rcParams.update({
         'font.size': 14,  # default text size
         'axes.titlesize': 16,  # title font size
@@ -228,11 +284,11 @@ if __name__ == '__main__':
     # Grouped Boxplots by Label
     ax = sns.boxplot(data=results.melt(id_vars='Label', var_name='Metric', value_name='Score'),
                      x='Metric', y='Score', hue='Label', palette='Set2')
-    ax.set_title('Performance Metrics by Label', fontsize=18)
+    ax.set_title(f'Performance Metrics by Label \n $\mathbf{{{project_name}}}$', fontsize=18)
     ax.set_xlabel('Metric', fontsize=16)
     ax.set_ylabel('Score', fontsize=16)
     plt.ylim(0, 1)
-    plt.legend(title='Label', loc='upper right', fontsize=14, title_fontsize=16)
+    plt.legend(title='Label', bbox_to_anchor=(1.05, 1), loc='upper left', fontsize=14, title_fontsize=16)
     plt.tight_layout()
     plt.show()
 

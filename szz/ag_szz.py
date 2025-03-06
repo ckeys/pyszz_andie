@@ -19,8 +19,8 @@ class AGSZZ(AbstractSZZ):
     todo:
     """
 
-    def __init__(self, repo_full_name: str, repo_url: str, repos_dir: str = None):
-        super().__init__(repo_full_name, repo_url, repos_dir)
+    def __init__(self, repo_full_name: str, repo_url: str, repos_dir: str = None, auto_clean_repo:bool = True):
+        super().__init__(repo_full_name, repo_url, repos_dir, auto_clean_repo=auto_clean_repo)
 
     def _exclude_commits_by_change_size(self, commit_hash: str, max_change_size: int = 20) -> Set[str]:
         to_exclude = set()
