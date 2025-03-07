@@ -50,7 +50,14 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
             tqdm(bugfix_commits[start_index:end_index], desc="Processing Commits"),
             start=start_index):
             log.info(f'''Repo Directory is {repos_dir} and Repo Name is {commit['repo_name']}''')
-
+            next_i = i + 1 if i + 1 < len(bugfix_commits) else -1
+            auto_clean_repo = True
+            if next_i == 1:
+                auto_clean_repo = True
+            else:
+                next_commit = bugfix_commits[next_i]
+                if next_commit['repo_name'] == commit['repo_name']:
+                    auto_clean_repo = False
             repo_name = commit['repo_name']
             repo_url = f'''git@github.com:{repo_name}.git'''
             fix_commit = commit['fix_commit_hash']
@@ -65,7 +72,8 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
 
             try:
                 if szz_name == 'b':
-                    b_szz = BaseSZZ(repo_full_name=repo_name, repo_url=repo_url, repos_dir=repos_dir)
+                    b_szz = BaseSZZ(repo_full_name=repo_name, repo_url=repo_url, repos_dir=repos_dir,
+                                    auto_clean_repo=auto_clean_repo)
                     imp_files = b_szz.get_impacted_files(fix_commit_hash=fix_commit,
                                                          file_ext_to_parse=conf.get('file_ext_to_parse'),
                                                          only_deleted_lines=conf.get('only_deleted_lines', True))
@@ -77,7 +85,8 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
                                                              issue_date=commit_issue_date)
                     # print(bic_dict)
                 elif szz_name == 'ag':
-                    ag_szz = AGSZZ(repo_full_name=repo_name, repo_url=repo_url, repos_dir=repos_dir)
+                    ag_szz = AGSZZ(repo_full_name=repo_name, repo_url=repo_url, repos_dir=repos_dir,
+                                   auto_clean_repo=auto_clean_repo)
                     imp_files = ag_szz.get_impacted_files(fix_commit_hash=fix_commit,
                                                           file_ext_to_parse=conf.get('file_ext_to_parse'),
                                                           only_deleted_lines=conf.get('only_deleted_lines', True))
@@ -89,7 +98,8 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
                                                               issue_date=commit_issue_date)
 
                 elif szz_name == 'ma':
-                    ma_szz = MASZZ(repo_full_name=repo_name, repo_url=repo_url, repos_dir=repos_dir)
+                    ma_szz = MASZZ(repo_full_name=repo_name, repo_url=repo_url, repos_dir=repos_dir,
+                                   auto_clean_repo=auto_clean_repo)
                     imp_files = ma_szz.get_impacted_files(fix_commit_hash=fix_commit,
                                                           file_ext_to_parse=conf.get('file_ext_to_parse'),
                                                           only_deleted_lines=conf.get('only_deleted_lines', True))
