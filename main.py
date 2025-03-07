@@ -50,14 +50,7 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
             tqdm(bugfix_commits[start_index:end_index], desc="Processing Commits"),
             start=start_index):
             log.info(f'''Repo Directory is {repos_dir} and Repo Name is {commit['repo_name']}''')
-            next_i = i + 1 if i + 1 < len(bugfix_commits) else -1
-            auto_clean_repo = True
-            if next_i == 1:
-                auto_clean_repo = True
-            else:
-                next_commit = bugfix_commits[next_i]
-                if next_commit['repo_name'] == commit['repo_name']:
-                    auto_clean_repo = False
+            auto_clean_repo = False
             repo_name = commit['repo_name']
             repo_url = f'''git@github.com:{repo_name}.git'''
             fix_commit = commit['fix_commit_hash']
@@ -125,6 +118,7 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
                                                                  conf.get('detect_move_from_other_files')),
                                                              issue_date_filter=conf.get('issue_date_filter'),
                                                              issue_date=commit_issue_date)
+
 
                 elif szz_name == 'l':
                     l_szz = LSZZ(repo_full_name=repo_name, repo_url=repo_url, repos_dir=repos_dir)

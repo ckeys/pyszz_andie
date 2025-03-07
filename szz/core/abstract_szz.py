@@ -43,8 +43,7 @@ class AbstractSZZ(ABC):
             self.__temp_dir = mkdtemp(dir=os.path.join(os.getcwd(), Options.TEMP_WORKING_DIR))
         else:
             os.makedirs(Options.TEMP_WORKING_DIR, exist_ok=True)
-            temp_working_dir = os.path.join(os.getcwd(), Options.TEMP_WORKING_DIR)
-            self.__temp_dir = os.path.join(temp_working_dir,temp_working_dir)
+            self.__temp_dir = os.path.join(os.getcwd(), f"tmp_{repo_full_name.split('/')[-1]}")
 
         log.info(f"Create a temp directory : {self.__temp_dir}")
         self._repository_path = os.path.join(self.__temp_dir, repo_full_name.replace('/', '_'))
