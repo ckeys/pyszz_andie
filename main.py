@@ -44,10 +44,10 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
     w_file = open(write_file_name, 'a')
     with open(out_json, 'w') as file:
         log.info(
-            f'''Start at : {start_index} and end at : {end_index}, total length : {len(bugfix_commits[start_index:end_index + 1])}''')
+            f'''Start at : {start_index} and end at : {end_index}, total length : {len(bugfix_commits)}''')
         bic_dict = None
         for i, commit in enumerate(
-            tqdm(bugfix_commits[start_index:end_index], desc="Processing Commits"),
+            tqdm(bugfix_commits, desc="Processing Commits"),
             start=start_index):
             log.info(f'''Repo Directory is {repos_dir} and Repo Name is {commit['repo_name']}''')
             auto_clean_repo = False
