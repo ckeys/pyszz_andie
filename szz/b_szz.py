@@ -16,7 +16,7 @@ class BaseSZZ(AbstractSZZ):
     Supported **kwargs:
     * ignore_revs_file_path
     """
-
+    szz_variant_name = "bszz"
     def __init__(self, repo_full_name: str, repo_url: str, repos_dir: str = None, auto_clean_repo: bool = True):
         super().__init__(repo_full_name, repo_url, repos_dir, auto_clean_repo)
 

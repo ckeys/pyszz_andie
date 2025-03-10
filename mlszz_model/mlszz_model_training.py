@@ -5,7 +5,7 @@ from sklearn.metrics import roc_auc_score, precision_score, recall_score, f1_sco
 import matplotlib.pyplot as plt
 
 # File path
-input_file = '/mlszz_model/data/benchmark/preprocessed_total.csv'
+input_file = '/Users/andie/PycharmProjects/pyszz_andie/mlszz_model/data/benchmark/preprocessed_total.csv'
 
 # Load the preprocessed data
 df = pd.read_csv(input_file)

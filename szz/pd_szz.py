@@ -25,7 +25,7 @@ class PyDrillerSZZ(AbstractSZZ):
         * issue_date_filter: bool, default: False
         * issue_date: int
     """
-
+    szz_variant_name = "pdszz"
     def __init__(self, repo_full_name: str, repo_url: str, repos_dir: str = None):
         super().__init__(repo_full_name, repo_url, repos_dir)
 

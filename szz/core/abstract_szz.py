@@ -24,7 +24,7 @@ class AbstractSZZ(ABC):
     like blame and a diff parsing for impacted files. GitPython is used for base Git
     commands and PyDriller to parse commit modifications.
     """
-
+    szz_variant_name = None
     def __init__(self, repo_full_name: str, repo_url: str, repos_dir: str = None, auto_clean_repo: bool = True):
         """
         Init an abstract SZZ to use as base class for SZZ implementations.

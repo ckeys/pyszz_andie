@@ -18,7 +18,7 @@ class MASZZ(AGSZZ):
     Supported **kwargs:
     todo:
     """
-
+    szz_variant_name = "maszz"
     DEFAULT_MAX_CHANGE_SIZE = 20
 
     def __init__(self, repo_full_name: str, repo_url: str, repos_dir: str = None, auto_clean_repo: bool = True):

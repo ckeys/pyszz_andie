@@ -18,6 +18,7 @@ class AGSZZ(AbstractSZZ):
     Supported **kwargs:
     todo:
     """
+    szz_variant_name = "agszz"
 
     def __init__(self, repo_full_name: str, repo_url: str, repos_dir: str = None, auto_clean_repo:bool = True):
         super().__init__(repo_full_name, repo_url, repos_dir, auto_clean_repo=auto_clean_repo)
