@@ -25,6 +25,7 @@ class AbstractSZZ(ABC):
     commands and PyDriller to parse commit modifications.
     """
     szz_variant_name = None
+
     def __init__(self, repo_full_name: str, repo_url: str, repos_dir: str = None, auto_clean_repo: bool = True):
         """
         Init an abstract SZZ to use as base class for SZZ implementations.
@@ -44,7 +45,7 @@ class AbstractSZZ(ABC):
         else:
             os.makedirs(Options.TEMP_WORKING_DIR, exist_ok=True)
             tmp_path = os.path.join(os.getcwd(), Options.TEMP_WORKING_DIR)
-            self.__temp_dir = os.path.join(tmp_path, f"tmp_{repo_full_name.split('/')[-1]}")
+            self.__temp_dir = os.path.join(tmp_path, f"tmp_{repo_full_name.split('/')[-1]}_{self.szz_variant_name}")
 
         log.info(f"Create a temp directory : {self.__temp_dir}")
         self._repository_path = os.path.join(self.__temp_dir, repo_full_name.replace('/', '_'))

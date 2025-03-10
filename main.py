@@ -23,7 +23,8 @@ log.basicConfig(level=log.INFO, format='%(asctime)s :: %(levelname)s :: %(messag
 log.getLogger('pydriller').setLevel(log.WARNING)
 
 
-def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_index: int, end_index: int = None):
+def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_index: int, end_index: int = None,
+         auto_clean_repo=True):
     szz_name = conf['szz_name']
     env_project_name = os.getenv('PROJECT_NAME')
     with open(input_json, 'r') as in_file:
@@ -50,7 +51,7 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
             tqdm(bugfix_commits, desc="Processing Commits"),
             start=start_index):
             log.info(f'''Repo Directory is {repos_dir} and Repo Name is {commit['repo_name']}''')
-            auto_clean_repo = False
+
             repo_name = commit['repo_name']
             repo_url = f'''git@github.com:{repo_name}.git'''
             fix_commit = commit['fix_commit_hash']
@@ -106,7 +107,8 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
                                                               issue_date=commit_issue_date)
 
                 elif szz_name == 'r':
-                    r_szz = RSZZ(repo_full_name=repo_name, repo_url=repo_url, repos_dir=repos_dir)
+                    r_szz = RSZZ(repo_full_name=repo_name, repo_url=repo_url, repos_dir=repos_dir,
+                                 auto_clean_repo=auto_clean_repo)
                     imp_files = r_szz.get_impacted_files(fix_commit_hash=fix_commit,
                                                          file_ext_to_parse=conf.get('file_ext_to_parse'),
                                                          only_deleted_lines=conf.get('only_deleted_lines', True))
@@ -121,7 +123,8 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
 
 
                 elif szz_name == 'l':
-                    l_szz = LSZZ(repo_full_name=repo_name, repo_url=repo_url, repos_dir=repos_dir)
+                    l_szz = LSZZ(repo_full_name=repo_name, repo_url=repo_url, repos_dir=repos_dir,
+                                 auto_clean_repo=auto_clean_repo)
                     imp_files = l_szz.get_impacted_files(fix_commit_hash=fix_commit,
                                                          file_ext_to_parse=conf.get('file_ext_to_parse'),
                                                          only_deleted_lines=conf.get('only_deleted_lines', True))
@@ -134,7 +137,8 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
                                                              issue_date_filter=conf.get('issue_date_filter'),
                                                              issue_date=commit_issue_date)
                 elif szz_name == 'ra':
-                    ra_szz = RASZZ(repo_full_name=repo_name, repo_url=repo_url, repos_dir=repos_dir)
+                    ra_szz = RASZZ(repo_full_name=repo_name, repo_url=repo_url, repos_dir=repos_dir,
+                                   auto_clean_repo=auto_clean_repo)
                     imp_files = ra_szz.get_impacted_files(fix_commit_hash=fix_commit,
                                                           file_ext_to_parse=conf.get('file_ext_to_parse'),
                                                           only_deleted_lines=conf.get('only_deleted_lines', True))
@@ -147,7 +151,8 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
                                                               issue_date_filter=conf.get('issue_date_filter'),
                                                               issue_date=commit_issue_date)
                 elif szz_name == 'ml':
-                    ml_szz = MLSZZ(repo_full_name=repo_name, repo_url=repo_url, repos_dir=repos_dir)
+                    ml_szz = MLSZZ(repo_full_name=repo_name, repo_url=repo_url, repos_dir=repos_dir,
+                                   auto_clean_repo=auto_clean_repo)
                     imp_files = ml_szz.get_impacted_files(fix_commit_hash=fix_commit,
                                                           file_ext_to_parse=conf.get('file_ext_to_parse'),
                                                           only_deleted_lines=conf.get('only_deleted_lines', True))
@@ -226,4 +231,4 @@ if __name__ == "__main__":
 
     log.info(f'Launching {szz_name}-szz')
 
-    main(input_json, out_json, conf, repos_dir, start_index, end_index)
+    main(input_json, out_json, conf, repos_dir, start_index, end_index, auto_clean_repo=False)
