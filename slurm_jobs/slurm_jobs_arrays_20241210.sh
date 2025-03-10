@@ -7,7 +7,7 @@
 #SBATCH --array=0       # Retry only the failed jobs
 #SBATCH --nodes=1                       # Require exactly 1 node per task
 #SBATCH --ntasks=1                      # One task per job
-#SBATCH --time=2-12:00:00               # 1 day, 12 hours
+#SBATCH --time=5-12:00:00               # 1 day, 12 hours
 
 # Define project-specific variables
 PROJECT_NAME="linux"
