@@ -37,6 +37,7 @@ class AbstractSZZ(ABC):
         :param str repo_url: url of the Git repository to clone
         :param str repos_dir: temp folder where to clone the given repo
         """
+        log.info(f'''Currently working on Task Index: {os.getenv('SLURM_ARRAY_TASK_ID')}''')
         self._repository = None
         self.auto_clean_repo = auto_clean_repo
         if self.auto_clean_repo:
@@ -45,7 +46,8 @@ class AbstractSZZ(ABC):
         else:
             os.makedirs(Options.TEMP_WORKING_DIR, exist_ok=True)
             tmp_path = os.path.join(os.getcwd(), Options.TEMP_WORKING_DIR)
-            self.__temp_dir = os.path.join(tmp_path, f"tmp_{repo_full_name.split('/')[-1]}_{self.szz_variant_name}")
+            self.__temp_dir = os.path.join(tmp_path,
+                                           f"tmp_{repo_full_name.split('/')[-1]}_{self.szz_variant_name}_{os.getenv('SLURM_ARRAY_TASK_ID', 0)}")
 
         log.info(f"Create a temp directory : {self.__temp_dir}")
         self._repository_path = os.path.join(self.__temp_dir, repo_full_name.replace('/', '_'))
