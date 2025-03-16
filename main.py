@@ -49,7 +49,7 @@ def main(input_json: str, out_json: str, conf: dict(), repos_dir: str, start_ind
         bic_dict = None
         for i, commit in enumerate(
             tqdm(bugfix_commits, desc="Processing Commits"),
-            start=start_index):
+            start=0):
             log.info(f'''Repo Directory is {repos_dir} and Repo Name is {commit['repo_name']}''')
 
             repo_name = commit['repo_name']
