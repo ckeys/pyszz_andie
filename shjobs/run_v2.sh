@@ -3,6 +3,7 @@
 # Step 3: Setup input.json
 # Step 4: Setup repo directory
 # Check if MLSZZ_PATH is set
+#  conda activate andieenv
 ## export MLSZZ_PATH=/home/huayo708/andie/pyszz_andie SZZ_V=all PROJECT_NAME=MCZbase && ./run_v2.sh
 ## export MLSZZ_PATH=/home/huayo708/andie/pyszz_andie SZZ_V=all PROJECT_NAME=Metazone && ./run_v2.sh
 ## export MLSZZ_PATH=/home/huayo708/andie/pyszz_andie SZZ_V=all PROJECT_NAME=odoo && ./run_v2.sh
@@ -11,6 +12,7 @@
 ## export MLSZZ_PATH=/home/huayo708/andie/pyszz_andie SZZ_V=all PROJECT_NAME=systemd && ./run_v2.sh
 ## export MLSZZ_PATH=/home/huayo708/andie/pyszz_andie SZZ_V=all PROJECT_NAME=tor_1 && ./run_v2.sh
 ## export MLSZZ_PATH=/home/huayo708/andie/pyszz_andie SZZ_V=all PROJECT_NAME=tor && ./run_v2.sh
+## export MLSZZ_PATH=/home/huayo708/andie/pyszz_andie SZZ_V=all PROJECT_NAME=linux && ./run_v2.sh
 # conda activate andieenv
 if [ -z "$MLSZZ_PATH" ]; then
   echo "MLSZZ_PATH environment variable is not set"
