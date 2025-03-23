@@ -184,3 +184,5 @@ modules.xml
 temp/
 __pycache__
 travisci/
+
+./mlszz_model/data/*
