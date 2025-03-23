@@ -7,7 +7,7 @@ current_folder = Path(__file__).parent
 upper_folder = current_folder.parent
 
 #
-project = 'tor_1'
+project = 'linux'
 # # File paths
 git_features_path = f"{current_folder}/data/{project}/{project}_jit_features.csv"
 bug_inducing_commits_features_path = f'''{upper_folder}/bic-fea-collection/output/features/{project}_inducing_commits_features.csv'''
