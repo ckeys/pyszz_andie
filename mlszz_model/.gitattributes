@@ -1,1 +1,2 @@
 ../bic-fea-collection/output/features/linux_inducing_commits_features.csv filter=lfs diff=lfs merge=lfs -text
+/home/huayo708/andie/pyszz_andie/mlszz_model/data/linux/linux_jit_features.csv filter=lfs diff=lfs merge=lfs -text
