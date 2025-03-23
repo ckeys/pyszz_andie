@@ -6,13 +6,13 @@ import matplotlib.pyplot as plt
 
 # File path
 input_file = '/Users/andie/PycharmProjects/pyszz_andie/mlszz_model/data/benchmark/preprocessed_total.csv'
-
+input_file = '/home/huayo708/andie/pyszz_andie/mlszz_model/data/linux/bszz_merged_linux_features.csv'
 # remain columns is_Friday,is_latest_bic,is_earliest_bic,is_largest_mod,candidate_commit_to_fix,lines_of_modified_code,ns,nd,nf,entropy,exp,rexp,sexp,ndev,age,nuc,fix,la,ld,lt
 # Load the preprocessed data
 df = pd.read_csv(input_file)
 
 # Step 1: Remove 'bug_commit_hash' and 'commit' columns
-df = df.drop(columns=['bug_commit_hash', 'commit'])
+df = df.drop(columns=[col for col in ['bug_commit_hash', 'commit'] if col in df.columns])
 retain_columns = ['is_Friday','is_latest_bic','is_earliest_bic','is_largest_mod','candidate_commit_to_fix','lines_of_modified_code','ns','nd','nf','entropy','exp','rexp','sexp','ndev','age','nuc','fix','la','ld','lt','label']
 df = df[retain_columns]
 # Step 2: Separate features and target variable

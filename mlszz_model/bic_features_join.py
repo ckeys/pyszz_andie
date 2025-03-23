@@ -25,7 +25,7 @@ merged_data = bic_features.merge(
 merged_data = merged_data.drop(columns=["commit_id"])
 # columns = ["project"] + [col for col in merged_data.columns if col != "project"]
 # merged_data = merged_data[columns]
-
+merged_data.columns = merged_data.columns.str.lower()
 # Display the merged data
 print(merged_data)
 
